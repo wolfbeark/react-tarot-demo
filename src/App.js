@@ -26,17 +26,17 @@ function App() {
       //     <Route exact path='/drag2' element={<DragTest2 />} />
       //   </Routes>
       // </div>
-      <div className='App'> 
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <Routes>
-          <Route exact path='/' element={<MainComponent />}/>
-          
-          <Route exact path='https://wolfbeark.github.io/react-tarot-demo//fourth' element={<FourthComponent />} />
-          <Route exact path='/drag' element={<DragTest />} />
-          <Route exact path='/drag2' element={<DragTest2 />} />
-        </Routes>
+        <BrowserRouter basename={process.env.PUBLIC_URL} >
+          <div className='App'> 
+            <Routes>
+              <Route exact path='/' element={<MainComponent />}/>
+              
+              <Route path='/fourth' element={<FourthComponent />} />
+              <Route path='/drag' element={<DragTest />} />
+              <Route path='/drag2' element={<DragTest2 />} />
+            </Routes>
+          </div>
        </BrowserRouter>
-      </div>
       
   );
 }
