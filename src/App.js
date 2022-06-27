@@ -31,7 +31,7 @@ function App() {
         <Routes>
           <Route exact path='/' element={<MainComponent />}/>
           
-          <Route exact path='https://wolfbeark.github.io/react-tarot-demo/fourth' element={<FourthComponent />} />
+          <Route exact path='https://wolfbeark.github.io/react-tarot-demo//fourth' element={<FourthComponent />} />
           <Route exact path='/drag' element={<DragTest />} />
           <Route exact path='/drag2' element={<DragTest2 />} />
         </Routes>
