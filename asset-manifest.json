@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/wolfbeark/react-tarot-demo/index.html/static/css/main.eca25a87.css",
-    "main.js": "/wolfbeark/react-tarot-demo/index.html/static/js/main.39f6b44c.js",
-    "static/js/787.b4e1bb35.chunk.js": "/wolfbeark/react-tarot-demo/index.html/static/js/787.b4e1bb35.chunk.js",
-    "static/media/Jua-Regular.woff": "/wolfbeark/react-tarot-demo/index.html/static/media/Jua-Regular.ae23b9dcafa09c3a7b7a.woff",
-    "index.html": "/wolfbeark/react-tarot-demo/index.html/index.html",
-    "main.eca25a87.css.map": "/wolfbeark/react-tarot-demo/index.html/static/css/main.eca25a87.css.map",
-    "main.39f6b44c.js.map": "/wolfbeark/react-tarot-demo/index.html/static/js/main.39f6b44c.js.map",
-    "787.b4e1bb35.chunk.js.map": "/wolfbeark/react-tarot-demo/index.html/static/js/787.b4e1bb35.chunk.js.map"
+    "main.css": "/wolfbeark/react-tarot-demo/static/css/main.f3b836e8.css",
+    "main.js": "/wolfbeark/react-tarot-demo/static/js/main.c26584ea.js",
+    "static/js/787.b4e1bb35.chunk.js": "/wolfbeark/react-tarot-demo/static/js/787.b4e1bb35.chunk.js",
+    "static/media/Jua-Regular.woff": "/wolfbeark/react-tarot-demo/static/media/Jua-Regular.ae23b9dcafa09c3a7b7a.woff",
+    "index.html": "/wolfbeark/react-tarot-demo/index.html",
+    "main.f3b836e8.css.map": "/wolfbeark/react-tarot-demo/static/css/main.f3b836e8.css.map",
+    "main.c26584ea.js.map": "/wolfbeark/react-tarot-demo/static/js/main.c26584ea.js.map",
+    "787.b4e1bb35.chunk.js.map": "/wolfbeark/react-tarot-demo/static/js/787.b4e1bb35.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.eca25a87.css",
-    "static/js/main.39f6b44c.js"
+    "static/css/main.f3b836e8.css",
+    "static/js/main.c26584ea.js"
   ]
 }
