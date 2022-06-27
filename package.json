@@ -54,5 +54,5 @@
   "devDependencies": {
     "gh-pages": "^4.0.0"
   },
-  "homepage" : "https://github.com/wolfbeark/react-tarot-demo/index.html"
+  "homepage" : "https://github.com/wolfbeark/react-tarot-demo"
 }
