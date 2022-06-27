@@ -3,6 +3,7 @@ import styled from'styled-components';
 import {motion} from 'framer-motion';
 import { useSelector } from 'react-redux';
 import html2canvas from 'html2canvas';
+import {useNavigate} from 'react-router-dom';
 
 
 import SpreadCurtain from './SpreadCurtain';
@@ -319,7 +320,7 @@ const yesOrNoOptionVariants ={
 
 function SpreadComponents() {
 
-
+    let navigate = useNavigate();
     const _totalSelectedNumArr = useSelector((state) => state.gameManager.totalSelectedNumArr);
     const _selectedCardCount = useSelector((state) => state.gameManager.selectedCardCount);
     const defaultTempObjData ={
@@ -838,7 +839,7 @@ function SpreadComponents() {
                                 whileHover="hover"
                                 whileTap="click"
                                 onClick={()=>{
-                                    window.location.reload();
+                                    navigate('/');
                                 }}
                             >
                                 Yes
