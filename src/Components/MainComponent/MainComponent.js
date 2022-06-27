@@ -1,6 +1,7 @@
 
 import React, { useRef, useState } from 'react'
 import Draggable from 'react-draggable';
+import {Link} from 'react-router-dom'
 
 function MainComponent() {
 
@@ -78,6 +79,7 @@ function MainComponent() {
                     onChange={onChangeHandler} 
                 />
                 <button type='submit'>Create</button>
+                <Link to="/fourth">Move</Link>
             </form>
             {isCreated === true 
             ? 
