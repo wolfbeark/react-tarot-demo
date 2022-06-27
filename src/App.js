@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+
+import './App.css'
+import {
+  Routes,
+  Route,
+} from "react-router-dom";
+
+
+
+import MainComponent from './Components/MainComponent/MainComponent';
+import FourthComponent from './Components/FourthComponent/FourthComponent';
+import DragTest from './Components/DragTest/DragTest';
+import DragTest2 from './Components/DragTest2/DragTest2';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="App" >
+        <Routes>
+          <Route exact path='/' element={<MainComponent />}/>
+          
+          <Route exact path='/fourth' element={<FourthComponent />} />
+          <Route exact path='/drag' element={<DragTest />} />
+          <Route exact path='/drag2' element={<DragTest2 />} />
+        </Routes>
+      </div>
   );
 }
 

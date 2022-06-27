@@ -1,0 +1,24 @@
+
+.SecondComponent_MainBox{
+    width: inherit;
+    height: inherit;
+    background-color: beige;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+.SecondComponent_Head{
+    width: 80vw;
+    height: 50px;
+    background-color: white;
+    border: none;
+    width: calc(inherit - 10px);
+    caret-color:aquamarine ;
+    box-shadow: 0, 0, 0.5, rgba(207, 16, 255, 0.5);
+    animation: none;
+    background-color: #f5f5dc;
+    animation : 0.5s ease-in-out forwards;
+    bottom: calc(50%);
+    pointer-events: none;
+}

@@ -1,0 +1,23 @@
+
+.test1{
+    background-color: rgb(135, 206, 235);
+    width: 100px;
+    height: 200px;
+
+    text-align: left;
+    background-size: cover;
+    transform: translateX();
+    will-change: opacity;
+    color: gray;
+    transform: rotate(0);
+    transform: rotateX(-90deg);
+    align-items: center;
+    box-sizing: border-box;
+    flex-direction: column;
+    color: blue;
+}
+.test1 button:first-child,
+.test1 button:nth-child(2){
+    background-color: blue;
+}
+
