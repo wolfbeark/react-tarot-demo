@@ -1038,11 +1038,13 @@ function SpreadComponents() {
                         >
                             <button
                                 onClick={()=>{
+                                    if(isClickedCapture === false){
                                         setIsActiveOptionCurtain(true);
                                         setClickedFind(false);
                                         setTimeout(()=>{
                                             setOptionType(3);
                                         }, 2000);
+                                    }
                                     
                                 }}
                                 style={isClickedCapture !== true
@@ -1165,6 +1167,7 @@ function SpreadComponents() {
                                     
                                     if(isClickedCapture === false){
                                         setClickedCapture(true);
+                                        setOptionType(0);
                                         onCaptureHandler(e);
                                     }
                                 }}

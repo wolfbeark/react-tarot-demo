@@ -849,14 +849,14 @@ function OptionState(props){
         if(type === 'yes'){
             let tempNum = parseInt(value);
             if(tempNum <= 0 || tempNum > 78){
-                console.log('fail');
+                //console.log('fail');
                 setModifyNumAlrightHanler(false, tempNum);
             }
             else if(tempNum > 0 && tempNum <= 78){
                 if(_selectedCardCount === tempNum){
                     setModifyNumAlrightHanler(false, tempNum);
                 } else if(_selectedCardCount !== tempNum){
-                    console.log('success');
+                    //console.log('success');
                     // dispatch 하는거 넣자.
                     props.setUserSelectCount(tempNum); // 카운터 넘버 수정
                     // 일반 넘버 배열, 스테이트 배열의 길이 재설정하는 코드 필요
@@ -872,7 +872,7 @@ function OptionState(props){
                 } 
             }
         }else if(type === 'no'){
-            console.log('back');
+            //console.log('back');
             setValue('');
             setOptionStage(0);
             setActiveOptionContainer(false);
