@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/react-tarot-demo/static/css/main.9e47a190.css",
-    "main.js": "/react-tarot-demo/static/js/main.ee8f7ef2.js",
+    "main.js": "/react-tarot-demo/static/js/main.79b9f3a1.js",
     "static/js/787.b4e1bb35.chunk.js": "/react-tarot-demo/static/js/787.b4e1bb35.chunk.js",
     "static/media/Jua-Regular.woff": "/react-tarot-demo/static/media/Jua-Regular.ae23b9dcafa09c3a7b7a.woff",
     "index.html": "/react-tarot-demo/index.html",
     "main.9e47a190.css.map": "/react-tarot-demo/static/css/main.9e47a190.css.map",
-    "main.ee8f7ef2.js.map": "/react-tarot-demo/static/js/main.ee8f7ef2.js.map",
+    "main.79b9f3a1.js.map": "/react-tarot-demo/static/js/main.79b9f3a1.js.map",
     "787.b4e1bb35.chunk.js.map": "/react-tarot-demo/static/js/787.b4e1bb35.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.9e47a190.css",
-    "static/js/main.ee8f7ef2.js"
+    "static/js/main.79b9f3a1.js"
   ]
 }
