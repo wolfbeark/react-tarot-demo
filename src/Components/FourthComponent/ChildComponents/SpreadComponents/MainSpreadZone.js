@@ -66,6 +66,11 @@ function MainSpreadZone(props) {
             totalSelectedNumArr={props.totalSelectedNumArr}
             dragCardNumArr={props.dragCardNumArr}
             indexCountController={props.indexCountController}
+            isClickedFind={props.isClickedFind}
+            findCardControl={props.findCardControl}
+            cardNameArr={props.cardNameArr}
+            setFindCardName={props.setFindCardName}
+            whatModeControl={props.whatModeControl}
           >
 
           </DragCardInfo>

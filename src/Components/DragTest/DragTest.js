@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
 import {motion, useDragControls} from 'framer-motion';
 
 const TestContainer = styled(motion.div)`
@@ -20,11 +20,7 @@ const TestBox1 = styled(motion.div)`
   background-color: skyblue;
 `
 
-const DragTestBox = styled(motion.div)`
-  width: 50px;
-  height: 75px;
-  background-color: red;
-`
+
 
 const DragTestBox2 = styled(motion.div)`
   width: 50px;
@@ -110,7 +106,7 @@ function DragTest() {
 
   let [isInSpread, setIsInSpread] = useState(false);
   let [test2Pos, setTest2Pos] = useState({});
-  let [card2Pos, setCard2Pos] = useState({});
+  //let [card2Pos, setCard2Pos] = useState({});
   let _arr1 = [1, 2, 3]
   let [testArr1, setTestArr1] = useState(_arr1);
 
@@ -159,9 +155,7 @@ function DragTest() {
     console.dir(temp);
   }
 
-  const dragStartTest = (e) =>{
-    e.dataTransfer.effectAllowed = 'move';
-  }
+ 
   const dragTest = (e) => {
     const temp1 = test1.current.getBoundingClientRect();
     const temp2 = test2.current.getBoundingClientRect();
@@ -189,16 +183,7 @@ function DragTest() {
     }
     
   }
-  const dragStartTest2 = (e) =>{
-    posX = e.clientX;
-    posY = e.clientY;
-  }
-  const dragTest2 = (e) =>{
-    e.target.style.left = `${e.target.offsetLeft + e.clientX - posX}px`;
-    e.target.style.top = `${e.target.offsetTop + e.clientY - posY}px`;    
-    posY = e.clientY;
-    posX = e.clientX;
-  }
+ 
 
   const testExtraCard = (e) =>{
     let _tempArr = new Array(3);
@@ -253,18 +238,7 @@ function DragTest() {
           ref={test2}
           onClick={checkThisInfo2}
           >
-            {/* <DragTestBox
-              ref={card1}
-              dragControls={dragControl}
-              drag
-              dragMomentum={false}
-              dragConstraints={isInSpread === false ? '' : test1}
-              
-              onDrag={dragTest}
-              onDragEnd={(e)=>{
-                dragEndTest(e);
-              }}
-            /> */}
+            
         </TestBox2>
 
       </SubTestContainer>

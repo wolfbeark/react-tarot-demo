@@ -172,12 +172,21 @@ function QuestionBox({variants, setRightOver, animateCheck}) {
                     variants={variants}
                     initial={variants.start}
                     animate={variants.end}
-                    whileHover={{ 
-                        scale: 1.2, 
-                    }}
-                    whileTap={{
-                        scale: 1.0,
-                    }}
+                    whileHover={
+                        { 
+                            scale: 1.2, 
+                        }
+                    }
+                    whileTap={
+                        {
+                            scale: 1.0,
+                        }
+                    }
+                    style={
+                        {
+                            cursor: 'pointer',
+                        }
+                    }
                 >
                     설 정 완 료
                 </QuestionButton>

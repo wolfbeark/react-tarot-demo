@@ -6,6 +6,7 @@ import{
     SET_ISOVER_PREVIEW_THREE,
     SET_CHANGE_SELECT_NUM,
     SET_ISOVER_DRAW,
+    SET_RESET
 } from './types'
 
 
@@ -43,5 +44,11 @@ export function setIsOverDraw(drawReturnInfo){
     return{
         type: SET_ISOVER_DRAW,
         payload: drawReturnInfo,
+    }
+}
+export function setReset(){
+    return{
+        type: SET_RESET,
+
     }
 }

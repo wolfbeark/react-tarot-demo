@@ -56,7 +56,7 @@ const PreviewSelectButtonBox = styled(motion.div)`
     justify-content: space-evenly;
     align-items: center;
 
-    background-color : gray;
+    //background-color : gray;
 `
 const YesOrNoBtn = styled(motion.button)`
 
@@ -66,7 +66,9 @@ const YesOrNoBtn = styled(motion.button)`
     border : none;
     outline : unset;
     border-radius : 10px;
-    background-color : aquamarine;
+    background-color : skyblue;
+
+    cursor: pointer;
 
     font-family : "Jua";
     font-size: 30px;
@@ -111,7 +113,7 @@ const buttonVariant = {
     ,
     hover:{
         scale: 1.2,
-        boxShadow: `0 0 10px 3px aquamarine`,
+        boxShadow: `0 0 10px 3px skyblue`,
     }
     ,
     click:{

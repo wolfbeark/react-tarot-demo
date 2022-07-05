@@ -6,6 +6,7 @@ import {
     SET_ISOVER_PREVIEW_THREE,
     SET_CHANGE_SELECT_NUM,
     SET_ISOVER_DRAW,
+    SET_RESET,
 } from "../actions/types"
 import DefaultMajorArcana from "../../Components/FourthComponent/DefaultImgArr";
 
@@ -67,6 +68,27 @@ export default function(state = initialCardState, action){
                 isOverDraw : action.payload.drawReturnInfo.isOverDraw,
                 totalSelectedNumArr : action.payload.drawReturnInfo.totalSelectedNumArr,
                 isActiveSpread: true,
+            }
+        case SET_RESET:
+            return{
+                ...state,
+                defaultImgArr: DefaultMajorArcana,
+                selectedCardCount : null,
+                isSettingCardCount : true,
+                isFirstOver : false, // 드로우 수량 질문
+                ranImgNumArr : null,
+                isFirstAllOver : false, // 분기점에서 true는 완전히 끝난 상태 의미
+                
+                isPreviewThreeCards : false, // 3장 미리보기 선택 완료여부
+                isActivePreviewThree : false, // 3장 미리보기 볼거냐
+                isOverPreviewThree : false, // 3장 미리보기 끝났냐
+
+                // 드로우 value들
+                isOverDraw : false,
+                // 최종 선택된 넘버 어레이
+                totalSelectedNumArr : [],
+                isActiveSpread : false,
+
             }
         
         default :

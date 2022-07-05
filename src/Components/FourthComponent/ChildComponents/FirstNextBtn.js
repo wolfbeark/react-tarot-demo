@@ -22,6 +22,7 @@ const NextBtnContainer = styled(motion.button)`
     justify-content: center;
     align-items: center;
     transform: translate(0, 0);
+    cursor: pointer;
 
 
     font-family: "Jua";
@@ -74,7 +75,7 @@ function FirstNextBtn() {
                     break;
                 }
             }
-            console.log('number : ', `${i} - ` ,ranNumArr[i]);
+            //console.log('number : ', `${i} - ` ,ranNumArr[i]);
         }
         dispatch(setRanImgNumbers({ranImgNumArr : ranNumArr, isFirstAllOver : true}));
 
@@ -94,6 +95,7 @@ function FirstNextBtn() {
             whileTap={{
                 scale: 1.0,
             }}
+            
 
         >
             N e x t !

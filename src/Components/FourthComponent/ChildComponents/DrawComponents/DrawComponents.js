@@ -77,7 +77,7 @@ const DrawControlBtnBox = styled(motion.div)`
 
     width: 25%;
     height: 100%;
-    background-color: gray;
+    background-color: royalblue;
 
     display: flex;
     flex-direction: column;
@@ -94,7 +94,7 @@ const DrawControlBtn = styled(motion.div)`
 
     width: 80%;
     height: 13%;
-    background-color: yellow;
+    background-color: #123456;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -110,7 +110,7 @@ const DrawControlBtn = styled(motion.div)`
     & button{
         width: 95%;
         height: 85%;
-        background-color: salmon;
+        background-color: skyblue;
         outline: unset;
         border: none;
 
@@ -139,7 +139,7 @@ const drawControlBtnVariants ={
 const CountInfoBox = styled(motion.div)`
     width: 95%;
     height: 15%;
-    background-color: tomato;
+    background-color: skyblue;
 
     display: flex;
     justify-content: space-evenly;
@@ -153,7 +153,7 @@ const CountInfoBox = styled(motion.div)`
 const CountingClass = styled(motion.div)`
     width: 70%;
     height: 100%;
-    background-color: royalblue;
+    //background-color: royalblue;
     display:flex;
     justify-content: center;
     align-items: center;
@@ -162,18 +162,19 @@ const CountingClass = styled(motion.div)`
     border-radius: 20px;
     
     & span{
-        background-color: blue;
+        //background-color: blue;
         margin: 1%;
         width: 100%;
-        height: 50%;
+        height: 70%;
 
         font-family: "Jua";
-        font-size: 1.5em;
+        font-size: 1.7em;
         text-align: start;
 
         display: flex;
         justify-content: left;
         aling-items: center;
+        flex-direction: column;
     }
 `
 // 숫자
@@ -239,7 +240,8 @@ const QuestionModal = styled(motion.div)`
   position: absolute;
   width: 40%;
   height: 50%;
-  background-color: pink;
+  background-color: royalblue;
+  border-radius: 10px;
 
   z-index: 30;
   transform: translate(35%, 0);
@@ -258,7 +260,7 @@ const QuestionModal = styled(motion.div)`
     font-family: "Jua";
     font-weight: 600;
     font-size: 2em;
-    background-color: blue;
+    //background-color: blue;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -268,10 +270,11 @@ const QuestionModal = styled(motion.div)`
       
     justify-content: space-evenly;
     & div{
-        background-color: gray;
+        background-color: skyblue;
         width: 40%;
         height: 60%;
         font-size: 1em;
+        border-radius: 10px;
       }
   }
 `
@@ -286,6 +289,7 @@ const YesOrNoBox = styled(motion.div)`
 const yesOrNoVariants = {
     hover:{
         scale: 1.1,
+        boxShadow: '0 0 10px 2px skyblue'
     },
     click:{
         scale: 1,
@@ -531,7 +535,7 @@ function SelectModal(props){
         if(flag === 'true'){ // Yes버튼
             if(isThisCardClicked === false){ // 선택안된 상태인데 Yes가 눌리면
                 testFunc(true); // 눌렸다고 해주고
-                console.log(cardnum); // 테스트용 숫자 출력
+                //console.log(cardnum); // 테스트용 숫자 출력
                 // 선택하겠다 부분이기 때문에 배열에서 번호를 찾아서 추가하는 명령 필요
                 // 한 장이라도 선택이 된다면 셔플버튼을 잠그는 명령필요 clickcount 라는 변수를 만들어서 사용해보자
                 
@@ -574,7 +578,7 @@ function SelectModal(props){
             }
             else if(isThisCardClicked === true){ // 선택된 적이 있으면 취소인데 Yes가 눌리면,
                 testFunc(false);
-                console.log(cardnum);
+                //console.log(cardnum);
                 // 취소하겠다 부분이기 때문에 배열에서 번호를 찾아서 제거하는 명령 필요
 
                 let _tempArr = [...selectedNumberArr];
@@ -756,14 +760,14 @@ function OptionState(props){
                 for(let i = 0; i < selectedNumberStateArr.length; i++){
                     _selectedNumStateArr[i] = totalChildStateArr[ranNumArr[i]];
                 } */
-                console.log('ranNumArr : ' + ranNumArr.length);
-                console.log('_selectedNumberArr : ' + _selectedNumberArr.length);
-                console.log('selectedNumberStateArr :' + selectedNumberStateArr.length);
+                //console.log('ranNumArr : ' + ranNumArr.length);
+                //console.log('_selectedNumberArr : ' + _selectedNumberArr.length);
+                //console.log('selectedNumberStateArr :' + selectedNumberStateArr.length);
                 setSelectedNumberArr(_selectedNumberArr);
                 //setTotalChildStateArr(_selectedNumStateArr);
                 timer();
                 
-                console.log('auto over');
+                //console.log('auto over');
             break;
             case 1: // shuffle
                 let tempDrawRanNumArr = new Array(78);
@@ -779,11 +783,11 @@ function OptionState(props){
                 }
                 setDrawRanNumArr(tempDrawRanNumArr);
                 timer();
-                console.log('shuffle over');
+                //console.log('shuffle over');
             break;
             case 2: // modify
                 setOptionStage(2);
-                console.log('modify number question');
+                //console.log('modify number question');
             break;
             case 3: // reset
                 // 선택된 여부 리셋
@@ -804,7 +808,7 @@ function OptionState(props){
                 setClickAndSelectCount(0);
                 timer();
 
-                console.log('reset over');
+                //console.log('reset over');
             break;
             case 4: // next
                 let totalSelectedNumArr = new Array(selectedNumberArr.length);
@@ -822,10 +826,10 @@ function OptionState(props){
                         setOptionType('');
                         _dispatch(setIsOverDraw({drawReturnInfo}));
                 }, 3000)
-                console.log('next over');
+                //console.log('next over');
             break;
             default:
-                console.log('type err');
+                //console.log('type err');
             break;
         }
     }
@@ -1106,7 +1110,7 @@ function DrawComponents() {
     const onAutoHandler = (e) => {
         e.preventDefault();
         if(clickAndSelectCount <= 0){
-            console.log('auto');
+            //console.log('auto');
             setActiveOptionContainer(true);
             setOptionType(0);
         }
@@ -1115,7 +1119,7 @@ function DrawComponents() {
     const onShuffleHandler = (e) => {
         e.preventDefault();
         if(clickAndSelectCount <= 0){
-            console.log('shuffle');
+            //console.log('shuffle');
             // 여기서 옵션창 오픈 스테이트 추가
             setActiveOptionContainer(true);
             setOptionType(1);
@@ -1125,7 +1129,7 @@ function DrawComponents() {
     const onModifyHandler = (e) => {
         e.preventDefault();
         if(clickAndSelectCount <= 0){
-            console.log('modify');
+            //console.log('modify');
             setActiveOptionContainer(true);
             setOptionType(2);
         }
@@ -1133,7 +1137,7 @@ function DrawComponents() {
     const onResetHandler = (e) => {
         e.preventDefault();
         if(clickAndSelectCount > 0 ){
-            console.log('reset');
+            //console.log('reset');
             setActiveOptionContainer(true);
             setOptionType(3);
         }
@@ -1141,7 +1145,7 @@ function DrawComponents() {
     const onNextHandler = (e) => {
         e.preventDefault();
         if(clickAndSelectCount > 0 && clickAndSelectCount === userSelectCount){
-            console.log('next');
+            //console.log('next');
             setActiveOptionContainer(true);
             setOptionType(4);
         }

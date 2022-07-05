@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import styled from'styled-components';
 import {motion} from 'framer-motion';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import html2canvas from 'html2canvas';
 import {useNavigate} from 'react-router-dom';
 
@@ -10,6 +10,7 @@ import SpreadCurtain from './SpreadCurtain';
 import MainSpreadZone from './MainSpreadZone';
 import MakeExtraDeck from './MakeExtraDeck';
 import Find from './Find';
+import { setReset } from '../../../../redux/actions/gameManager_action';
 
 const SpreadContainer = styled(motion.div)`
     width: 100%;
@@ -43,7 +44,7 @@ const MainSpreadBox = styled(motion.div)`
 const OptionSpreadBox = styled(motion.div)`
     width: 18%;
     height: 95%;
-    background-color: aquamarine;
+    background-color: red;
     border-radius: 10px;
 
     display: flex;
@@ -58,25 +59,27 @@ const ExtraCardBox = styled(motion.div)`
     border-radius: 10px;
     background-size: 100% 100%;
     opacity: 1;
+    
 `
 const OptionSpreadDeckBox = styled(motion.div)`
     width: 95%;
     height: 25%;
     
-    background-color: aquamarine;
+    background-color: tomato;
     border-radius: 10px;
     
     padding: 1%;
 `
 
 const OptionSpreadDragBox = styled(motion.div)`
-    width: 45%;
-    height: 95%;
-    background-color: whitesmoke;
+    width: 40%;
+    height: 90%;
+    background-color: skyblue;
     border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+    
 
     position: relative;
     
@@ -95,7 +98,7 @@ const DeckZone = styled(motion.div)`
     align-items: center;
     width: 100%;
     height: 100%;
-    background-color: red;
+    background-color: tomato;
     border-radius: 10px;
 
     
@@ -111,7 +114,7 @@ const OptionSpreadCount = styled(motion.div)`
     & > div{
         width: 100%;
         height: 100%;
-        background-color: skyblue;
+        background-color: royalblue;
         border-radius: 10px;
         display: flex;
         flex-direction: column;
@@ -121,7 +124,7 @@ const OptionSpreadCount = styled(motion.div)`
         & div{
             width: 100%;
             height: 45%;
-            background-color: gray;
+            background-color: skyblue;
             border-radius: 10px;
             display: flex;
             justify-content: space-evenly;
@@ -137,11 +140,11 @@ const OptionSpreadCount = styled(motion.div)`
             & > span{
                 width: 70%;
                 height: 100%;
-                background-color: gray;
+                //background-color: gray;
             }
             & span:last-child{
                 width: 25%;
-                height: 100%;
+                height: 80%;
                 background-color: white;
             }
         }
@@ -150,7 +153,7 @@ const OptionSpreadCount = styled(motion.div)`
 const OptionSpreadBtnBox = styled(motion.div)`
     width: 95%;
     height: 55%;
-    background-color: olive;
+    background-color: tomato;
     border-radius: 10px;
     padding: 2%;
     & > div{
@@ -160,7 +163,7 @@ const OptionSpreadBtnBox = styled(motion.div)`
         flex-direction: column;
         align-items: center;
         justify-content: space-evenly;
-        background-color: whitesmoke;
+        background-color: royalblue;
         border-radius: 10px;
         padding: 2%;
     }
@@ -168,7 +171,7 @@ const OptionSpreadBtnBox = styled(motion.div)`
 const OptionBtn = styled(motion.div)`
     width: 100%;
     height: 20%;
-    background-color: gold;
+    background-color: #123456;
     border-radius: 10px;
     padding: 2%;
     & > button{
@@ -177,7 +180,7 @@ const OptionBtn = styled(motion.div)`
         outline: unset;
         border: none;
         border-radius: 10px;
-        background-color: salmon;
+        background-color: skyblue;
         font-family: "Jua";
         font-size: 1.5em;
         font-weight: 600;
@@ -187,7 +190,7 @@ const OptionBtn = styled(motion.div)`
 const optionBtnVariants = {
     hover: {
         scale: 1.05,
-        boxShadow: '0 0 5px 2px gold'
+        boxShadow: '0 0 5px 2px #123456'
     },
     click: {
         scale: 1.0,
@@ -212,7 +215,7 @@ const OptionFadeCurtain = styled(motion.div)`
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 100;
+    z-index: 1000;
 `
 const optionFadeVariants = {
     initial:{
@@ -228,39 +231,8 @@ const optionFadeVariants = {
         backgroundColor: 'rgba'
     }
 }
-const OptionLoading = styled(motion.div)`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    width: 80%;
-    height: 90%;
-    background-color: rgba(128, 128, 128, 0.8);
-    border-radius: 10px;
 
-`
-const OptionSpan = styled(motion.span)`
-    font-family: "Jua";
-    font-size: 2em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 80%;
-`
 
-const optionSpanVariants = {
-    start:{
-        ease: "ease",
-        scale: 1.2,
-        opacity: 0.6,
-        transition:{
-            duration: 0.5,
-            repeat: Infinity,
-            repeatType: "reverse",
-        }
-    }
-}
 const OptionContainer = styled(motion.div)`
     width: 45%;
     height: 40%;
@@ -291,11 +263,12 @@ const OptionContainer = styled(motion.div)`
     }
 `
 const YesOrNoBox = styled(motion.div)`
-    background-color: blue;
+    background-color: skyblue;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+    cursor: pointer;
 
     width: 40%;
     height: 80%;
@@ -310,17 +283,196 @@ const yesOrNoOptionVariants ={
     },
     hover:{
         scale: 1.1,
-        boxShadow: '0 0 10px 5px blue, 0 0 2px 1px white inset',
+        boxShadow: '0 0 10px 5px skyblue, 0 0 2px 1px white inset',
     },
     click:{
         scale: 1
     }
 }
+const SelectCardBox = styled(motion.div)`
+
+    width: 70%;
+    height: 80%;
+    position: absolute;
+    background-color: gray;
+    
+    z-index: 501;
+
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    border-radius: 10px;
+   
+    
+`
+const SelectMenuBox = styled(motion.div)`
+    width: 15%;
+    height: 90%;
+    background-color: beige;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 1% 0;
+    border-radius: inherit;
+`
+
+const SelectOptionMenuBox = styled(motion.div)`
+    width: 35%;
+    height: 90%;
+    background-color: beige;
+    border-radius: inherit;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    & > div:nth-child(2){
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 100%;
+        height: 45%;
+    }
+    
+`
+const SelectOptionImageBox = styled(motion.div)`
+    width: 45%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: lemonchiffon;
+    background-image: url(${(props) => props.imgsrc});
+    background-size: 100% 100%; 
+    box-shadow: 0 0 10px 5px gray;
+    
+`
+const SelectCardTypeBtn = styled(motion.button)`
+    outline: unset;
+    border: none;
+    width: 80%;
+    height: 15%;
+    background-color: gray;
+
+    margin-bottom: 2%;
+    font-family: "Jua";
+    font-weight: 600;
+    font-size: 1.5em;
+    border-radius: 10px;
+
+    cursor: pointer;
+`
+const SelectSemiTypeBox = styled(motion.div)`
+    width: 40%;
+    height: 90%;
+    background-color: beige;
+    border-radius: inherit;
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding: 1% 0;
+    scroll-behavior: auto;
+    overflow: overlay;
+    overflow-x: hidden;
+
+    ::-webkit-scrollbar {
+        width: 1vw;
+    }
+    ::-webkit-scrollbar-thumb {
+        background-color: hsla(0, 0%, 42%, 0.49);
+        border-radius: 100px;
+    
+    }
+    // & ${SelectCardTypeBtn}{
+    //     width: 80%;
+    //     font-size: 1.2em;
+    //     margin-bottom: 5%;
+    // }
+`
+const SemiTypeBtn = styled(motion.button)`
+    outline: unset;
+    border: none;
+    width: 80%;
+    height: 40%;
+    background-color: gray;
+
+    margin-bottom: 5%;
+    font-family: "Jua";
+    font-weight: 600;
+    font-size: 1.5em;
+    border-radius: 10px;
+
+    cursor: pointer;
+`
+const selectCardTypeVar = {
+    hover:{
+        scale: 1.1,
+        boxShadow: '0 0 10px 5px gray',
+    },
+    click:{
+        scale: 1.0,
+    }
+}
+const SelectOptionBtnBox = styled(motion.div)`
+    width: 100%;
+    height: 35%;
+    //background-color: seagreen;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+`
+const SelectOptionBtn = styled(motion.button)`
+
+    width: 90%;
+    height: 40%;
+    background-color: burlywood;
+    outline: unset;
+    border: none;
+    border-radius: 10px;
+    font-family: "Jua";
+    font-size: 1.5em;
+    font-weight: 600;
+    
+    transition: opacity 0.5s ease-in-out;
+`
+const optionBtnVar = {
+    hover:{
+        scale: 1.05,
+        boxShadow: '0 0 10px 5px burlywood',
+    },
+    click:{
+        scale: 0.9,
+    }
+}
+const OptionPreviewChoiceSpanBox = styled(motion.div)`
+    width: 100%;
+    height: 5%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    & span{
+        font-family: "Jua";
+        font-size: 1.5em;
+        font-weight: 600;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 45%;
+    }
+`
 
 
 function SpreadComponents() {
 
     let navigate = useNavigate();
+    let dispatch = useDispatch();
     const _totalSelectedNumArr = useSelector((state) => state.gameManager.totalSelectedNumArr);
     const _selectedCardCount = useSelector((state) => state.gameManager.selectedCardCount);
     const defaultTempObjData ={
@@ -349,10 +501,10 @@ function SpreadComponents() {
     }
     // Optional Control
     const [isActiveOptionCurtain, setIsActiveOptionCurtain] = useState(false);
-    const [isClickedExtra, setIsClickedExtra] = useState(false);
-    const [optionType, setOptionType] = useState(0); // 0 : none, 1 : restart, 2 : Extra, 3 : Capture
+    //const [isClickedExtra, setIsClickedExtra] = useState(false);
+    const [optionType, setOptionType] = useState(0); // 0 : none, 1 : restart, 2 : Extra, 3 : Capture 4: Find
     // 플립버튼 컨트롤
-    const [flipCount, setFlipCount] = useState(0);
+    //const [flipCount, setFlipCount] = useState(0);
     const [activeFlipBtn, setActiveFlipBtn] = useState(true);
 
     // 새로운 z인덱스 컨트롤
@@ -363,6 +515,107 @@ function SpreadComponents() {
     }
     // find & zoom
     const [isClickedFind, setClickedFind] = useState(false);
+    const [findStateArr, setFindStateArr] = useState(null);
+    const [findCardImage, setCardImage] = useState(100);
+    const [whatMode, setWhatMode] = useState(false); // false: zoom, true: find
+
+    const [selectFindImageNum, setSelectFindImageNum] = useState(100);
+    const [selectFindCardName, setSelectFindCardName] = useState(null);
+    const findCardControl = {
+        findCardImage,
+        setCardImage
+    }
+    const whatModeControl = {
+        whatMode,
+        setWhatMode,
+    }
+    const cardNameArr = [
+        "THE FOOL",
+        "THE MAGICIAN",
+        "THE HIGH PRIESTESS",
+        "THE EMPRESS",
+        "THE EMPEROR",
+        "THE HIEROPHANT",
+        "THE LOVERS",
+        "THE CHARIOT",
+        "STRENGTH",
+        "THE HERMIT",
+        "THE WHEEL OF FORTUNE",
+        "JUSTICE",
+        "THE HANGED MAN",
+        "DEATH",
+        "TEMPERANCE",
+        "THE DEVIL",
+        "THE TOWER",
+        "THE STAR",
+        "THE MOON",
+        "THE SUN",
+        "JUDGEMENT",
+        "THE WORLD",
+        "WAND 1",
+        "WAND 2",
+        "WAND 3",
+        "WAND 4",
+        "WAND 5",
+        "WAND 6",
+        "WAND 7",
+        "WAND 8",
+        "WAND 9",
+        "WAND 10",
+        "PAGE OF WANDS",
+        "KNIGHT OF WANDS",
+        "QUEEN OF WANDS",
+        "KING OF WANDS",
+        "SWORD 1",
+        "SWORD 2",
+        "SWORD 3",
+        "SWORD 4",
+        "SWORD 5",
+        "SWORD 6",
+        "SWORD 7",
+        "SWORD 8",
+        "SWORD 9",
+        "SWORD 10",
+        "PAGE OF SWORDS",
+        "KNIGHT OF SWORDS",
+        "QUEEN OF SWORDS",
+        "KING OF SWORDS",
+        "CUP 1",
+        "CUP 2",
+        "CUP 3",
+        "CUP 4",
+        "CUP 5",
+        "CUP 6",
+        "CUP 7",
+        "CUP 8",
+        "CUP 9",
+        "CUP 10",
+        "PAGE OF CUPS",
+        "KNIGHT OF CUPS",
+        "QUEEN OF CUPS",
+        "KING OF CUPS",
+        "PENTACLE 1",
+        "PENTACLE 2",
+        "PENTACLE 3",
+        "PENTACLE 4",
+        "PENTACLE 5",
+        "PENTACLE 6",
+        "PENTACLE 7",
+        "PENTACLE 8",
+        "PENTACLE 9",
+        "PENTACLE 10",
+        "PAGE OF PENTACLES",
+        "KNIGHT OF PENTACLES",
+        "QUEEN OF PENTACLES",
+        "KING OF PENTACLES",
+    ]
+    const [findCardName, setFindCardName] = useState();
+    const [findCardType, setFindCardType] = useState(10);
+    const [selectedTypeArr, setSelectedTypeArr] = useState([]);
+
+    const [isSemiHover, setSemiHover] = useState(false);
+    const [isSemiHoverNum, setIsSemiHoverNum] = useState(100);
+    const [choiceSemiNumClick, setChoiceSemiNumClick] = useState(100);
     // 캡쳐
     const [isClickedCapture, setClickedCapture] = useState(false);
 
@@ -441,32 +694,7 @@ function SpreadComponents() {
      }, [])
     
     
-    const cardFlipHandler = () => {
-        if(isInCount === totalCount){
-            return;
-        }else{
-            let flipCheckArr = new Array(childCardStateArr.length);
-            flipCheckArr.fill(false);
-            let test = 0;
-            for(let i = (childCardStateArr.length - 1); i >= isInCount; i--){
-                
-                if(childCardStateArr[i].isFliped === true){
-                    continue;
-                }
-                else if(childCardStateArr[i].isFliped === false){
-                    test++;
-                    childCardStateArr[i].setIsFliped(true);                    
-                    if(test === childCardStateArr.length){
-                        setActiveFlipBtn(false)
-                    }
-                    else if(test !== childCardStateArr.length){
-                        setActiveFlipBtn(true);
-                    }
-                }
-            }
-            
-        }
-    }
+    
     const cardFlipHandler_test = () => {
         // for(let i = (childCardStateArr.length - 1); i >= isInCount; i--){
         //         // isInSpreadZone
@@ -502,7 +730,7 @@ function SpreadComponents() {
     
     const onCaptureHandler = (e) =>{
         e.preventDefault();
-        console.log('capture test');
+        //console.log('capture test');
         html2canvas(document.getElementById('spreadContainer'))
         .then( canvas =>{
             onSaveAs(canvas.toDataURL('image/png'), 'image-download.png')
@@ -511,7 +739,7 @@ function SpreadComponents() {
         setIsActiveOptionCurtain(false);
     }
     const onSaveAs = (uri, filename) =>{
-        console.log('onSaveAs');
+        //console.log('onSaveAs');
         let link = document.createElement('a');
         document.body.appendChild(link);
         link.href = uri;
@@ -523,6 +751,50 @@ function SpreadComponents() {
         document.body.removeChild(link);
         //window.location.reload();
     }
+
+    const selectedTypeHandler = (type) =>{
+        let tempArr = [];
+        switch(type){
+            case 0:
+                for(let i = 0; i < 22; i++){ // Major
+                    tempArr.push(cardNameArr[i]);
+                }
+                setSelectedTypeArr(tempArr);
+                setFindCardType(0);
+            break;
+            case 1:
+                for(let i = 22; i < 36; i++){ // Wand
+                    tempArr.push(cardNameArr[i]);
+                }
+                setSelectedTypeArr(tempArr);
+                setFindCardType(1);
+            break;
+            case 2:
+                for(let i = 36; i < 50; i++){ // Sword
+                    tempArr.push(cardNameArr[i]);
+                }
+                setSelectedTypeArr(tempArr);
+                setFindCardType(2);
+            break;
+            case 3:
+                for(let i = 50; i < 64; i++){ // Cup
+                    tempArr.push(cardNameArr[i]);
+                }
+                setSelectedTypeArr(tempArr);
+                setFindCardType(3);
+            break;
+            case 4:
+                for(let i = 64; i < 78; i++){ // Pentacle
+                    tempArr.push(cardNameArr[i]);
+                }
+                setSelectedTypeArr(tempArr);
+                setFindCardType(4);
+            break;
+            default:
+                return;
+        }
+    }
+
     
   return (
     <>
@@ -530,12 +802,12 @@ function SpreadComponents() {
             id="spreadContainer"
             ref={allContainer}
             onDrop={(e)=>{
-                console.log('ondrop')
+                //console.log('ondrop')
                 let data = e.currentTarget.dataTransfer.getData("Text");
                 e.target.appendChild(document.getElementById(data));
             }}
             onDragOver={(e)=>{
-                console.log('ondragOver')
+                //console.log('ondragOver')
                 e.preventDefault();
             }}    
         >
@@ -562,6 +834,11 @@ function SpreadComponents() {
                     isInCounter={isInCounter}
                     totalSelectedNumArr={_totalSelectedNumArr}
                     indexCountController={indexCountController}
+                    isClickedFind={isClickedFind}
+                    findCardControl={findCardControl}
+                    cardNameArr={cardNameArr}
+                    setFindCardName={setFindCardName}
+                    whatModeControl={whatModeControl}
                 >
 
                 </MainSpreadZone>
@@ -615,11 +892,7 @@ function SpreadComponents() {
                                             setOptionType(2);
                                         }, 2000);
                                     }
-                                    // if(isInCount !== 0){
-                                    //     console.log('Extra fail');
-                                    // }else{
-                                    //     setIsClickedExtra(true);
-                                    // }
+                                    
                                 }}
                             >
 
@@ -693,10 +966,16 @@ function SpreadComponents() {
                             variants={optionBtnVariants}
                             whileHover="hover"
                             whileTap="click"
+                            style={{
+                                cursor: 'pointer'
+                            }}
                         >
                             <button
                                 onClick={()=>{
                                     setClickedFind(!isClickedFind)
+                                }}
+                                style={{
+                                    cursor: 'pointer'
                                 }}
                             >
                                 Find & Zoom
@@ -759,8 +1038,8 @@ function SpreadComponents() {
                         >
                             <button
                                 onClick={()=>{
-                                
                                         setIsActiveOptionCurtain(true);
+                                        setClickedFind(false);
                                         setTimeout(()=>{
                                             setOptionType(3);
                                         }, 2000);
@@ -796,6 +1075,16 @@ function SpreadComponents() {
                     ?
                     <Find
                         refArr={refArr}
+                        findStateArr={findStateArr}
+                        setFindStateArr={setFindStateArr}
+                        findCardImage={findCardImage}
+                        findCardName={findCardName}
+                        whatModeControl={whatModeControl}
+                        setIsActiveOptionCurtain={setIsActiveOptionCurtain}
+                        isActiveOptionCurtain={isActiveOptionCurtain}
+                        setOptionType={setOptionType}
+                        selectFindImageNum={selectFindImageNum}
+                        selectFindCardName={selectFindCardName}
                     >
 
                     </Find>
@@ -839,7 +1128,8 @@ function SpreadComponents() {
                                 whileHover="hover"
                                 whileTap="click"
                                 onClick={()=>{
-                                    navigate('/');
+                                    dispatch(setReset());
+                                    //navigate('/');
                                 }}
                             >
                                 Yes
@@ -872,6 +1162,7 @@ function SpreadComponents() {
                                 whileHover="hover"
                                 whileTap="click"
                                 onClick={(e)=>{
+                                    
                                     if(isClickedCapture === false){
                                         setClickedCapture(true);
                                         onCaptureHandler(e);
@@ -895,6 +1186,199 @@ function SpreadComponents() {
                         </div>
                     </OptionContainer>
                     : null
+                    }
+                    {
+                        optionType === 4
+                        ?
+                        <SelectCardBox>
+                            <SelectMenuBox>
+                                <SelectCardTypeBtn
+                                    variants={selectCardTypeVar}
+                                    whileHover="hover"
+                                    whileTap="click"
+                                    onClick={()=>{
+                                        selectedTypeHandler(0);
+                                    }}
+                                >
+                                    MAJOR
+                                </SelectCardTypeBtn>
+                                <SelectCardTypeBtn
+                                    variants={selectCardTypeVar}
+                                    whileHover="hover"
+                                    whileTap="click"
+                                    onClick={()=>{
+                                        selectedTypeHandler(1);
+                                    }}
+                                >
+                                    WAND
+                                </SelectCardTypeBtn>
+                                <SelectCardTypeBtn
+                                    variants={selectCardTypeVar}
+                                    whileHover="hover"
+                                    whileTap="click"
+                                    onClick={()=>{
+                                        selectedTypeHandler(2);
+                                    }}
+                                >
+                                    SWORD
+                                </SelectCardTypeBtn>
+                                <SelectCardTypeBtn
+                                    variants={selectCardTypeVar}
+                                    whileHover="hover"
+                                    whileTap="click"
+                                    onClick={()=>{
+                                        selectedTypeHandler(3);
+                                    }}
+                                >
+                                    CUP
+                                </SelectCardTypeBtn>
+                                <SelectCardTypeBtn
+                                    variants={selectCardTypeVar}
+                                    whileHover="hover"
+                                    whileTap="click"
+                                    onClick={()=>{
+                                        selectedTypeHandler(4);
+                                    }}
+                                >
+                                    PENTACLE
+                                </SelectCardTypeBtn>
+                            </SelectMenuBox>
+                            <SelectSemiTypeBox>
+                                {
+                                    findCardType !== 10
+                                    ?
+                                    selectedTypeArr.map((a, i) =>{
+
+                                        let tempNum = 0;
+                                        switch(findCardType){
+                                            case 0:
+                                                tempNum = i;
+                                            break;
+                                            case 1:
+                                                tempNum = 22 + i;
+                                            break;
+                                            case 2:
+                                                tempNum = 36 + i;
+                                            break;
+                                            case 3:
+                                                tempNum = 50 + i;
+                                            break;
+                                            case 4:
+                                                tempNum = 64 + i;
+                                            break;
+                                            default:
+
+                                            break;
+                                        }
+                                        return(
+                                            <SemiTypeBtn
+                                                key={i}
+                                                imgnum={tempNum}
+                                                variants={selectCardTypeVar}
+                                                whileHover="hover"
+                                                whileTap="click"
+                                                onClick={()=>{
+                                                    setChoiceSemiNumClick(tempNum);
+                                                }}
+                                                onHoverStart={()=>{
+                                                    setSemiHover(true);
+                                                    setIsSemiHoverNum(tempNum);
+                                                }}
+                                                onHoverEnd={()=>{
+                                                    setSemiHover(false)
+                                                    setIsSemiHoverNum(100);
+                                                }}
+                                            >
+                                                {a}
+                                            </SemiTypeBtn>
+                                        );
+                                    })
+                                    : null
+                                }
+                            </SelectSemiTypeBox>
+                            <SelectOptionMenuBox>
+                                <OptionPreviewChoiceSpanBox>
+                                    <span>Preview</span>
+                                    <span>Your Choice</span>
+                                </OptionPreviewChoiceSpanBox>
+                                <div>
+                                    <SelectOptionImageBox 
+                                        imgsrc={
+                                            isSemiHover !== false
+                                            ? `${process.env.PUBLIC_URL}/images/ArcanaOfCard/DefaultImages/TotalImages/Default${isSemiHoverNum}.png`
+                                            : ""
+                                        }
+                                    />
+                                    <SelectOptionImageBox
+                                        imgsrc={
+                                            choiceSemiNumClick !== 100
+                                            ? `${process.env.PUBLIC_URL}/images/ArcanaOfCard/DefaultImages/TotalImages/Default${choiceSemiNumClick}.png`
+                                            : ""
+                                        }
+                                    />
+                                </div>
+                                
+                                <SelectOptionBtnBox>
+                                    <SelectOptionBtn
+                                        variants={optionBtnVar}
+                                        whileHover={choiceSemiNumClick !== 100 
+                                            ? "hover"
+                                            : ""
+                                        }
+                                        whileTap={choiceSemiNumClick !== 100
+                                            ? "click"
+                                            : ""
+                                        }
+                                        style={
+                                            choiceSemiNumClick === 100
+                                            ?
+                                            {
+                                                cursor: 'auto',
+                                                opacity: 0.5,
+                                            }
+                                            :
+                                            {
+                                                cursor: 'pointer',
+                                                opacity: 1,
+                                            }
+                                        }
+                                        onClick={()=>{
+                                            if(choiceSemiNumClick !== 100){
+                                                let temp = choiceSemiNumClick;
+                                                setSelectFindImageNum(temp);
+                                                setSelectFindCardName(cardNameArr[temp]);
+                                                setOptionType(0);
+                                                setIsActiveOptionCurtain(false);
+                                                setChoiceSemiNumClick(100);
+                                                setSelectedTypeArr([]);
+                                                setFindCardType(10);
+                                                setWhatMode(true);
+                                            }
+                                        }}
+                                    >
+                                        CHOICE
+                                    </SelectOptionBtn>
+                                    <SelectOptionBtn
+                                        variants={optionBtnVar}
+                                        whileHover="hover"
+                                        whileTap="click"
+                                        style={{
+                                            cursor: 'pointer',
+                                        }}
+                                        onClick={()=>{
+                                            setOptionType(0);
+                                            setIsActiveOptionCurtain(false);
+                                            setChoiceSemiNumClick(100);
+                                            setSelectedTypeArr([]);
+                                            setFindCardType(10);
+                                        }}
+                                    >
+                                        BACK
+                                    </SelectOptionBtn>
+                                </SelectOptionBtnBox>
+                            </SelectOptionMenuBox>
+                        </SelectCardBox>
+                        : null
                     }
                 </>
             </OptionFadeCurtain>

@@ -18,6 +18,8 @@
 }
 .test1 button:first-child,
 .test1 button:nth-child(2){
-    background-color: blue;
+    background-color: skyblue;
+    transform: translateX();
 }
+
 

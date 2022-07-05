@@ -7,14 +7,16 @@ import SelectedDeck from './SelectedDeck'
 const MakeExtraContainer = styled(motion.div)`
     width: 70%;
     height: 80%;
-    background-color: limegreen;
+    background-color: #123456;
+    border-radius: 10px;
 
     padding: 1%;
 `
 const MakeExtraInContainer = styled(motion.div)`
     width: 100%;
     height: 100%;
-    background-color: rosybrown;
+    background-color: royalblue;
+    border-radius: 10px;
     display: flex;
     justify-content: space-evenly;
     align-items : center;
@@ -24,7 +26,8 @@ const SelectedDeckPannel = styled(motion.div)`
     
     width: 75%;
     height: 100%;
-    background-color: skyblue;
+    background-color: royalblue;
+    border-radius: 10px;
     
     display: grid;
     grid-template-columns : repeat(5, minmax(18%, auto));
@@ -46,9 +49,9 @@ const OptionContainer = styled(motion.div)`
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: palevioletred;
+    justify-content: space-between;
+    align-items: end;
+    background-color: #123456;
     box-sizing: border-box;
     
 `
@@ -57,8 +60,9 @@ const OptionSelectedList = styled(motion.div)`
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 10px;
     
-    background-color: purple;
+    background-color: royalblue;
     width: 90%;
     height: 50%;
     padding: 2%;
@@ -71,7 +75,8 @@ const OptionSelectedInList = styled(motion.div)`
     flex-direction: column;
     justify-content: center;
     align-items: start;
-    background-color: plum;
+    background-color: skyblue;
+    border-radius: 10px;
 `
 const SelectedList = styled(motion.ul)`
     color: red;
@@ -130,7 +135,7 @@ const ExtraSetNumberBox = styled(motion.div)`
     & span{
         width: 95%;
         height: 15%;
-        background-color: skyblue;
+        //background-color: skyblue;
 
         font-family: "Jua";
         font-size: 0.8em;
@@ -144,7 +149,7 @@ const ExtraSetNumberBox = styled(motion.div)`
 
     }
     & span{
-        color: rgba(125, 125, 125, 0.8);
+        color: rgba(0, 0, 0, 0.7);
         height: 10%;
         margin: 0 0 1% 0;
     }
@@ -155,9 +160,9 @@ const ExtraSetNumberBox = styled(motion.div)`
         font-weight: 600;
         margin: 2% 0;
         &:focus{
-            box-shadow: 0 0 10px 5px blue;
+            box-shadow: 0 0 10px 5px skyblue;
         }
-        border: solid 5px blue;
+        border: solid 5px skyblue;
     }
 `
 const OptionBtnBox = styled(motion.div)`
@@ -167,7 +172,7 @@ const OptionBtnBox = styled(motion.div)`
     align-items: center;
     width: ${(props) => props.setwidth ? props.setwidth+'%;' : '100%;'}
     height: ${(props) => props.setheight ? props.setheight+'%;' : '100%;'}
-    background-color: blue;
+    background-color: skyblue;
     border-radius: 10px;
     padding: 2%;
     & > button{
@@ -187,7 +192,7 @@ const ExtraSetNumberBtnBox = styled(motion.div)`
     
     width: 100%;
     height: 20%;
-    background-color: whitesmoke;
+    //background-color: whitesmoke;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -245,13 +250,14 @@ const extraNoticeVariants = {
     }
 }
 const OptionBoxContainer = styled(motion.div)`
-    background-color: mediumaquamarine;
-    width: 100%;
-    height: 50%;
+    background-color: royalblue;
+    width: 90%;
+    height: 45%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    border-radius: 10px;
 `
 
 const optionBtnVariants = {
@@ -265,7 +271,7 @@ const optionBtnVariants = {
         backgroundColor: 'rgba(255, 255, 0, 1)',
     },
     totalUnclicked:{
-        backgroundColor: 'rgba(0, 0, 255, 1)',
+        backgroundColor: 'rgba(135, 206, 235, 1)',
     },
     makeExtraNumBtnFalse:{
         opacity: 0.5,
@@ -352,12 +358,12 @@ function MakeExtraDeck(props) {
     let setOptionType = props.setOptionType
     let {totalCount, setTotalCount} = props.totalCounter;
     let {isInCount, setIsInCount} = props.isInCounter;
-    const defaultDeckInfo ={
-        name: null,
-        isClicked: null,
-        setIsClicked : null,
-    }
-    const [activeBtnType, setActiveBtnType] = useState(0);
+    // const defaultDeckInfo ={
+    //     name: null,
+    //     isClicked: null,
+    //     setIsClicked : null,
+    // }
+    //const [activeBtnType, setActiveBtnType] = useState(0);
     const [listSelectArr, setListSelectArr] = useState([]);
     const listSelectController ={
         listSelectArr,
@@ -613,11 +619,11 @@ function MakeExtraDeck(props) {
         // isClickedMajor와 isClickedMinor를 활용해보자
         
         if(tempNum > 0 && tempNum <= 78){
-            console.log('1차 범위 성공');
+            //console.log('1차 범위 성공');
             firstFlag = true;
         }
         else if(tempNum <= 0 || tempNum > 78){
-            console.log('1차 범위 실패'); // 에러
+            //console.log('1차 범위 실패'); // 에러
             setExtraSendMessage(messageArr[0]);
             setActiveMessageBox(true);
             setTimeout(()=>{
@@ -639,7 +645,7 @@ function MakeExtraDeck(props) {
             }
             //console.log(_tempAllNumArr);
             if(tempNum > _tempAllNumArr.length){
-                console.log('전체 덱 길이보다 네 선택이 더 김'); // 에러
+                //console.log('전체 덱 길이보다 네 선택이 더 김'); // 에러
                 setActiveMessageBox(true);
                 setTimeout(()=>{
                     setActiveMessageBox(false);
@@ -647,7 +653,7 @@ function MakeExtraDeck(props) {
                 }, 3000);
             }
             else if(tempNum <= _tempAllNumArr.length){
-                console.log('2차 범위 성공');
+                //console.log('2차 범위 성공');
                 secondFlag = true;
             }
 
@@ -667,7 +673,7 @@ function MakeExtraDeck(props) {
                 for(let i = 0; i < _ranIdxNumArr.length; i++){
                     _selectedImgNumArr[i] = _tempAllNumArr[_ranIdxNumArr[i]];
                 }
-                console.log(_selectedImgNumArr);
+                //console.log(_selectedImgNumArr);
                 reverse = _selectedImgNumArr.reverse();
                 for(let i = 0; i < reverse.length; i++){
                     allOverArr.push(reverse[i]);
@@ -698,7 +704,7 @@ function MakeExtraDeck(props) {
             // 토탈 범위에서 빼준 배열을 사용
             // 만약 토탈 상태인데 길이가 1이면 전체범위이므로 다른 조건 부여해야함
             if(listSelectArr.length === 1){ // 단순히 토탈만 사용
-                console.log('토탈');
+                //console.log('토탈');
                 // 이미 앞에서 1차 플래그 통과(전체 범위 안에 숫자가 일치)해서 
                 // 다시 숫자검사 안해도됨
                 for(let i = 0; i < tempNum; i++){
@@ -714,7 +720,7 @@ function MakeExtraDeck(props) {
                 for(let i = 0; i < _ranIdxNumArr.length; i++){
                     _selectedImgNumArr[i] = minusAllArr[_ranIdxNumArr[i]];
                 }
-                console.log(_selectedImgNumArr);
+                //console.log(_selectedImgNumArr);
                 reverse = _selectedImgNumArr.reverse();
 
                 for(let i = 0; i < reverse.length; i++){
@@ -739,7 +745,7 @@ function MakeExtraDeck(props) {
                 }, 3000);
             }
             else if(listSelectArr.length > 1){
-                console.log('토탈 마이너스');
+                //console.log('토탈 마이너스');
                 // 여기선 다시 검사 해야됨
 
                 for(let i = 0; i < listSelectArr.length; i++){
@@ -757,7 +763,7 @@ function MakeExtraDeck(props) {
                 totalMinusLength = (78 - _tempAllNumArr.length);
 
                 if(tempNum > totalMinusLength){
-                    console.log('전체 덱 길이보다 네 선택이 더 김'); // 에러
+                    //console.log('전체 덱 길이보다 네 선택이 더 김'); // 에러
                     setActiveMessageBox(true);
                     setTimeout(()=>{
                         setActiveMessageBox(false);
@@ -765,7 +771,7 @@ function MakeExtraDeck(props) {
                     }, 3000);
                 }
                 else if(tempNum <= totalMinusLength){
-                    console.log('2차 범위 성공');
+                    //console.log('2차 범위 성공');
                     secondFlag = true;
                 }
 
@@ -797,7 +803,7 @@ function MakeExtraDeck(props) {
                     for(let i = 0; i < tempNum; i++){
                         _selectedImgNumArr[i] = modifiedArr[_ranIdxNumArr[i]];
                     }
-                    console.log(_selectedImgNumArr);
+                    //console.log(_selectedImgNumArr);
                     reverse = _selectedImgNumArr.reverse();
                     for(let i = 0; i < reverse.length; i++){
                         allOverArr.push(reverse[i]);
@@ -872,16 +878,21 @@ function MakeExtraDeck(props) {
                             animate={isThereTotal === false ? "totalUnclicked" : "totalClicked"}
                             whileHover="hover"
                             whileTap="click"
+                            btncolor="#123456"
                         >
                             <button
                                 onClick={onTotalClickedHandler}
+                                style={{
+                                    cursor: 'pointer',
+                                }}
                             >Total
                             </button>
                         </OptionBtnBox>
-                        <OptionBtnBox setwidth={85} setheight={20} btncolor="skyblue"
+                        <OptionBtnBox setwidth={85} setheight={20} 
                             variants={optionBtnVariants} // Clear Btn
                             whileHover="hover"
                             whileTap="click"
+                            btncolor="#123456"
                         >
                             <button
                                 onClick={(e)=>{
@@ -896,7 +907,10 @@ function MakeExtraDeck(props) {
                                     }
                                     setSelectDeckControlArr(tempArr);
                                     setIsClickedMajor(false);                               
-                                    setIsThereTotal(false);
+                                    setIsThereTotal(false);        
+                                }}
+                                style={{
+                                    cursor: 'pointer',
                                 }}
                             >Clear</button>
                         </OptionBtnBox>
@@ -904,6 +918,7 @@ function MakeExtraDeck(props) {
                             variants={optionBtnVariants}
                             whileHover="hover"
                             whileTap="click"
+                            btncolor="#123456"
                         >
                             <button
                                 onClick={()=>{
@@ -912,15 +927,22 @@ function MakeExtraDeck(props) {
                                         onMakeClickHandler()
                                     }
                                 }}
+                                style={{
+                                    cursor: 'pointer',
+                                }}
                             >Make</button>
                         </OptionBtnBox>
                         <OptionBtnBox setwidth={85} setheight={20}
                             variants={optionBtnVariants}
                             whileHover="hover"
                             whileTap="click"
+                            btncolor="#123456"
                         >
                             <button
                                 onClick={onBackHandler}
+                                style={{
+                                    cursor: 'pointer',
+                                }}    
                             >    
                                 Back
                             </button>
@@ -973,15 +995,21 @@ function MakeExtraDeck(props) {
                                     whileHover={makeExtraNumber.length <= 0 ? "" : "hover" }
                                     whileTap={makeExtraNumber.length <= 0 ? "" : "click" }
                                     animate={makeExtraNumber.length <= 0 ? "makeExtraNumBtnFalse" : "makeExtraNumBtnTrue" }
+                                    style={{
+                                        backgroundColor: '#123456',
+                                        padding:'1%',
+                                    }}
                                 >
                                     <button
                                         style={
                                             makeExtraNumber.length <= 0
                                             ? {
-                                                cursor: 'auto'
+                                                cursor: 'auto',
+                                                backgroundColor: 'royalblue',
                                             }
                                             : {
-                                                cursor: 'pointer'
+                                                cursor: 'pointer',
+                                                backgroundColor: 'royalblue',
                                             }
                                         }
                                         onClick={(e)=>{
@@ -996,18 +1024,23 @@ function MakeExtraDeck(props) {
                                     whileHover="hover"
                                     whileTap="click"
                                     style={{
-                                        cursor: 'pointer'
+                                        cursor: 'pointer',
+                                        backgroundColor: '#123456',
+                                        padding:'1%',
                                     }}
+                                    
                                 >
                                     <button
                                         style={{
-                                            cursor: 'pointer'
+                                            cursor: 'pointer',
+                                            backgroundColor: 'royalblue',
                                         }}
                                         onClick={()=>{
                                             setCanMakeExtraCard(false);
                                             setIsClickedMake(false);
                                             setMakeExtraNumber("");
                                         }}
+                                       
                                     >BACK</button>
                                 </OptionBtnBox>
                             </ExtraSetNumberBtnBox>

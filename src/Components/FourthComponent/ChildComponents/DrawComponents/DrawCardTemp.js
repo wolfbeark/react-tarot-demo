@@ -5,7 +5,7 @@ import {motion} from 'framer-motion';
 
 
 const DrawCardTemplate = styled(motion.div)`
-    width: 100%;
+    width: 90%;
     height: 100%;
     background-blend-mode: overlay;
     background-repeat: no-repeat;
@@ -128,7 +128,7 @@ function DrawCardTemp(props) {
       if(props.iscardclicked === false){
         props.setClickedCardNumber(cardNumber);
         props.setcardclicked(true);
-        console.log('선택 : ' + cardNumber);
+        //console.log('선택 : ' + cardNumber);
         // console.log(e.currentTarget.parentNode);
         // console.log([].indexOf.call(e.currentTarget.parentNode.children, e));
   

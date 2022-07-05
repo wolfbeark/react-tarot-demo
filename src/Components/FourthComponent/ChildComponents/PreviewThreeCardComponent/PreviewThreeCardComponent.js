@@ -79,39 +79,84 @@ const DrawPreviewDeckVariantsTest = {
 const TestNavBar = styled(motion.div)`
     width: 100%;
     height: 8%;
-    background-color: teal;
+    //background-color: royalblue;
     position: fixed;
-    top: 0;
+    top: 2%;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
 
-    &  div{
-        width: 10%;
-        height: 100%;
-        background-color: tomato;
-        margin: 0 10%;
+    // &  div{
+    //     width: 10%;
+    //     height: 100%;
+    //     background-color: #123456;
+    //     margin: 0 10%;
 
-        display: flex;
-        jusify-content: center;
-        align-items: center;
-        text-align: center;
+    //     display: flex;
+    //     justify-content: center;
+    //     align-items: center;
+    //     text-align: center;
+    //     border-radius: 10px;
+        //box-shadow: 0 0 10px 5px darkblue;
 
-        button{
-            font-family: "Jua";
-            font-size: 1.5em;
-            width: 100%;
-            height: 80%;
-            background-color: darkblue;
-            outline: unset;
-            border: none;
-            cursor: pointer;
-        }
+        // button{
+        //     font-family: "Jua";
+        //     font-size: 1.5em;
+        //     width: 95%;
+        //     height: 85%;
+        //     background-color: skyblue;
+        //     outline: unset;
+        //     border: none;
+        //     cursor: pointer;
+        //     border-radius: 10px;
+        // }
     }
 `
+const FunctionalBox = styled(motion.div)`
+    width: 10%;
+    height: 100%;
+    background-color: #123456;
+    margin: 0 10%;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 10px;
+
+    transition: opacity 0.5s ease-in-out;
+`
+const FunctionalBtn = styled(motion.button)`
+    font-family: "Jua";
+    font-size: 1.5em;
+    width: 95%;
+    height: 85%;
+    background-color: skyblue;
+    outline: unset;
+    border: none;
+    border-radius: 10px;
+    transition: opacity 0.5s ease-in-out;
+`
+const functionalBtnVar = {
+    initial:{
+        opacity: 0
+    },
+    start:{
+        opacity: 1.0,
+        transition:{
+            duration: 1.0
+        }
+    },
+    hover: {
+        scale: 1.2,
+        boxShadow: '0 0 10px 2px #123456'
+    },
+    click: {
+        scale: 1.0
+    }
+}
 const PreviewAlarmModal = styled(motion.div)`
 
     width: 30%;
@@ -289,6 +334,7 @@ const NextBtn = styled(motion.div)`
         width: 80%;
         height: 80%;
         background-color: aqua;
+        cursor: pointer;
     }
 `
 const nextBtnVariants = {
@@ -378,7 +424,7 @@ function PreviewThreeCardComponent() {
                     break;
                 }
             }
-            console.log('preview number : ', `${i} - ` ,ranNumArr[i]); 
+            //console.log('preview number : ', `${i} - ` ,ranNumArr[i]); 
         }
     }
     useEffect(()=>{
@@ -388,8 +434,8 @@ function PreviewThreeCardComponent() {
         }
     },[])
     useEffect(()=>{
-        console.log(isClickedShuffle);
-        console.log('shuffled');
+        //console.log(isClickedShuffle);
+        //console.log('shuffled');
     }, [isClickedShuffle])
 
     const onShuffleHandler = (e) =>{
@@ -433,25 +479,110 @@ function PreviewThreeCardComponent() {
         }
       >
           <TestNavBar>
-            <div>
-                <button onClick={(e)=>{
-                    if(isClickedShuffle === false){
+            <FunctionalBox
+                variants={functionalBtnVar}
+                initial="initial"
+                animate="start"
+                whileHover={
+                    isDrawClicked === false && isClickedShuffle === false
+                    ? "hover"
+                    : {
+                        scale: 1.0,
+                    }
+                }
+                whileTap={
+                    isDrawClicked === false && isClickedShuffle === false
+                    ? "click"
+                    : ""
+                }
+                style={
+                    isClickedShuffle === false && isDrawClicked === false
+                    ?
+                    {
+                        opacity: 1.0,
+                        cursor: 'pointer'
+                    }
+                    :
+                    {
+                        opacity: 0.5,
+                        cursor: 'auto'
+                    }
+                }
+            >
+                <FunctionalBtn onClick={(e)=>{
+                    e.preventDefault();
+                    if(isClickedShuffle === false && isDrawClicked === false){
                         onShuffleHandler(e);
                     }
-                }}>
-                    Shuffle
-                </button>
-            </div>
-            <div>
-                <button onClick={(e)=>{
-                    if(isDrawClicked === false){
-                        onDrawHandler(e);
-                        console.log(isDrawClicked);
+                    }}
+                    style={
+                        isClickedShuffle === false && isDrawClicked === false
+                        ?
+                        {
+                            opacity: 1.0,
+                            cursor: 'pointer'
+                        }
+                        :
+                        {
+                            opacity: 0.5,
+                            cursor: 'auto'
+                        }
                     }
-                }}>
+                    
+                >
+                    Shuffle
+                </FunctionalBtn>
+            </FunctionalBox>
+            <FunctionalBox
+                variants={functionalBtnVar}
+                initial="initial"
+                animate="start"
+                whileHover={
+                    isDrawClicked === false && isClickedShuffle === false
+                    ? "hover"
+                    : ""
+                }
+                whileTap={
+                    isDrawClicked === false && isClickedShuffle === false
+                    ? "click"
+                    : ""
+                }
+                style={
+                    isClickedShuffle === false && isDrawClicked === false
+                    ?
+                    {
+                        opacity: 1.0,
+                        cursor: 'pointer'
+                    }
+                    :
+                    {
+                        opacity: 0.5,
+                        cursor: 'auto'
+                    }
+                }
+            >
+                <FunctionalBtn onClick={(e)=>{
+                    if(isDrawClicked === false && isClickedShuffle === false){
+                        onDrawHandler(e);
+                    }
+                }}
+                    style={
+                        isClickedShuffle === false && isDrawClicked === false
+                        ?
+                        {
+                            opacity: 1.0,
+                            cursor: 'pointer'
+                        }
+                        :
+                        {
+                            opacity: 0.5,
+                            cursor: 'auto'
+                        }
+                    }
+                >
                     Draw
-                </button>
-            </div>
+                </FunctionalBtn>
+            </FunctionalBox>
           </TestNavBar>
           {isDrawClicked !== true
             ?

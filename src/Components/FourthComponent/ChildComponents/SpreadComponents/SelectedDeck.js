@@ -16,24 +16,28 @@ const ImageContainer = styled(motion.div)`
 
     width: 100%;
     height: 70%;
-    background-color: black;
+    //background-color: black;
     padding: 5%;
+    border-radius: 10px;
 
 `
 const ImageBox = styled(motion.div)`
 
     width: 100%;
     height: 100%;
-    background-color: yellow;
+    background-color: royalblue;
     background-image : url(${props => props.imgsrc});
     background-size: 100% 100%;
     border-radius: 10px;
+    box-shadow: 0 0 10px 2px black;
 `
 const TextBox = styled(motion.div)`
 
     width: 100%;
     height: 20%;
-    background-color: red;
+    background-color: skyblue;
+    border-radius: 10px;
+    cursor: auto;
 
     display: flex;
     justify-content: center;
@@ -92,18 +96,7 @@ function SelectedDeck(props) {
         "- Pentacle Palace"
 
     ]
-    const DeckImgNumArr = [
-        0, // Major
-        22, // Wand
-        36, // Sword
-        50, // Cup
-        64, // Pentacle
-        73, // Minor
-        35, // Wand Palace
-        49, // Sword Palace
-        63, // Cup Palace
-        77, // Pentacle Palace
-    ]
+    
     useEffect(()=>{
         const _DeckNameArr = [
             "Major",
@@ -127,18 +120,7 @@ function SelectedDeck(props) {
         setSelectDeckControlArr(_tempArr);
     }, [])
 
-    const settingTotal = () =>{ // Total 검사
-        let totalCheck = false;
-        let totalIdx = 0;
-        let _tempList = listSelectArr;
-        for(let i = 0; i < _tempList.length; i++){
-            if(_tempList[i] === "Total"){
-                totalCheck = true;
-                totalIdx = i;
-                return {totalCheck, totalIdx};
-            }
-        }
-    }
+    
     const onMajorTest = (type) =>{
         //let _count = deckClickCount;
         let _nameList = [...listSelectArr];
@@ -294,7 +276,7 @@ function SelectedDeck(props) {
             }
             _nameList[_idx] = null;
             let delNullArr = _nameList.filter((a) => a !== null);
-            console.log(delNullArr);
+            //console.log(delNullArr);
             if(delNullArr.length >= 2){
                 delNullArr.sort(function(a, b){
                     return a.type - b.type
@@ -324,43 +306,6 @@ function SelectedDeck(props) {
         setDeckClickCount(testNum);
     }
     
-    const onMajorHandler = (type) =>{
-        let _tempList = listSelectArr;
-        if(isThereTotal === true){
-            if(isClicked === false){
-                setIsThereTotal(false);
-                setIsClicked(true);
-                _tempList[0] = DeckNameArr[type];
-                setListSelectArr(_tempList);
-            }
-        }
-        else if(isThereTotal === false){
-            if(isClicked === false){
-                _tempList.push(DeckNameArr[type]);
-                setIsClicked(true);
-                setListSelectArr(_tempList);
-            }
-            else if(isClicked === true){
-
-            }
-        }
-    }
-    const onMinorHanler = (type) => {
-        let totalCheck = false;
-        let totalIdx = 0;
-        let _tempList = listSelectArr;
-        for(let i = 0; i < _tempList.length; i++){
-            if(_tempList[i] === "Total"){
-                totalCheck = true;
-                totalIdx = i;
-                break;
-            }
-        }
-        if(totalCheck === true){
-            _tempList[totalIdx] = DeckNameArr[type];
-            setListSelectArr(_tempList);
-        }
-    }
     const onDeckClickHandler = (type) =>{
 
         // 0 : Major, 5 : Minor
@@ -368,12 +313,12 @@ function SelectedDeck(props) {
         switch(type){
             case 0: // Major
                 let {isClickedMajor, setIsClickedMajor} = props.majorControl;
-                console.log('Major : 0 - 21');
+                //console.log('Major : 0 - 21');
                 onMajorTest(type);
                 setIsClickedMajor(!isClickedMajor);
             break;
             case 1: // Wand
-                console.log('Wand : 22 - 35');
+                //console.log('Wand : 22 - 35');
                 if(isThereTotal === false){
                     if(isClickedMinor === false){
                         onMajorTest(type);
@@ -386,7 +331,7 @@ function SelectedDeck(props) {
                 }
             break;
             case 2: // Sword
-                console.log('Sword : 36 - 49');
+                //console.log('Sword : 36 - 49');
                 if(isThereTotal === false){
                     if(isClickedMinor === false){
                         onMajorTest(type);
@@ -399,7 +344,7 @@ function SelectedDeck(props) {
                 }
             break;
             case 3: // Cup
-                console.log('Cup : 50 - 63');
+                //console.log('Cup : 50 - 63');
                 if(isThereTotal === false){
                     if(isClickedMinor === false){
                         onMajorTest(type);
@@ -412,7 +357,7 @@ function SelectedDeck(props) {
                 }
             break;
             case 4: // Pentacle
-                console.log('Pentacle : 64 - 77');
+                //console.log('Pentacle : 64 - 77');
                 if(isThereTotal === false){
                     if(isClickedMinor === false){
                         onMajorTest(type);
@@ -425,11 +370,11 @@ function SelectedDeck(props) {
                 }
             break;
             case 5: // Minor
-                console.log('Minor : 22 - 77');
+                //console.log('Minor : 22 - 77');
                 onMinorTest(type);
             break;
             case 6: // Wand Palace
-                console.log('Wand Palace : 32 - 35');
+                //console.log('Wand Palace : 32 - 35');
                 if(isThereTotal === false){
                     if(isClickedMinor === false){
                         onMajorTest(type);
@@ -442,7 +387,7 @@ function SelectedDeck(props) {
                 }
             break;
             case 7: // Sword Palace
-                console.log('Sword Palace : 46 - 49');
+                //console.log('Sword Palace : 46 - 49');
                 if(isThereTotal === false){
                     if(isClickedMinor === false){
                         onMajorTest(type);
@@ -455,7 +400,7 @@ function SelectedDeck(props) {
                 }
             break;
             case 8: // Cup Palace
-                console.log('Cup Palace : 60 - 63');
+                //console.log('Cup Palace : 60 - 63');
                 if(isThereTotal === false){
                     if(isClickedMinor === false){
                         onMajorTest(type);
@@ -468,7 +413,7 @@ function SelectedDeck(props) {
                 }
             break;
             case 9: // Pentacle Palace
-                console.log('Pentacle Palace : 74 - 77');
+                //console.log('Pentacle Palace : 74 - 77');
                 if(isThereTotal === false){
                     if(isClickedMinor === false){
                         onMajorTest(type);
@@ -481,7 +426,7 @@ function SelectedDeck(props) {
                 }
             break;
             default:
-                console.log('deck select fail')
+                //console.log('deck select fail')
             break
         }
     }

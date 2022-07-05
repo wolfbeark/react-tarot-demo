@@ -88,6 +88,10 @@ function DragCardInfo(props) {
     }
     const {indexCount, setIndexCount} = props.indexCountController;
     const [thisNewZIdx, setThisNewZIdx] = useState(0);
+
+    let {findCardImage, setCardImage} = props.findCardControl;
+
+    let { whatMode, setWhatMode } = props.whatModeControl;
     useEffect(()=>{
         let temp = {
             x: props.selectedzoneposinfo.x,
@@ -156,6 +160,14 @@ function DragCardInfo(props) {
                 }
         }
     }
+    const zoomHandler = () =>{
+        if(props.isClickedFind === true){
+            let _str = props.cardNameArr[imgnum];
+            props.setFindCardName(_str);
+            setCardImage(imgnum);
+            setWhatMode(false);
+        }
+    }
     
   return (
     <>
@@ -191,12 +203,17 @@ function DragCardInfo(props) {
                     : {zIndex: thisNewZIdx,}
                 }
                 onDoubleClick={e => onRotateHandler(e)}
+                onClick={()=>{
+                    if(isInSpreadZone === true && isFliped === true){
+                        zoomHandler();
+                    }
+                }}
                 custom={isRotate}
             >
-                {_zIdx}
+                {/* {_zIdx}
                 {isInSpreadZone === true 
             ? <span> {imgnum} </span> 
-            : null}
+            : null} */}
             </DragCardContainer>
         </Draggable>
     </>

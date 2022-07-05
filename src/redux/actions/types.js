@@ -7,3 +7,4 @@ export const SET_ACTIVE_PRE_THREE = "set_active_pre_three";
 export const SET_ISOVER_PREVIEW_THREE = "set_isover_preview_three";
 export const SET_CHANGE_SELECT_NUM = "set_change_select_num";
 export const SET_ISOVER_DRAW = "set_isover_draw"; 
+export const SET_RESET = "set_reset";
