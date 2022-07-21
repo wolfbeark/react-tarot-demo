@@ -60,7 +60,7 @@ const DragCardContainer2 = styled(motion.div)`
     
     //width: 20%;
     //height: 25%;
-    background-color: skyblue;
+    //background-color: skyblue;
     background-image: url(${(props) => props.imgsrc});
     border-radius: 10px;
     background-size: 100% 100%;
@@ -199,7 +199,7 @@ function DragCard(props) {
                 //_temp++;
                 setThisNewZIdx(_temp);
                 setIndexCount(_temp);
-                setIsInSpreadZone(true);
+                //setIsInSpreadZone(true);
             }
         }
     }, [])
@@ -262,15 +262,29 @@ function DragCard(props) {
             props.childCardStateArrController.setChildCardStateArr(tempArr);
         }
         else if(modeNumber !== 0){
-            let tempArr = props.childCardStateArrController.childCardStateArr;
-            tempArr[_count] = {
-                isThisCardClicked : isThisCardClicked,
-                setIsThisCardClicked : setIsThisCardClicked,
-                isFliped : isFliped,
-                setIsFliped : setIsFliped,
-                isInSpreadZone : true, // 스프레드 존 안에 있음
+            if(_count < userSetNumber){
+                let tempArr = props.childCardStateArrController.childCardStateArr;
+                tempArr[_count] = {
+                    isThisCardClicked : isThisCardClicked,
+                    setIsThisCardClicked : setIsThisCardClicked,
+                    isFliped : isFliped,
+                    setIsFliped : setIsFliped,
+                    isInSpreadZone : true, // 스프레드 존 안에 있음
+                }
+                props.childCardStateArrController.setChildCardStateArr(tempArr);
             }
-            props.childCardStateArrController.setChildCardStateArr(tempArr);
+            else if(_count >= userSetNumber){
+                let tempArr = props.childCardStateArrController.childCardStateArr;
+                tempArr[_count] = {
+                    isThisCardClicked : isThisCardClicked,
+                    setIsThisCardClicked : setIsThisCardClicked,
+                    isFliped : isFliped,
+                    setIsFliped : setIsFliped,
+                    isInSpreadZone : isInSpreadZone, // 스프레드 존 안에 없음
+                }
+                props.childCardStateArrController.setChildCardStateArr(tempArr);
+            }
+            
         }
     }, [])
     
