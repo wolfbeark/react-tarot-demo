@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import {motion} from 'framer-motion'
 
-import SelectedDeck from './SelectedDeck'
+import SelectDeck from './SelectDeck';
 
 const MakeExtraContainer = styled(motion.div)`
     width: 70%;
@@ -27,7 +27,7 @@ const SelectedDeckPannel = styled(motion.div)`
     width: 75%;
     height: 100%;
     background-color: royalblue;
-    border-radius: 10px;
+    //border-radius: 10px;
     
     display: grid;
     grid-template-columns : repeat(5, minmax(18%, auto));
@@ -42,7 +42,6 @@ const SelectedDeckPannel = styled(motion.div)`
     // }
     padding: 0 1%;
 `
-// 옵션 전체
 const OptionContainer = styled(motion.div)` 
 
     width: 25%;
@@ -53,6 +52,7 @@ const OptionContainer = styled(motion.div)`
     align-items: end;
     background-color: #123456;
     box-sizing: border-box;
+
     
 `
 const OptionSelectedList = styled(motion.div)`
@@ -87,9 +87,42 @@ const SelectedList = styled(motion.ul)`
     & li{
         color: red;
         font-family: "Jua";
-        font-size: 1em;
+        font-size: 0.8em;
         width: 100%;
         height: auto;
+    }
+`
+const OptionBoxContainer = styled(motion.div)`
+    background-color: royalblue;
+    width: 90%;
+    height: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 10px;
+`
+const OptionBtnBox = styled(motion.div)`
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: ${(props) => props.setwidth ? props.setwidth+'%;' : '100%;'}
+    height: ${(props) => props.setheight ? props.setheight+'%;' : '100%;'}
+    background-color: skyblue;
+    border-radius: 10px;
+    padding: 2%;
+    & > button{
+        font-family: "Jua";
+        font-size: 1.5em;
+        width: 100%;
+        height: 100%;
+        outline: unset;
+        border: none;
+        color: wheat;
+        border-radius: inherit;
+        background-color: ${(props) => props.btncolor ? props.btncolor : 'blue'};
+        
     }
 `
 const ExtraNoticeBox = styled(motion.div)`
@@ -138,7 +171,7 @@ const ExtraSetNumberBox = styled(motion.div)`
         //background-color: skyblue;
 
         font-family: "Jua";
-        font-size: 0.8em;
+        font-size: 0.6em;
         border: none;
         outline: unset;
         text-align: center;
@@ -165,29 +198,6 @@ const ExtraSetNumberBox = styled(motion.div)`
         border: solid 5px skyblue;
     }
 `
-const OptionBtnBox = styled(motion.div)`
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: ${(props) => props.setwidth ? props.setwidth+'%;' : '100%;'}
-    height: ${(props) => props.setheight ? props.setheight+'%;' : '100%;'}
-    background-color: skyblue;
-    border-radius: 10px;
-    padding: 2%;
-    & > button{
-        font-family: "Jua";
-        font-size: 2em;
-        width: 100%;
-        height: 100%;
-        outline: unset;
-        border: none;
-        color: wheat;
-        border-radius: inherit;
-        background-color: ${(props) => props.btncolor ? props.btncolor : 'blue'};
-        
-    }
-`
 const ExtraSetNumberBtnBox = styled(motion.div)`
     
     width: 100%;
@@ -208,7 +218,8 @@ const ExtraSetNumberBtnBox = styled(motion.div)`
             justify-content: center;
             align-items: center;
             font-family: "Jua";
-            font-size: 1em;
+            font-size: 0.6em;
+            font-weight: 600;
             width: 100%;
             height: 100%;
             outline: unset;
@@ -219,17 +230,6 @@ const ExtraSetNumberBtnBox = styled(motion.div)`
         }
     }
 `
-const extraNoticeBoxVariants={
-    initial:{
-        backgroundColor: 'rgba(255, 255, 255, 0)'
-    },
-    start:{
-        backgroundColor: 'rgba(255, 255, 255, 0.6)',
-        transition:{
-            duration: 0.5
-        }
-    }
-}
 const extraNoticeVariants = {
     initial:{
         width: 0,
@@ -249,40 +249,17 @@ const extraNoticeVariants = {
         }
     }
 }
-const OptionBoxContainer = styled(motion.div)`
-    background-color: royalblue;
-    width: 90%;
-    height: 45%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    border-radius: 10px;
-`
-
-const optionBtnVariants = {
-    hover:{
-        scale: 1.1,
+const extraNoticeBoxVariants={
+    initial:{
+        backgroundColor: 'rgba(255, 255, 255, 0)'
     },
-    click:{
-        scale: 1.0
-    },
-    totalClicked:{
-        backgroundColor: 'rgba(255, 255, 0, 1)',
-    },
-    totalUnclicked:{
-        backgroundColor: 'rgba(135, 206, 235, 1)',
-    },
-    makeExtraNumBtnFalse:{
-        opacity: 0.5,
-        cursor: 'auto',
-    },
-    makeExtraNumBtnTrue:{
-        opacity: 1,
-        cursor: 'pointer',
+    start:{
+        backgroundColor: 'rgba(255, 255, 255, 0.6)',
+        transition:{
+            duration: 0.5
+        }
     }
 }
-
 const extraSetNumberBoxVariants ={
     initial:{
         opacity: 0,
@@ -312,7 +289,28 @@ const extraSetNumberBoxVariants ={
         }
     },
 }
-
+const optionBtnVariants = {
+    hover:{
+        scale: 1.1,
+    },
+    click:{
+        scale: 1.0
+    },
+    totalClicked:{
+        backgroundColor: 'rgba(255, 255, 0, 1)',
+    },
+    totalUnclicked:{
+        backgroundColor: 'rgba(135, 206, 235, 1)',
+    },
+    makeExtraNumBtnFalse:{
+        opacity: 0.5,
+        cursor: 'auto',
+    },
+    makeExtraNumBtnTrue:{
+        opacity: 1,
+        cursor: 'pointer',
+    }
+}
 const OptionLoading = styled(motion.div)`
     display: flex;
     justify-content: center;
@@ -347,23 +345,11 @@ const optionSpanVariants = {
     }
 }
 
+function MakeExtraDeck(props){
 
-
-function MakeExtraDeck(props) {
-
-    // 0 : none, 1 : Clear, 2 : Make, 3 : Back
-    //const defaultList = ["Total"];
-    let setIsActiveOptionCurtain = props.setIsActiveOptionCurtain
-    let setDragCardNumArr = props.setDragCardNumArr
-    let setOptionType = props.setOptionType
-    let {totalCount, setTotalCount} = props.totalCounter;
-    let {isInCount, setIsInCount} = props.isInCounter;
-    // const defaultDeckInfo ={
-    //     name: null,
-    //     isClicked: null,
-    //     setIsClicked : null,
-    // }
-    //const [activeBtnType, setActiveBtnType] = useState(0);
+    const [isClickedMake, setIsClickedMake] = useState(false);
+    const [canMakeExtraCard, setCanMakeExtraCard] = useState(false);
+    const [makeMessage, setMakeMessage] = useState("");
     const [listSelectArr, setListSelectArr] = useState([]);
     const listSelectController ={
         listSelectArr,
@@ -374,6 +360,47 @@ function MakeExtraDeck(props) {
         selectDeckControlArr,
         setSelectDeckControlArr
     }
+    let {totalCount, setTotalCount} = props.totalCounter;
+    let {isInCount, setIsInCount} = props.isInCounter;
+    let setIsActiveOptionCurtain = props.setIsActiveOptionCurtain
+    let setDragCardNumArr = props.setDragCardNumArr;
+    let setOptionType = props.setOptionType;
+    const [isThereTotal, setIsThereTotal] = useState(false);
+    const [isClickedMinor, setIsClickedMinor] = useState(false);
+    const [isClickedMajor, setIsClickedMajor] = useState(false);
+    const [deckClickCount, setDeckClickCount] = useState(0);
+    const [makeExtraNumber, setMakeExtraNumber] = useState("");
+    const onChangeHandler = (e) => {
+        e.preventDefault();
+        let test = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');
+        setMakeExtraNumber(test);
+    }
+    const [extraSendMessage, setExtraSendMessage] = useState("");
+    const [activeMessageBox, setActiveMessageBox] = useState(false);
+
+    const messageArr = [
+        "입력 값이 올바르지 않습니다",
+        "잠시만 기다려 주십시오",
+
+    ]
+
+    const majorControl ={
+        isClickedMajor,
+        setIsClickedMajor
+    }
+    const minorControl ={
+        isClickedMinor,
+        setIsClickedMinor
+    }
+    const clickCountControl ={
+        deckClickCount,
+        setDeckClickCount
+    }
+    const totalControl ={
+        isThereTotal,
+        setIsThereTotal
+    }
+    
     const DeckNameArr = [
         "Major",
         "Wand",
@@ -441,47 +468,6 @@ function MakeExtraDeck(props) {
             endNum : 77,
         },
     ]
-    const [isThereTotal, setIsThereTotal] = useState(false);
-    const [isClickedMinor, setIsClickedMinor] = useState(false);
-    const [isClickedMajor, setIsClickedMajor] = useState(false);
-    const majorControl ={
-        isClickedMajor,
-        setIsClickedMajor
-    }
-    const minorControl ={
-        isClickedMinor,
-        setIsClickedMinor
-    }
-    const [deckClickCount, setDeckClickCount] = useState(0);
-    const clickCountControl ={
-        deckClickCount,
-        setDeckClickCount
-    }
-    const totalControl ={
-        isThereTotal,
-        setIsThereTotal
-    }
-    const [isClickedMake, setIsClickedMake] = useState(false);
-    const [makeMessage, setMakeMessage] = useState("");
-    const [canMakeExtraCard, setCanMakeExtraCard] = useState(false);
-
-    const [makeExtraNumber, setMakeExtraNumber] = useState("");
-
-    // Extra Make State
-    const [extraSendMessage, setExtraSendMessage] = useState("");
-    const [activeMessageBox, setActiveMessageBox] = useState(false);
-
-    const messageArr = [
-        "입력 값이 올바르지 않습니다",
-        "잠시만 기다려 주십시오",
-
-    ]
-    
-    const onChangeHandler = (e) => {
-        e.preventDefault();
-        let test = e.target.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');
-        setMakeExtraNumber(test);
-    }
 
     const onTotalClickedHandler = () =>{
         if(isThereTotal === false){
@@ -522,6 +508,12 @@ function MakeExtraDeck(props) {
             setDeckClickCount(0);
             setIsThereTotal(false);
         }
+    }
+    const onBackHandler = () =>{
+        // 현재 컴포넌트
+        // 부모
+        setOptionType(0);
+        setIsActiveOptionCurtain(false);
     }
 
     const onMakeClickHandler = () =>{
@@ -584,13 +576,6 @@ function MakeExtraDeck(props) {
             
         }
     }
-    const onBackHandler = () =>{
-        // 현재 컴포넌트
-        // 부모
-        setOptionType(0);
-        setIsActiveOptionCurtain(false);
-    }
-
     const onExtraNumberSubmit = (e) => {
         e.preventDefault();
         const tempNum = parseInt(makeExtraNumber);
@@ -830,73 +815,76 @@ function MakeExtraDeck(props) {
 
         }
     }
-  return (
+
+    return(
     <>
-        <MakeExtraContainer>
-            <MakeExtraInContainer>
-                <SelectedDeckPannel>
-                    {DeckNameArr.map((a, i) =>{
-                        
-                        return(
-                            <SelectedDeck 
-                                key={i} 
-                                deckType={i} 
-                                deckName={a} 
-                                imgNum={DeckImgNumArr[i]}
-                                selectDeckController={selectDeckController}
-                                listSelectController={listSelectController}
-                                totalControl={totalControl}
-                                clickCountControl={clickCountControl}
-                                minorControl={minorControl}
-                                majorControl={majorControl}
-                            />
-                        );
-                    })}
-                </SelectedDeckPannel>
-                <OptionContainer>
-                    <OptionSelectedList >
-                        <OptionSelectedInList>
-                            <SelectedList>
-                                <>
-                                {
-                                deckClickCount === 0 
-                                ?
-                                    <li>Select Deck Or Total</li> 
-                                :
-                                    listSelectArr.map((a, i) => {
-                                    return(
-                                        <li key={i}>{a.name}</li>
-                                    );
-                                })}
-                                </>
-                            </SelectedList>
-                        </OptionSelectedInList>
-                    </OptionSelectedList>
-                    <OptionBoxContainer>
-                        <OptionBtnBox setwidth={85} setheight={20}
-                            variants={optionBtnVariants} // Total Btn
-                            animate={isThereTotal === false ? "totalUnclicked" : "totalClicked"}
-                            whileHover="hover"
-                            whileTap="click"
-                            btncolor="#123456"
+    <MakeExtraContainer>
+        <MakeExtraInContainer>
+            <SelectedDeckPannel>
+                {DeckNameArr.map((a, i) =>{
+                    
+                    return(
+                        <SelectDeck 
+                            key={i} 
+                            deckType={i} 
+                            deckName={a} 
+                            imgNum={DeckImgNumArr[i]}
+                            selectDeckController={selectDeckController}
+                            listSelectController={listSelectController}
+                            totalControl={totalControl}
+                            clickCountControl={clickCountControl}
+                            minorControl={minorControl}
+                            majorControl={majorControl}
+                        />
+                    );
+                })}
+            </SelectedDeckPannel>
+            <OptionContainer>
+                <OptionSelectedList>
+                    <OptionSelectedInList>
+                        <SelectedList>
+                            <>
+                            {
+                            deckClickCount === 0 
+                            ?
+                                <li>Select Deck Or Total</li> 
+                            :
+                                listSelectArr.map((a, i) => {
+                                return(
+                                    <li key={i}>{a.name}</li>
+                                );
+                            })}
+                            </>
+                        </SelectedList>
+                    </OptionSelectedInList>
+                </OptionSelectedList>
+                <OptionBoxContainer>
+                    <OptionBtnBox setwidth={85} setheight={20}
+                        variants={optionBtnVariants} // Total Btn
+                        animate={isThereTotal === false ? "totalUnclicked" : "totalClicked"}
+                        whileHover="hover"
+                        whileTap="click"
+                        btncolor="#123456"
+                    >
+                        <button
+                            onClick={onTotalClickedHandler}
+                            style={{
+                                cursor: 'pointer',
+                            }}
                         >
-                            <button
-                                onClick={onTotalClickedHandler}
-                                style={{
-                                    cursor: 'pointer',
-                                }}
-                            >Total
-                            </button>
-                        </OptionBtnBox>
-                        <OptionBtnBox setwidth={85} setheight={20} 
-                            variants={optionBtnVariants} // Clear Btn
-                            whileHover="hover"
-                            whileTap="click"
-                            btncolor="#123456"
-                        >
-                            <button
-                                onClick={(e)=>{
-                                    e.preventDefault();
+                            Total
+                        </button>
+                    </OptionBtnBox>
+                    <OptionBtnBox setwidth={85} setheight={20}
+                        variants={optionBtnVariants} // Clear Btn
+                        whileHover='hover'
+                        whileTap='click'
+                        btncolor="#123456"
+                    >
+                        <button
+                            onClick={(e)=>{
+                                e.preventDefault();
+                                if(deckClickCount > 0){
                                     setDeckClickCount(0);
                                     setListSelectArr([]);
                                     setIsClickedMinor(false);
@@ -907,49 +895,60 @@ function MakeExtraDeck(props) {
                                     }
                                     setSelectDeckControlArr(tempArr);
                                     setIsClickedMajor(false);                               
-                                    setIsThereTotal(false);        
-                                }}
-                                style={{
+                                    setIsThereTotal(false);
+                                }      
+                            }}
+                            style={
+                                deckClickCount > 0
+                                ?{
                                     cursor: 'pointer',
-                                }}
-                            >Clear</button>
-                        </OptionBtnBox>
-                        <OptionBtnBox setwidth={85} setheight={20}
-                            variants={optionBtnVariants}
-                            whileHover="hover"
-                            whileTap="click"
-                            btncolor="#123456"
+                                    pointerEvents : 'auto',
+                                }
+                                :{
+                                    cursor: 'auto',
+                                    pointerEvents : "none",
+                                }
+                            }
                         >
-                            <button
-                                onClick={()=>{
-                                    if(isClickedMake === false){
-                                        setIsClickedMake(true)
-                                        onMakeClickHandler()
-                                    }
-                                }}
-                                style={{
-                                    cursor: 'pointer',
-                                }}
-                            >Make</button>
-                        </OptionBtnBox>
-                        <OptionBtnBox setwidth={85} setheight={20}
-                            variants={optionBtnVariants}
-                            whileHover="hover"
-                            whileTap="click"
-                            btncolor="#123456"
+                            Clear
+                        </button>
+                    </OptionBtnBox>
+                    <OptionBtnBox setwidth={85} setheight={20}
+                        variants={optionBtnVariants} // Make Btn
+                        whileHover="hover"
+                        whileTap="click"
+                        btncolor="#123456"
+                    >
+                        <button
+                            style={{
+                                cursor: 'pointer',
+                            }}
+                            onClick={()=>{
+                                if(isClickedMake === false){
+                                    setIsClickedMake(true)
+                                    onMakeClickHandler()
+                                }
+                            }}
+                        >Make</button>
+                    </OptionBtnBox>
+                    <OptionBtnBox setwidth={85} setheight={20}
+                        variants={optionBtnVariants}
+                        whileHover="hover"
+                        whileTap="click"
+                        btncolor="#123456"
+                    >
+                        <button
+                            onClick={onBackHandler}
+                            style={{
+                                cursor: 'pointer',
+                            }}
                         >
-                            <button
-                                onClick={onBackHandler}
-                                style={{
-                                    cursor: 'pointer',
-                                }}    
-                            >    
-                                Back
-                            </button>
-                        </OptionBtnBox>
-                    </OptionBoxContainer>
-                </OptionContainer>
-                {
+                            Back
+                        </button>
+                    </OptionBtnBox>
+                </OptionBoxContainer>
+            </OptionContainer>
+            {
                 isClickedMake === true
                 ? 
                 <ExtraNoticeBox
@@ -1028,7 +1027,6 @@ function MakeExtraDeck(props) {
                                         backgroundColor: '#123456',
                                         padding:'1%',
                                     }}
-                                    
                                 >
                                     <button
                                         style={{
@@ -1040,7 +1038,9 @@ function MakeExtraDeck(props) {
                                             setIsClickedMake(false);
                                             setMakeExtraNumber("");
                                         }}
-                                    >BACK</button>
+                                    >
+                                        BACK
+                                    </button>
                                 </OptionBtnBox>
                             </ExtraSetNumberBtnBox>
                         </ExtraSetNumberBox>
@@ -1064,10 +1064,10 @@ function MakeExtraDeck(props) {
                 </ExtraNoticeBox>
                 : null
             }
-            </MakeExtraInContainer>
-        </MakeExtraContainer>
+        </MakeExtraInContainer>
+    </MakeExtraContainer>    
     </>
-  )
+    );
 }
 
-export default MakeExtraDeck
+export default MakeExtraDeck;

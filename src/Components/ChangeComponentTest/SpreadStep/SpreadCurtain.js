@@ -15,7 +15,7 @@ const spreadCurtainVariants = {
     start:{
         opacity: 0,
         transition:{
-            duration: 3,
+            duration: 1.0,
         }
     }
 }

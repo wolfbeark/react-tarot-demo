@@ -8,18 +8,21 @@
     background-size: cover;
     transform: translateX();
     will-change: opacity;
-    color: gray;
+    color: beige;
     transform: rotate(0);
     transform: rotateX(-90deg);
     align-items: center;
     box-sizing: border-box;
     flex-direction: column;
-    color: blue;
+    color: lemonchiffon;
 }
 .test1 button:first-child,
 .test1 button:nth-child(2){
     background-color: skyblue;
     transform: translateX();
+    font-family: sans-serif;
+    width: calc();
+    transform: rotateZ(-90);
 }
 
 

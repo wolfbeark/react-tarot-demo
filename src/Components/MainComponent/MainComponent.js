@@ -113,6 +113,7 @@ const Modal = styled(motion.div)`
 function MainComponent() {
     
     const REACT_APP_ACCESS_KEY = process.env.REACT_APP_ACCESS_KEY;
+    const REACT_APP_TEST_ACCESS_KEY = process.env.REACT_APP_TEST_ACCESS_KEY;
     const [password, setPassword] = useState('');
     const [isRight, setIsRight] = useState(false);
     const [activeCurtain, setActiveCurtain] = useState(false);
@@ -134,6 +135,16 @@ function MainComponent() {
                 setActiveCurtain(false);
                 setTimerNum(3);
                 navigate("/fourth");
+            }, 4000)
+        }
+        else if(password === REACT_APP_TEST_ACCESS_KEY){
+            setActiveCurtain(true);
+            setIsRight(true);
+            activeTimer();
+            setTimeout(()=>{
+                setActiveCurtain(false);
+                setTimerNum(3);
+                navigate("/changetest");
             }, 4000)
         }
         else{

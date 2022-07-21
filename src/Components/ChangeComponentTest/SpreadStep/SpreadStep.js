@@ -1,16 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react'
 import styled from'styled-components';
 import {motion} from 'framer-motion';
-import { useSelector, useDispatch } from 'react-redux';
 import html2canvas from 'html2canvas';
-import {useNavigate} from 'react-router-dom';
 
-
-import SpreadCurtain from './SpreadCurtain';
 import MainSpreadZone from './MainSpreadZone';
+import{
+    colors
+} from '../../theme'
+
 import MakeExtraDeck from './MakeExtraDeck';
+import SpreadCurtain from './SpreadCurtain';
 import Find from './Find';
-import { setReset } from '../../../../redux/actions/gameManager_action';
+import PreviewInSpread from './PreviewInSpread';
 
 const SpreadContainer = styled(motion.div)`
     width: 100%;
@@ -22,14 +23,15 @@ const SpreadContainer = styled(motion.div)`
     align-items: center;
     overflow: hidden;
 
-    background-color: beige;
-    padding: 0 2%;
+    background-color: ${colors.color.navy};
+    //padding: 0 2%;
 
     position: relative;
+    //border-radius: 10px;
 `
 const MainSpreadBox = styled(motion.div)`
-    width: 80%;
-    height: 95%;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 0, 139, 0.7);
     border-radius: 10px;
     padding: 1%;
@@ -42,8 +44,8 @@ const MainSpreadBox = styled(motion.div)`
     position: relative;
 `
 const OptionSpreadBox = styled(motion.div)`
-    width: 18%;
-    height: 95%;
+    width: 25%;
+    height: 100%;
     background-color: red;
     border-radius: 10px;
 
@@ -51,13 +53,6 @@ const OptionSpreadBox = styled(motion.div)`
     flex-direction: column;
     justify-content: center;
     align-items: center;  
-`
-const ExtraCardBox = styled(motion.div)`
-    background-image: url(${(props) => props.imgsrc});
-    border-radius: 10px;
-    background-size: 100% 100%;
-    opacity: 1;
-    
 `
 const OptionSpreadDeckBox = styled(motion.div)`
     width: 95%;
@@ -68,7 +63,21 @@ const OptionSpreadDeckBox = styled(motion.div)`
     
     padding: 1%;
 `
-
+const DeckZone = styled(motion.div)`
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: tomato;
+    border-radius: 10px;
+`
+const ExtraCardBox = styled(motion.div)`
+    background-image: url(${(props) => props.imgsrc});
+    border-radius: 10px;
+    background-size: 100% 100%;
+    opacity: 1;
+`
 const OptionSpreadDragBox = styled(motion.div)`
     width: 40%;
     height: 90%;
@@ -87,19 +96,8 @@ const OptionSpreadDragBox = styled(motion.div)`
         display: flex;
         border-radius: 10px;
         background-size: 100% 100%;
-    }
-    
+    }   
 `
-const DeckZone = styled(motion.div)`
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    background-color: tomato;
-    border-radius: 10px;
-`
-
 const OptionSpreadCount = styled(motion.div)`
     width: 95%;
     height: 20%;
@@ -201,18 +199,16 @@ const extraBtnVariants = {
     },
     activate:{
         opacity: 1,
+    },
+    hover:{
+        scale: 1.1,
+        boxShadow: '0 0 10px 5px skyblue'
+    },
+    click:{
+        scale: 1.0,
     }
 
 }
-const OptionFadeCurtain = styled(motion.div)`
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-`
 const optionFadeVariants = {
     initial:{
         backgroundColor: 'rgba(255, 255, 255, 1)'
@@ -227,67 +223,19 @@ const optionFadeVariants = {
         backgroundColor: 'rgba'
     }
 }
-
-
-const OptionContainer = styled(motion.div)`
-    width: 45%;
-    height: 40%;
+const OptionFadeCurtain = styled(motion.div)`
+    width: 100%;
+    height: 100%;
     position: absolute;
-    z-index: 50;
-
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-
+    z-index: 1000;
     border-radius: 10px;
-
-    background-color: gray;
-    & > span{
-        width: 100%;
-        height: 30%;
-        font-family: "Jua";
-        text-align: center;
-        font-size: 2em;
-    }
-    & > div{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 80%;
-        height: 30%;
-    }
 `
-const YesOrNoBox = styled(motion.div)`
-    background-color: skyblue;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    cursor: pointer;
-
-    width: 40%;
-    height: 80%;
-
-    font-family: "Jua";
-    text-align: center;
-    font-size: 2em;
-`
-const yesOrNoOptionVariants ={
-    initial:{
-        boxShadow: 'none',
-    },
-    hover:{
-        scale: 1.1,
-        boxShadow: '0 0 10px 5px skyblue, 0 0 2px 1px white inset',
-    },
-    click:{
-        scale: 1
-    }
-}
 const SelectCardBox = styled(motion.div)`
 
-    width: 70%;
+    width: 80%;
     height: 80%;
     position: absolute;
     background-color: gray;
@@ -303,7 +251,7 @@ const SelectCardBox = styled(motion.div)`
     
 `
 const SelectMenuBox = styled(motion.div)`
-    width: 15%;
+    width: 20%;
     height: 90%;
     background-color: beige;
 
@@ -463,14 +411,75 @@ const OptionPreviewChoiceSpanBox = styled(motion.div)`
         width: 45%;
     }
 `
+const OptionContainer = styled(motion.div)`
+    width: 45%;
+    height: 40%;
+    position: absolute;
+    z-index: 50;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 
-function SpreadComponents() {
+    border-radius: 10px;
 
-    let navigate = useNavigate();
-    let dispatch = useDispatch();
-    const _totalSelectedNumArr = useSelector((state) => state.gameManager.totalSelectedNumArr);
-    const _selectedCardCount = useSelector((state) => state.gameManager.selectedCardCount);
+    background-color: gray;
+    & > span{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 30%;
+        font-family: "Jua";
+        text-align: center;
+        font-size: 1.5em;
+    }
+    & > div{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 80%;
+        height: 30%;
+    }
+`
+const YesOrNoBox = styled(motion.div)`
+    background-color: ${colors.color.royalblue};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+
+    width: 40%;
+    height: 80%;
+
+    font-family: "Jua";
+    text-align: center;
+    font-size: 1.3em;
+`
+const yesOrNoOptionVariants ={
+    initial:{
+        boxShadow: 'none',
+    },
+    hover:{
+        scale: 1.1,
+        boxShadow: '0 0 10px 5px royalblue, 0 0 2px 1px white inset',
+    },
+    click:{
+        scale: 1
+    }
+}
+
+function SpreadStep(props) {
+    const onRestartHandler = props.onRestartHandler;
+    const modeNumber = props.modeNumber;
+    let userSetNumber = props.userSetNumber;
+    let setUserSetNumber = props.setUserSetNumber;
+    let userWannaSeePreCard = props.userWannaSeePreCard;
+    let [dragCardNumArr, setDragCardNumArr] = useState(new Array(userSetNumber));
+    let previewNumbers = props.previewNumbers;
+    const selectedDeckZoneRef = useRef(null);
     const defaultTempObjData ={
         x : 0, 
         y : 0, 
@@ -481,27 +490,30 @@ function SpreadComponents() {
         right : 0, 
         bottom : 0,
     }
-    let [isActiveCurtain, setActiveCurtain] = useState(true);
-    let [dragCardNumArr, setDragCardNumArr] = useState(new Array(_selectedCardCount));
     const [selectedZonePosInfo, setSelectedZonePosInfo] = useState(defaultTempObjData);
     const [optionBoxInfo, setOptionBoxInfo] = useState(defaultTempObjData);
-    const [isInCount, setIsInCount] = useState(_selectedCardCount); // 남은 카드 수량
-    const [totalCount, setTotalCount] = useState(_selectedCardCount); // 총 카드 수량
-    const isInCounter = {
-        isInCount,
-        setIsInCount
+    
+    const mainBox = useRef(null);
+    const optionBox = useRef(null);
+    const allContainer = useRef(null);
+    const [refArr, setRefArr] = useState([allContainer, mainBox]);
+
+    let [newDragArea, setNewDragArea] = useState();
+
+    let _tempChildClickArr = new Array(userSetNumber);
+    _tempChildClickArr.fill({
+        isThisCardClicked : false,
+        setIsThisCardClicked : null,
+        isFliped : false,
+        setIsFliped : null,
+        isInSpreadZone : false,
+        currentCardState : "rotateFalse",
+    });
+    let [childCardStateArr, setChildCardStateArr] = useState(_tempChildClickArr);
+    let childCardStateArrController ={
+        childCardStateArr,
+        setChildCardStateArr
     }
-    const totalCounter = {
-        totalCount,
-        setTotalCount
-    }
-    // Optional Control
-    const [isActiveOptionCurtain, setIsActiveOptionCurtain] = useState(false);
-    //const [isClickedExtra, setIsClickedExtra] = useState(false);
-    const [optionType, setOptionType] = useState(0); // 0 : none, 1 : restart, 2 : Extra, 3 : Capture 4: Find
-    // 플립버튼 컨트롤
-    //const [flipCount, setFlipCount] = useState(0);
-    const [activeFlipBtn, setActiveFlipBtn] = useState(true);
 
     // 새로운 z인덱스 컨트롤
     const [indexCount, setIndexCount] = useState(10);
@@ -509,7 +521,23 @@ function SpreadComponents() {
         indexCount,
         setIndexCount,
     }
-    // find & zoom
+    const [isInCount, setIsInCount] = useState(userSetNumber); // 남은 카드 수량
+    const isInCounter = {
+        isInCount,
+        setIsInCount
+    }
+    const [activeFlipBtn, setActiveFlipBtn] = useState(true);
+    const [totalCount, setTotalCount] = useState(userSetNumber); // 총 카드 수량
+    const totalCounter = {
+        totalCount,
+        setTotalCount
+    }
+    // Optional Control
+    const [isActiveOptionCurtain, setIsActiveOptionCurtain] = useState(false);
+    const [optionType, setOptionType] = useState(0); // 0 : none, 1 : restart, 2 : Extra, 3 : Capture 4: Find
+    let [isActiveCurtain, setActiveCurtain] = useState(true);
+
+    //Find
     const [isClickedFind, setClickedFind] = useState(false);
     const [findStateArr, setFindStateArr] = useState(null);
     const [findCardImage, setCardImage] = useState(100);
@@ -612,32 +640,20 @@ function SpreadComponents() {
     const [isSemiHover, setSemiHover] = useState(false);
     const [isSemiHoverNum, setIsSemiHoverNum] = useState(100);
     const [choiceSemiNumClick, setChoiceSemiNumClick] = useState(100);
-    // 캡쳐
+
     const [isClickedCapture, setClickedCapture] = useState(false);
 
-    const mainBox = useRef(MainSpreadBox);
-    const selectedDeckZoneRef = useRef(null);
-    let [newDragArea, setNewDragArea] = useState();
-    const allContainer = useRef();
-    const optionBox = useRef(null);
-    const [refArr, setRefArr] = useState([allContainer, mainBox]);
-    let _tempChildClickArr = new Array(_selectedCardCount);
-    _tempChildClickArr.fill({
-        isThisCardClicked : false,
-        setIsThisCardClicked : null,
-        isFliped : false,
-        setIsFliped : null,
-        isInSpreadZone : false,
-        currentCardState : "rotateFalse",
-    });
-    let [childCardStateArr, setChildCardStateArr] = useState(_tempChildClickArr);
-
-    let childCardStateArrController ={
-        childCardStateArr,
-        setChildCardStateArr
-    }
-
-
+    useEffect(()=>{ // 오프닝 커튼
+        setTimeout(()=>{
+            setActiveCurtain(false);
+        }, 1000);
+    }, [])
+    useEffect(()=>{
+        if(modeNumber !== 0){
+            setIsInCount(0);
+        }
+    }, [])
+    
     useEffect(()=>{
         const temp = optionBox.current.getBoundingClientRect();
         const _temp = {
@@ -645,19 +661,6 @@ function SpreadComponents() {
             height: temp.height,
         }
         setOptionBoxInfo(_temp);
-    }, [])
-    useEffect(()=>{ // 번호세팅
-        let _dragCardNumArr = new Array(_selectedCardCount);
-        for(let i = 0; i < _dragCardNumArr.length; i++){
-            _dragCardNumArr[i] = _totalSelectedNumArr[i];
-        }
-        let tempArr = _dragCardNumArr.reverse();
-        setDragCardNumArr(tempArr); 
-    }, [_selectedCardCount, _totalSelectedNumArr])
-    useEffect(()=>{ // 오프닝 커튼
-        setTimeout(()=>{
-            setActiveCurtain(false);
-        }, 3000);
     }, [])
     useEffect(()=>{
         let tempArea = mainBox.current.getBoundingClientRect();
@@ -672,9 +675,19 @@ function SpreadComponents() {
             bottom : tempArea.bottom,
         }
         setNewDragArea(_newDragArea);
-        // 전체 박스 ref, selectedDeckZone 크기 구하는거 필요
-        // selectedDeckZone 크기
+
+
+        let _dragCardNumArr = new Array(userSetNumber);
+        for(let i = 0; i < _dragCardNumArr.length; i++){
+            _dragCardNumArr[i] = props.selectedImgNumArr[i];
+        }
+        let tempArr = _dragCardNumArr.reverse();
+        setDragCardNumArr(tempArr); 
+    }, [])
+
+    useEffect(()=>{
         const _tempSelectedZone = selectedDeckZoneRef.current.getBoundingClientRect();
+        //console.log(_tempSelectedZone);
         const _selectedZone ={
             x : _tempSelectedZone.x,
             y : _tempSelectedZone.y,
@@ -686,68 +699,20 @@ function SpreadComponents() {
             bottom : _tempSelectedZone.bottom
         }
         setSelectedZonePosInfo(_selectedZone);
+    }, []);
 
-     }, [])
-    
-    
-    
     const cardFlipHandler_test = () => {
-        // for(let i = (childCardStateArr.length - 1); i >= isInCount; i--){
-        //         // isInSpreadZone
-        //     if(childCardStateArr[i].isInSpreadZone === false){
-        //         continue;
-        //     }
-        //     else if(childCardStateArr[i].isInSpreadZone === true){
-        //         childCardStateArr[i].setIsFliped(true);                    
-        //         // if(test === childCardStateArr.length){
-        //         //     setActiveFlipBtn(false)
-        //         // }
-        //         // else if(test !== childCardStateArr.length){
-        //         //     setActiveFlipBtn(true);
-        //         // }
-        //     }
-        // }
         for(let i = 0; i < childCardStateArr.length; i++){
             if(childCardStateArr[i].isInSpreadZone === false){
                 continue;
             }
             else if(childCardStateArr[i].isInSpreadZone === true){
                 childCardStateArr[i].setIsFliped(true);                    
-                // if(test === childCardStateArr.length){
-                //     setActiveFlipBtn(false)
-                // }
-                // else if(test !== childCardStateArr.length){
-                //     setActiveFlipBtn(true);
-                // }
+                
             }
         }
         
     }
-    
-    const onCaptureHandler = (e) =>{
-        e.preventDefault();
-        //console.log('capture test');
-        html2canvas(document.getElementById('spreadContainer'))
-        .then( canvas =>{
-            onSaveAs(canvas.toDataURL('image/png'), 'image-download.png')
-        });
-        setOptionType(0);
-        setIsActiveOptionCurtain(false);
-    }
-    const onSaveAs = (uri, filename) =>{
-        //console.log('onSaveAs');
-        let link = document.createElement('a');
-        document.body.appendChild(link);
-        link.href = uri;
-        link.download = filename;
-        //link.style.zIndex = "1000";
-        //link.style.position = "absolute";
-        //console.dir(link);
-        link.click();
-        document.body.removeChild(link);
-        //window.location.reload();
-    }
-
     const selectedTypeHandler = (type) =>{
         let tempArr = [];
         switch(type){
@@ -791,91 +756,93 @@ function SpreadComponents() {
         }
     }
 
-    
+    const onCaptureHandler = () =>{
+        //e.preventDefault();
+        //console.log('capture test');
+        html2canvas(document.getElementById('TarotContainerDraggable'))
+        .then( canvas =>{
+            onSaveAs(canvas.toDataURL('image/png'), 'image-download.png')
+        });
+    }
+    const onSaveAs = (uri, filename) =>{
+        //console.log('onSaveAs');
+        let link = document.createElement('a');
+        document.body.appendChild(link);
+        link.href = uri;
+        link.download = filename;
+        //link.style.zIndex = "1000";
+        //link.style.position = "absolute";
+        //console.dir(link);
+        link.click();
+        document.body.removeChild(link);
+        //window.location.reload();
+    }
+
   return (
     <>
-        <SpreadContainer
-            id="spreadContainer"
-            ref={allContainer}
-            onDrop={(e)=>{
-                //console.log('ondrop')
-                let data = e.currentTarget.dataTransfer.getData("Text");
-                e.target.appendChild(document.getElementById(data));
-            }}
-            onDragOver={(e)=>{
-                //console.log('ondragOver')
-                e.preventDefault();
-            }}    
-        >
-            <div
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    display: 'flex'
-            }}>
+    <SpreadContainer
+        ref={allContainer}
+        id="TarotContainerDraggable"
+    >
+        <div
+            style={{
+                width: '100%',
+                height: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+                display: 'flex'
+        }}>
             <MainSpreadBox
-                className='spreadZone'
                 ref={mainBox}
-                layoutId="spread"
             >
                 <MainSpreadZone
-                    selectedZonePosInfo={selectedZonePosInfo}
+                    modeNumber={modeNumber}
+                    userSetNumber={userSetNumber}
+                    userWannaSeePreCard={userWannaSeePreCard}
                     dragCardNumArr={dragCardNumArr}
-                    childCardStateArrController={childCardStateArrController}
+                    selectedImgNumAr={props.selectedImgNumArr}
+                    selectedZonePosInfo={selectedZonePosInfo}
                     optionBoxInfo={optionBoxInfo}
-                    newDragArea={newDragArea}
                     refArr={refArr}
-                    isInCounter={isInCounter}
-                    totalSelectedNumArr={_totalSelectedNumArr}
+                    childCardStateArrController={childCardStateArrController}
                     indexCountController={indexCountController}
-                    isClickedFind={isClickedFind}
-                    findCardControl={findCardControl}
+                    newDragArea={newDragArea}
+                    isInCounter={isInCounter}
                     cardNameArr={cardNameArr}
+                    findCardControl={findCardControl}
                     setFindCardName={setFindCardName}
                     whatModeControl={whatModeControl}
+                    isClickedFind={isClickedFind}
+                    previewNumbers={previewNumbers}
+                    isActiveCurtain={isActiveCurtain}
                 >
 
                 </MainSpreadZone>
-                
-                
             </MainSpreadBox>
             <OptionSpreadBox
                 ref={optionBox}
             >
                 <OptionSpreadDeckBox>
                     <DeckZone>
-                        <OptionSpreadDragBox 
+                        <OptionSpreadDragBox
                             ref={selectedDeckZoneRef}
                         >
-                                    {/* <>
-                                    {dragCardNumArr.map((a, i) =>{
-                                            return(
-                                                <DragCardInfo  
-                                                    className="item"
-                                                    key={i}
-                                                    count={i} 
-                                                    zIdx={10+i}
-                                                    imgnum={a} 
-                                                    mainBox={mainBox}
-                                                    optionBox={optionBox}
-                                                    allContainer={allContainer}
-                                                    newDragArea={newDragArea}
-                                                    childCardStateArrController={childCardStateArrController}
-                                                >
-                                                </DragCardInfo>
-                                            );
-                                    })}
-                                    </> */}
-                                
                             
                         </OptionSpreadDragBox>
-                        <OptionSpreadDragBox
-                        >
-                            <ExtraCardBox
+                        <OptionSpreadDragBox> 
+                            <ExtraCardBox 
                                 imgsrc={`${process.env.PUBLIC_URL}/images/BackOfCard/DefaultImages/RequestBackOfCard.png`}
                                 variants={extraBtnVariants}
+                                whileHover={
+                                    isInCount !== 0
+                                    ? ""
+                                    : "hover"
+                                }
+                                whileTap={
+                                    isInCount !== 0
+                                    ? ""
+                                    : "click"
+                                }
                                 animate={isInCount !== 0 ? 'deactivate' : 'activate'}
                                 style={isInCount !== 0 
                                     ? {cursor: 'auto'}
@@ -890,9 +857,7 @@ function SpreadComponents() {
                                     }
                                     
                                 }}
-                            >
-
-                            </ExtraCardBox>
+                            />
                         </OptionSpreadDragBox>
                     </DeckZone>
                 </OptionSpreadDeckBox>
@@ -900,7 +865,7 @@ function SpreadComponents() {
                     <div>
                         <div>
                             <span>
-                                카드 전체 수
+                                카드 전체수
                             </span>
                             <span>
                                 {totalCount}
@@ -908,7 +873,7 @@ function SpreadComponents() {
                         </div>
                         <div>
                             <span>
-                                남은 카드 수
+                                남은 수
                             </span>
                             <span>
                                 {isInCount}
@@ -950,12 +915,12 @@ function SpreadComponents() {
                                     if(isInCount === 0){
                                         setIsActiveOptionCurtain(true);
                                         setTimeout(()=>{
-                                            setOptionType(1);
-                                        }, 2000);
-                                    }
+                                        setOptionType(1);
+                                    }, 2000);
+                                }
                                 }}
                             >
-                                Restart
+                                RESTART
                             </button>
                         </OptionBtn>
                         <OptionBtn
@@ -1017,9 +982,10 @@ function SpreadComponents() {
                         </OptionBtn>
                         <OptionBtn
                             variants={optionBtnVariants}
-                            whileHover={isClickedCapture !== true ? "hover" : ""}
-                            whileTap={isClickedCapture !== true ? "click" : ""}
-                            style={isClickedCapture !== true
+                            whileHover={isInCount === 0 && isClickedCapture === false ? "hover" : ""}
+                            whileTap={isInCount === 0 && isClickedCapture === false ? "click": ""}
+                            style={
+                                isInCount === 0 && isClickedCapture === false
                                 ?{
                                     opacity: 1,
                                     transition: `opacity 1s ease-in-out`,
@@ -1029,12 +995,12 @@ function SpreadComponents() {
                                     opacity: 0.5,
                                     transition: `opacity 1s ease-in-out`,
                                     cursor: 'auto',
-                                }}
-                            
+                                }
+                            }
                         >
                             <button
                                 onClick={()=>{
-                                    if(isClickedCapture === false){
+                                    if(isInCount === 0 && isClickedCapture === false){
                                         setIsActiveOptionCurtain(true);
                                         setClickedFind(false);
                                         setTimeout(()=>{
@@ -1043,17 +1009,21 @@ function SpreadComponents() {
                                     }
                                     
                                 }}
-                                style={isClickedCapture !== true
-                                    ?{
+                                style={
+                                    isInCount === 0 && isClickedCapture === false
+                                    ?
+                                    {
                                         opacity: 1,
                                         transition: `opacity 1s ease-in-out`,
                                         cursor: 'pointer',
-                                    } 
-                                    :{
+                                    }
+                                    :
+                                    {
                                         opacity: 0.5,
                                         transition: `opacity 1s ease-in-out`,
                                         cursor: 'auto',
-                                    }}
+                                    }
+                                }
                             >
                                 Capture
                             </button>
@@ -1061,135 +1031,130 @@ function SpreadComponents() {
                     </div>
                 </OptionSpreadBtnBox>
             </OptionSpreadBox>
-            
-
             {isActiveCurtain === true // curtain
             ? <SpreadCurtain />
             : null
-            }    
-            </div>
-            {
-                    isClickedFind === true
-                    ?
-                    <Find
-                        refArr={refArr}
-                        findStateArr={findStateArr}
-                        setFindStateArr={setFindStateArr}
-                        findCardImage={findCardImage}
-                        findCardName={findCardName}
-                        whatModeControl={whatModeControl}
-                        setIsActiveOptionCurtain={setIsActiveOptionCurtain}
-                        isActiveOptionCurtain={isActiveOptionCurtain}
-                        setOptionType={setOptionType}
-                        selectFindImageNum={selectFindImageNum}
-                        selectFindCardName={selectFindCardName}
-                    >
-
-                    </Find>
-                    : null
             }
-        </SpreadContainer>
-        <>
-        
+        </div>
         {
-        isActiveOptionCurtain === true 
-            ? 
-            <OptionFadeCurtain
-                variants={optionFadeVariants}
-                animate={isActiveOptionCurtain === true ? "fadeIn" : ""}
-            >
-                <>
-                    {
-                    optionType === 2 // Extra
-                        ? 
-                        <MakeExtraDeck
-                            setIsActiveOptionCurtain={setIsActiveOptionCurtain}
-                            setOptionType={setOptionType}
-                            setDragCardNumArr={setDragCardNumArr}
-                            dragCardNumArr={dragCardNumArr}
-                            isInCounter={isInCounter}
-                            totalCounter={totalCounter}
+            isClickedFind === true
+            ?
+            <Find
+                refArr={refArr}
+                findStateArr={findStateArr} //
+                setFindStateArr={setFindStateArr} //
+                findCardImage={findCardImage} //
+                findCardName={findCardName} //
+                whatModeControl={whatModeControl} //
+                setIsActiveOptionCurtain={setIsActiveOptionCurtain}
+                isActiveOptionCurtain={isActiveOptionCurtain}
+                setOptionType={setOptionType}
+                selectFindImageNum={selectFindImageNum} //
+                selectFindCardName={selectFindCardName} //
+            />
+            : null
+        }
+    </SpreadContainer>
+    <>
+    {
+        isActiveOptionCurtain === true
+        ?
+        <OptionFadeCurtain
+            variants={optionFadeVariants}
+            animate={isActiveOptionCurtain === true ? "fadeIn" : ""}
+        >
+            <>
+            {
+                optionType === 1 // Restart
+                ?
+                <OptionContainer>
+                    <span>현재 타로를 중단하고 새로 시작하시겠습니까?</span>
+                    <div>
+                        <YesOrNoBox
+                            variants={yesOrNoOptionVariants}
+                            initial="initial"
+                            whileHover="hover"
+                            whileTap="click"
+                            onClick={()=>{
+                                onRestartHandler();
+                            }}
                         >
-
-                        </MakeExtraDeck>
-                        : null
-                    }
-                    {
-                    optionType === 1 // Restart
-                    ?
-                    <OptionContainer>
-                        <span>현재 타로를 중단하고 새로 시작하시겠습니까?</span>
-                        <div>
-                            <YesOrNoBox
-                                variants={yesOrNoOptionVariants}
-                                initial="initial"
-                                whileHover="hover"
-                                whileTap="click"
-                                onClick={()=>{
-                                    dispatch(setReset());
-                                    //navigate('/');
-                                }}
-                            >
-                                Yes
-                            </YesOrNoBox>
-                            <YesOrNoBox
-                                variants={yesOrNoOptionVariants}
-                                initial="initial"
-                                whileHover="hover"
-                                whileTap="click"
-                                onClick={()=>{
-                                    setIsActiveOptionCurtain(false);
-                                    setOptionType(0);
-                                }}
-                            >
-                                No
-                            </YesOrNoBox>
-                        </div>
-                    </OptionContainer>
-                    : null
-                    }
-                    {
-                    optionType === 3 // Capture
-                    ?
-                    <OptionContainer>
-                        <span>현재 스프레드를 저장하시겠습니까?</span>
-                        <div>
-                            <YesOrNoBox
-                                variants={yesOrNoOptionVariants}
-                                initial="initial"
-                                whileHover="hover"
-                                whileTap="click"
-                                onClick={(e)=>{
-                                    
-                                    if(isClickedCapture === false){
-                                        setClickedCapture(true);
-                                        setOptionType(0);
-                                        onCaptureHandler(e);
-                                    }
-                                }}
-                            >
-                                Yes
-                            </YesOrNoBox>
-                            <YesOrNoBox
-                                variants={yesOrNoOptionVariants}
-                                initial="initial"
-                                whileHover="hover"
-                                whileTap="click"
-                                onClick={()=>{
-                                    setIsActiveOptionCurtain(false);
-                                    setOptionType(0);
-                                }}
-                            >
-                                No
-                            </YesOrNoBox>
-                        </div>
-                    </OptionContainer>
-                    : null
-                    }
-                    {
-                        optionType === 4
-                        ?
-                        <SelectCardBox>
+                            Yes
+                        </YesOrNoBox>
+                        <YesOrNoBox
+                            variants={yesOrNoOptionVariants}
+                            initial="initial"
+                            whileHover="hover"
+                            whileTap="click"
+                            onClick={()=>{
+                                setIsActiveOptionCurtain(false);
+                                setOptionType(0);
+                            }}
+                        >
+                            No
+                        </YesOrNoBox>
+                    </div>
+                </OptionContainer>
+                : null
+            }
+            {
+            optionType === 2 // Extra
+                ? 
+                <MakeExtraDeck
+                    setUserSetNumber={setUserSetNumber}
+                    setIsActiveOptionCurtain={setIsActiveOptionCurtain}
+                    setOptionType={setOptionType}
+                    setDragCardNumArr={setDragCardNumArr}
+                    dragCardNumArr={dragCardNumArr}
+                    isInCounter={isInCounter}
+                    totalCounter={totalCounter}
+                >
+                </MakeExtraDeck>
+                : null
+            }
+            {
+            optionType === 3 // Capture
+            ?
+            <OptionContainer>
+                <span>현재 스프레드를 저장하시겠습니까?</span>
+                <div>
+                    <YesOrNoBox
+                        variants={yesOrNoOptionVariants}
+                        initial="initial"
+                        whileHover="hover"
+                        whileTap="click"
+                        onClick={(e)=>{
+                            setClickedCapture(true);
+                            setOptionType(0);
+                            setIsActiveOptionCurtain(false);
+                            setTimeout(()=>{
+                                onCaptureHandler();
+                            }, 1000);
+                            
+                        }}
+                    >
+                        Yes
+                    </YesOrNoBox>
+                    <YesOrNoBox
+                        variants={yesOrNoOptionVariants}
+                        initial="initial"
+                        whileHover="hover"
+                        whileTap="click"
+                        onClick={()=>{
+                            setIsActiveOptionCurtain(false);
+                            setOptionType(0);
+                        }}
+                    >
+                        No
+                    </YesOrNoBox>
+                </div>
+            </OptionContainer>
+            : null
+            }
+            {
+                optionType === 4 // Find
+                ?
+                <SelectCardBox>
                             <SelectMenuBox>
                                 <SelectCardTypeBtn
                                     variants={selectCardTypeVar}
@@ -1376,17 +1341,17 @@ function SpreadComponents() {
                                     </SelectOptionBtn>
                                 </SelectOptionBtnBox>
                             </SelectOptionMenuBox>
-                        </SelectCardBox>
-                        : null
-                    }
-                </>
-            </OptionFadeCurtain>
-            : null
-        }
-        </>
-            
+                </SelectCardBox>
+                : null
+            }
+            </>
+        </OptionFadeCurtain>
+        : null
+    }
     </>
-  )
+        
+    </>
+  );
 }
 
-export default SpreadComponents
+export default SpreadStep
