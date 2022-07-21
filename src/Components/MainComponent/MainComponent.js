@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import {useNavigate} from 'react-router-dom'
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import {motion} from 'framer-motion';
 
 const MainComponentContainer = styled(motion.div)`
@@ -99,6 +99,12 @@ const Modal = styled(motion.div)`
     flex-direction: column;
 
     position: absolute;
+    ${(props) =>{
+        return css`
+            left: calc(27.5%);
+            top: calc(50% - 30%);
+        `
+    }}
     & span{
         font-family: "Jua";
         font-size: 3em;
@@ -119,13 +125,15 @@ function MainComponent() {
     const [activeCurtain, setActiveCurtain] = useState(false);
     const [timerNum, setTimerNum] = useState(3);
 
-    
+    const modalRef = useRef(null);
+    const [modalInfo, setModalInfo] = useState();
     const navigate = useNavigate();
 
     const onPasswordChangeHandler = (e) =>{
         setPassword(e.target.value);
     }
     const checkPassWordHandler = () => {
+        
         if(password === REACT_APP_ACCESS_KEY){
             //console.log('right');
             setActiveCurtain(true);
@@ -167,7 +175,20 @@ function MainComponent() {
         }, 4000);
     }
 
-    
+    // useEffect(()=>{
+    //     const tempInfo = modalRef.current.getBoundingClientRect();
+    //     const tempInfoArea = {
+    //         left : tempInfo.left,
+    //         width : tempInfo.width,
+    //         top : tempInfo.top,
+    //         hegiht : tempInfo.height,
+    //         x : tempInfo.x,
+    //         y : tempInfo.y,
+    //         right : tempInfo.right,
+    //         bottom : tempInfo.bottom,
+    //     }
+    //     setModalInfo(tempInfoArea);
+    // }, [])
     return (
         <>
             
@@ -232,7 +253,10 @@ function MainComponent() {
                 activeCurtain !== false
                 ?
                 <>
-                    <Modal>
+                    <Modal
+                        ref={modalRef}
+                        modalinfo={modalInfo}
+                    >
                     {
                         isRight !== false
                         ?
