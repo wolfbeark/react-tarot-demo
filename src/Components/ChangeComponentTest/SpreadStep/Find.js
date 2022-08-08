@@ -193,7 +193,7 @@ function Find(props) {
             //setOptionType(4); 기존 코드 22.08.05
             setOptionType(10); // 테스트 코드 // Find 컴포넌트 분리
 
-        }, 2000);
+        }, 1000);
     }
   return (
     <>

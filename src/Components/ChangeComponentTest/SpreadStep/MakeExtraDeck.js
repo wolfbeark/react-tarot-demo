@@ -749,7 +749,7 @@ function MakeExtraDeck(props){
                     setMakeExtraNumber("");
                     setHideInfoArr(_hideTempArr);
                     setHideBtnOnOffArr(_hideBtnOnOffArr);
-                }, 3000);
+                }, 2000);
                 //console.log("랜덤 인덱스 :" + _ranIdxNumArr);
                 //console.log("인덱스 안의 이미지 넘버 :" + _selectedImgNumArr);
             }
@@ -816,7 +816,7 @@ function MakeExtraDeck(props){
                     setImgTypeArr(_typeArr);
                     setHideInfoArr(_hideTempArr);
                     setHideBtnOnOffArr(_hideBtnOnOffArr);
-                }, 3000);
+                }, 2000);
             }
             else if(listSelectArr.length > 1){
                 //console.log('토탈 마이너스');
@@ -918,7 +918,7 @@ function MakeExtraDeck(props){
                         setMakeExtraNumber("");
                         setHideInfoArr(_hideTempArr);
                         setHideBtnOnOffArr(_hideBtnOnOffArr);
-                    }, 3000);
+                    }, 2000);
                 }
             }
 

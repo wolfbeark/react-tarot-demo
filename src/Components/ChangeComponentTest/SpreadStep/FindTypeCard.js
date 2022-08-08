@@ -125,7 +125,7 @@ const OptionPreviewChoiceSpanBox = styled(HorizontalContainer)`
     width: 100%;
     height: 5%;
     justify-content: space-evenly;
-    background-color: red;
+    //background-color: red;
 
     & span{
         font-family: "Jua";
@@ -691,6 +691,13 @@ function FindTypeCard(props) {
                         <>
                         <SelectCardTypeBtn
                             key={`type${i}`}
+                            whileHover={{
+                                scale: 1.1,
+                                boxShadow: "0 0 10px 2px gray",
+                            }}
+                            whileTap={{
+                                scale: 1.0,
+                            }}
                             onClick={(e)=>{
                                 e.preventDefault();
                                 setIsClickedTypeMenu(true);
@@ -716,6 +723,13 @@ function FindTypeCard(props) {
                         
                         return(
                             <SemiTypeBtn
+                                whileHover={{
+                                    scale: 1.1,
+                                    boxShadow: "0 0 10px 2px gray",
+                                }}
+                                whileTap={{
+                                    scale: 1.0,
+                                }}
                                 key={i}
                                 onHoverStart={()=>{
                                     if(selectMenuNum !== 3){
@@ -786,40 +800,11 @@ function FindTypeCard(props) {
             <SelectOptionBtnBox>
                 <SelectOptionBtn
                     variants={optionBtnVar}
-                    // whileHover={choiceSemiNumClick !== 100 
-                    //     ? "hover"
-                    //     : ""
-                    // }
-                    // whileTap={choiceSemiNumClick !== 100
-                    //     ? "click"
-                    //     : ""
-                    // }
-                    // style={
-                    //     choiceSemiNumClick === 100
-                    //     ?
-                    //     {
-                    //         cursor: 'auto',
-                    //         opacity: 0.5,
-                    //     }
-                    //     :
-                    //     {
-                    //         cursor: 'pointer',
-                    //         opacity: 1,
-                    //     }
-                    // }
-                    // onClick={()=>{
-                    //     if(choiceSemiNumClick !== 100){
-                    //         let temp = choiceSemiNumClick;
-                    //         setSelectFindImageNum(temp);
-                    //         setSelectFindCardName(cardNameArr[temp]);
-                    //         setOptionType(0);
-                    //         setIsActiveOptionCurtain(false);
-                    //         setChoiceSemiNumClick(100);
-                    //         setSelectedTypeArr([]);
-                    //         setFindCardType(10);
-                    //         setWhatMode(true);
-                    //     }
-                    // }}
+                    whileHover="hover"
+                    whileTap="click"
+                    style={{
+                        cursor: 'pointer',
+                    }}
                     onClick={()=>{
                         if(childSemiNumClick !== 100){
 
