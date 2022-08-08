@@ -319,7 +319,7 @@ function OptionState(props) {
             setOptionStage(0);
             setActiveOptionContainer(false);
             setOptionType(0);
-        }, 3000);
+        }, 2000);
     }
     const onBtnHandler = (flag) => {
         let timer = () =>{
@@ -327,7 +327,7 @@ function OptionState(props) {
                 setOptionStage(0);
                 setActiveOptionContainer(false);
                 setOptionType(0);
-            }, 3000);
+            }, 2000);
         }
         if(flag === true){  // Yes
             switch(optionType){
@@ -387,7 +387,7 @@ function OptionState(props) {
                 setOptionStage(0);
                 setActiveOptionContainer(false);
                 setOptionType(0);
-            }, 3000);
+            }, 2000);
         }
         if(type === 'yes'){
             let tempNum = parseInt(value);

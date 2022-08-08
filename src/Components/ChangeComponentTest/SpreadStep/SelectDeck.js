@@ -162,7 +162,7 @@ function SelectDeck(props){
             }
             _nameList[_idx] = null;
             let delNullArr = _nameList.filter((a) => a !== null);
-            console.log(delNullArr);
+            //console.log(delNullArr);
             if(delNullArr.length >= 2){
                 delNullArr.sort(function(a, b){
                     return a.type - b.type

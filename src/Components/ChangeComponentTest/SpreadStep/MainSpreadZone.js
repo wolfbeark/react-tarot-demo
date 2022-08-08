@@ -16,9 +16,9 @@ const MainSpreadBox = styled(motion.div)`
 `
 
 function MainSpreadZone(props) {
-    const modeNumber = props.modeNumber;
-    const userWannaSeePreCard = props.userWannaSeePreCard;
-    const userSetNumber = props.userSetNumber;
+    let modeNumber = props.modeNumber;
+    let userWannaSeePreCard = props.userWannaSeePreCard;
+    let userSetNumber = props.userSetNumber;
     const mainSpreadRef = useRef(null);
     const defaultTempObjData ={
       x : 0, 
@@ -40,9 +40,11 @@ function MainSpreadZone(props) {
                 tempNum--;
                 tempNumArr[i] = tempNum;
             }
-            setNewIdxArr(newIdxArr);
+            //setNewIdxArr(newIdxArr); 이거 뭐야. 22.08.04
+            setNewIdxArr(tempNumArr);
         }
-    }, [])
+    }, [modeNumber, userSetNumber])
+
     useEffect(()=>{
       const tempInfo = mainSpreadRef.current.getBoundingClientRect();
       const temp ={
@@ -65,31 +67,37 @@ function MainSpreadZone(props) {
         return(
           
             <DragCard  
-             key={i}
-             count={i} // 카드 순서 0 1 2
-             zIdx={10 + i} // 여기 수정 필요. 앞에 위치할 수록 zIdx가 높아야 한다.
+              key={i}
+              count={i} // 카드 순서 0 1 2
+              zIdx={10 + i} // 여기 수정 필요. 앞에 위치할 수록 zIdx가 높아야 한다.
         //     //현재는 뒤에 위치할 수록 zIdx가 높은 상황. zIdx={10+i}
         //     //실험 100 - i // 실패.
         //     // 스프레드 존에 들어가면 zIdx를 다시 수정해야한다. 이 컨트롤은 카드컴포넌트에서..
-             imgnum={a}
-             newIdxNum={newIdxArr[i]}
-             selectedImgNumArr={props.selectedImgNumArr}
-             selectedZonePosInfo={props.selectedZonePosInfo}
-             mainSpreadZonePosInfo={mainSpreadZonePosInfo}
-             optionBoxInfo={props.optionBoxInfo}
-             refArr={props.refArr}
-             childCardStateArrController={props.childCardStateArrController}           
-             indexCountController={props.indexCountController}
-             newDragArea={props.newDragArea}
-             isInCounter={props.isInCounter}
-             dragCardNumArr={props.dragCardNumArr}
-             cardNameArr={props.cardNameArr}
-             findCardControl={props.findCardControl}
-             setFindCardName={props.setFindCardName}
+              imgnum={a}
+              newIdxNum={newIdxArr[i]}
+              selectedImgNumArr={props.selectedImgNumArr}
+              selectedZonePosInfo={props.selectedZonePosInfo}
+              mainSpreadZonePosInfo={mainSpreadZonePosInfo}
+              optionBoxInfo={props.optionBoxInfo}
+              refArr={props.refArr}
+              childCardStateArrController={props.childCardStateArrController}           
+              indexCountController={props.indexCountController}
+              newDragArea={props.newDragArea}
+              isInCounter={props.isInCounter}
+              dragCardNumArr={props.dragCardNumArr}
+              cardNameArr={props.cardNameArr}
+              findCardControl={props.findCardControl}
+              setFindCardName={props.setFindCardName}
               whatModeControl={props.whatModeControl}
               isClickedFind={props.isClickedFind}
               userSetNumber={userSetNumber}
               modeNumber={modeNumber}
+              imgTypeControler={props.imgTypeControler}
+              lenormandNameArr={props.lenormandNameArr}
+              ichingNameArr={props.ichingNameArr}
+              setFindImageType={props.setFindImageType}
+              isClickedLenormandTotalController={props.isClickedLenormandTotalController}
+              lenormandTotalIdx={props.lenormandTotalIdx}
         //     childCardStateArrController={props.childCardStateArrController}
         //     selectedzoneposinfo={props.selectedZonePosInfo}
         //     mainSpreadZonePosInfo={mainSpreadZonePosInfo}

@@ -28,6 +28,37 @@ const DragCardContainer2 = styled(motion.div)`
     height: ${(props) => props.selectedposinfo.height}px;
     ${(props)=>{
         if(props.modenumber === 0){
+            if(props.count < props.usersetnumber){
+                return css`
+                    left: ${(props) => props.selectedposinfo.x - props.mainspreadposinfo.x}px;
+                    top : ${(props) => props.selectedposinfo.y - props.mainspreadposinfo.y}px;
+                `
+            }
+            else if(props.count >= props.usersetnumber){
+                if(props.isclickedlenormandtotal === "false"){
+                    return css`
+                        left: ${(props) => props.selectedposinfo.x - props.mainspreadposinfo.x}px;
+                        top : ${(props) => props.selectedposinfo.y - props.mainspreadposinfo.y}px;
+                    `
+                }
+                else if(props.isclickedlenormandtotal === "true"){
+                    if(props.count >= props.lenormandtotalidx[0]
+                        && props.count <= props.lenormandtotalidx[35])
+                        {
+                            return css`
+                                left: calc(50% - ${props => props.selectedposinfo.width/2}px + ${props => props.modetempx});
+                                top: calc(50% - ${props => props.selectedposinfo.height/2}px + ${props => props.modetempy});
+                            `
+                        }
+                    else{
+                        return css`
+                            left: ${(props) => props.selectedposinfo.x - props.mainspreadposinfo.x}px;
+                            top : ${(props) => props.selectedposinfo.y - props.mainspreadposinfo.y}px;
+                        `
+                    }
+                }
+            }
+            
             return css`
                 left: ${(props) => props.selectedposinfo.x - props.mainspreadposinfo.x}px;
                 top : ${(props) => props.selectedposinfo.y - props.mainspreadposinfo.y}px;
@@ -42,10 +73,29 @@ const DragCardContainer2 = styled(motion.div)`
                 `
             }
             else if(props.count >= props.usersetnumber){
-                return css`
-                    left: ${(props) => props.selectedposinfo.x - props.mainspreadposinfo.x}px;
-                    top : ${(props) => props.selectedposinfo.y - props.mainspreadposinfo.y}px;
-                `
+                if(props.isclickedlenormandtotal === "false"){
+                    return css`
+                        left: ${(props) => props.selectedposinfo.x - props.mainspreadposinfo.x}px;
+                        top : ${(props) => props.selectedposinfo.y - props.mainspreadposinfo.y}px;
+                    `
+                }
+                else if(props.isclickedlenormandtotal === 'true'){
+                    if(props.count >= props.lenormandtotalidx[0]
+                        && props.count <= props.lenormandtotalidx[35])
+                        {
+                            return css`
+                                left: calc(50% - ${props => props.selectedposinfo.width/2}px + ${props => props.modetempx});
+                                top: calc(50% - ${props => props.selectedposinfo.height/2}px + ${props => props.modetempy});
+                            `
+                        }
+                    else{
+                        return css`
+                            left: ${(props) => props.selectedposinfo.x - props.mainspreadposinfo.x}px;
+                            top : ${(props) => props.selectedposinfo.y - props.mainspreadposinfo.y}px;
+                        `
+                    }
+                    
+                }
             }
         }
     }}
@@ -70,6 +120,18 @@ const DragCardContainer2 = styled(motion.div)`
     //top : ${(props) => props.selectedposinfo.y - props.mainspreadposinfo.y}px;
     cursor: pointer;
     
+    ${(props) =>{
+        if(props.isthiscardhide === 'true'){
+            return css`
+                display: none;
+            `
+        }
+        else if(props.isthiscardhide === 'false'){
+            return css`
+                display: flex;
+            `
+        }
+    }}
     
 `
 const cardVariants = {
@@ -103,7 +165,7 @@ function DragCard(props) {
 
     const {indexCount, setIndexCount} = props.indexCountController;
     const newDragArea = props.newDragArea;
-    const [isInSpreadZone, setIsInSpreadZone] = useState(false);
+    const [isInSpreadZone, setIsInSpreadZone] = useState(false); // 컴포넌트 7번
     const { isInCount , setIsInCount } = props.isInCounter;
     const [thisNewZIdx, setThisNewZIdx] = useState(0);
     let _count = props.count;
@@ -112,6 +174,13 @@ function DragCard(props) {
         isThisCardClicked,
         setIsThisCardClicked
     }
+    let {
+        isClickedLenormandTotal,
+        setIsClickedLenormandTotal
+    } = props.isClickedLenormandTotalController;
+
+    let lenormandTotalIdx = props.lenormandTotalIdx;
+
     const [isFliped, setIsFliped] = useState(false);
     const [isRotate, setRotate] = useState(false);
     let {findCardImage, setCardImage} = props.findCardControl;
@@ -176,14 +245,170 @@ function DragCard(props) {
         "0%",
         "0%"
     ]
+    let lenormandTotalX = [ // 야 이것도 역순이다 35 -> 0
+        "25%",
+        "15%",
+        "5%",
+        "-5%",
+        "-15%",
+
+        "-25%",
+        "45%",
+        "35%",
+        "25%",
+        "15%",
+
+        "5%",
+        "-5%",
+        "-15%",
+        "-25%",
+        "-35%",
+
+        "-45%",
+        "45%",
+        "35%",
+        "25%",
+        "15%",
+
+        "5%",
+        "-5%",
+        "-15%",
+        "-25%",
+        "-35%",
+
+        "-45%", // 11
+
+        "45%", // 10
+        "35%",
+        "25%",
+        "15%",
+
+        "5%",
+        "-5%",
+        "-15%",
+        "-25%",
+        "-35%",
+        "-45%", // 1
+
+    ]
+    let lenormandTotalY = [
+        "38%",
+        "38%",
+        "38%",
+        "38%",
+        "38%",
+
+        "38%",
+        "13%",
+        "13%",
+        "13%",
+        "13%",
+
+        "13%",
+        "13%",
+        "13%",
+        "13%",
+        "13%",
+
+        "13%",
+        "-12%", // 20
+        "-12%",
+        "-12%",
+        "-12%",
+
+        "-12%",
+        "-12%",
+        "-12%",
+        "-12%",
+        "-12%",
+
+        "-12%", // 11
+
+        "-37%", // 10
+        "-37%",
+        "-37%",
+        "-37%",
+
+        "-37%",
+        "-37%",
+        "-37%",
+        "-37%",
+        "-37%",
+        "-37%",
+
+    ]
 
     const [threeCardPosArr, setThreeCardPosArr] = useState(_tempThreeX);
     const [modetempx, setModeTempX] = useState();
     const [modetempy, setModeTempY] = useState();
 
-    
+    let { imgTypeArr, setImgTypeArr } = props.imgTypeControler;
+    let setFindImageType = props.setFindImageType;
+    const [imgRoute, setImgRoute] = useState();
+
+    const [isThisCardHide, setIsThisCardHide] = useState(false);
+    const [thisCardLenorTotal, setThisCardLenorTotal] = useState(false);
+    const [lenormandIdxNum, setLenormandIdxNum] = useState(0);
+
     useEffect(()=>{
         setThisCount(_count);
+    }, [])
+    
+    // Lenormand Total Test
+    useEffect(()=>{ // idx 번호 캐치 // 레노토탈 테스트중
+        if(isClickedLenormandTotal === true){
+             let _firstIdx = lenormandTotalIdx[0];
+             let _lastIdx = lenormandTotalIdx[35];
+            if(_count >= _firstIdx
+                && _count <= _lastIdx)
+            {
+                for(let i = 0; i < lenormandTotalIdx.length; i++)
+                {
+                    if(lenormandTotalIdx[i] === _count)
+                    {
+                        setLenormandIdxNum(i);
+                        setModeTempX(lenormandTotalX[i]);
+                        //console.log('tjtjtjtj') 여기 작동함
+                        setModeTempY(lenormandTotalY[i]);
+                        setThisCardLenorTotal(true);
+                        break;
+                    } 
+                }
+                //setIsInSpreadZone(true); // 추가 이후로 포지션 제대로 못잡음 // 22.08.04
+                // ExtraLenormand에서 reverse한 것도 있음.
+                // 테스트 결과 리버스와 상관없이. setIsInSpreadZone(true); 추가로
+                // 포지셔닝이 안되는 것을 확인함.
+            }
+        }
+    }, [isClickedLenormandTotal])
+
+
+    // imgTypeArr Test
+    useEffect(() =>{
+        let _tempTypeArr = imgTypeArr;
+        switch(_tempTypeArr[_count]){
+            case "T":
+            setImgRoute(
+                `/images/ArcanaOfCard/DefaultImages/TotalImages/Default${dragCardNumArr[_count]}.png` // thiscount 원래 _count였음
+            );
+            break;
+            case "L":
+            setImgRoute(
+                `/images/Lenormand/DefaultImages/Default_Lenormand${dragCardNumArr[_count]}.png`
+            );
+            // thiscardimgType = useState()
+            // setthiscardimgtype("L")
+            // 는 어떨까?
+            break;
+            case "I":
+            setImgRoute(
+                `/images/IChing/iching${dragCardNumArr[_count]}.png`
+            )
+            break;
+            default :
+
+            break;
+        }
     }, [])
     useEffect(()=>{
         if(modeNumber !== 0){
@@ -200,6 +425,26 @@ function DragCard(props) {
                 setThisNewZIdx(_temp);
                 setIndexCount(_temp);
                 //setIsInSpreadZone(true);
+            }
+            else if(_count >= lenormandTotalIdx[0]
+                && _count <= lenormandTotalIdx[35]
+                && isClickedLenormandTotal === true){
+                setIsInSpreadZone(true);
+                let tempIdx = userSetNumber + indexCount + 10;
+                tempIdx++;
+                setThisNewZIdx(tempIdx);
+                setIndexCount(tempIdx);
+            }
+        }
+        else if(modeNumber === 0){
+            if(_count >= lenormandTotalIdx[0]
+                && _count <= lenormandTotalIdx[35]
+                && isClickedLenormandTotal === true){
+                setIsInSpreadZone(true);
+                let tempIdx = userSetNumber + indexCount + 10;
+                tempIdx++;
+                setThisNewZIdx(tempIdx);
+                setIndexCount(tempIdx);
             }
         }
     }, [])
@@ -251,15 +496,51 @@ function DragCard(props) {
 
     useEffect(()=>{
         if(modeNumber === 0){
-            let tempArr = props.childCardStateArrController.childCardStateArr;
-            tempArr[_count] = {
-                isThisCardClicked : isThisCardClicked,
-                setIsThisCardClicked : setIsThisCardClicked,
-                isFliped : isFliped,
-                setIsFliped : setIsFliped,
-                isInSpreadZone : isInSpreadZone, // 스프레드 존 안에 없음.
+            if(isClickedLenormandTotal === false){
+                let tempArr = props.childCardStateArrController.childCardStateArr;
+                tempArr[_count] = {
+                    isThisCardClicked : isThisCardClicked,
+                    setIsThisCardClicked : setIsThisCardClicked,
+                    isFliped : isFliped,
+                    setIsFliped : setIsFliped,
+                    isInSpreadZone : isInSpreadZone, // 스프레드 존 안에 없음.
+                    isThisCardHide : isThisCardHide, // Hide 테스트
+                    setIsThisCardHide : setIsThisCardHide // Hide 테스트
+                }
+                props.childCardStateArrController.setChildCardStateArr(tempArr);
             }
-            props.childCardStateArrController.setChildCardStateArr(tempArr);
+            else if(isClickedLenormandTotal === true){
+                if( _count >= lenormandTotalIdx[0]
+                    && _count <= lenormandTotalIdx[35]
+                    //&& thisCardLenorTotal === true
+                ){
+                    let tempArr = props.childCardStateArrController.childCardStateArr;
+                        tempArr[_count] = {
+                            isThisCardClicked : isThisCardClicked,
+                            setIsThisCardClicked : setIsThisCardClicked,
+                            isFliped : isFliped,
+                            setIsFliped : setIsFliped,
+                            isInSpreadZone : true, // 스프레드 존 안에 있음
+                            isThisCardHide : isThisCardHide, // Hide 테스트
+                            setIsThisCardHide : setIsThisCardHide // Hide 테스트
+                    }
+                    props.childCardStateArrController.setChildCardStateArr(tempArr);
+                }
+                else{
+                    let tempArr = props.childCardStateArrController.childCardStateArr;
+                        tempArr[_count] = {
+                            isThisCardClicked : isThisCardClicked,
+                            setIsThisCardClicked : setIsThisCardClicked,
+                            isFliped : isFliped,
+                            setIsFliped : setIsFliped,
+                            isInSpreadZone : isInSpreadZone, // 스프레드 존 안에 없음
+                            isThisCardHide : isThisCardHide, // Hide 테스트
+                            setIsThisCardHide : setIsThisCardHide // Hide 테스트
+                        }
+                        props.childCardStateArrController.setChildCardStateArr(tempArr);
+                }
+            }
+            
         }
         else if(modeNumber !== 0){
             if(_count < userSetNumber){
@@ -270,19 +551,62 @@ function DragCard(props) {
                     isFliped : isFliped,
                     setIsFliped : setIsFliped,
                     isInSpreadZone : true, // 스프레드 존 안에 있음
+                    isThisCardHide : isThisCardHide, // Hide 테스트
+                    setIsThisCardHide : setIsThisCardHide // Hide 테스트
                 }
                 props.childCardStateArrController.setChildCardStateArr(tempArr);
+
             }
-            else if(_count >= userSetNumber){
-                let tempArr = props.childCardStateArrController.childCardStateArr;
-                tempArr[_count] = {
-                    isThisCardClicked : isThisCardClicked,
-                    setIsThisCardClicked : setIsThisCardClicked,
-                    isFliped : isFliped,
-                    setIsFliped : setIsFliped,
-                    isInSpreadZone : isInSpreadZone, // 스프레드 존 안에 없음
+            else if(_count >= userSetNumber ){
+                if(isClickedLenormandTotal === false)
+                {
+                    let tempArr = props.childCardStateArrController.childCardStateArr;
+                    tempArr[_count] = {
+                        isThisCardClicked : isThisCardClicked,
+                        setIsThisCardClicked : setIsThisCardClicked,
+                        isFliped : isFliped,
+                        setIsFliped : setIsFliped,
+                        isInSpreadZone : isInSpreadZone, // 스프레드 존 안에 없음
+                        isThisCardHide : isThisCardHide, // Hide 테스트
+                        setIsThisCardHide : setIsThisCardHide // Hide 테스트
+                    }
+                    props.childCardStateArrController.setChildCardStateArr(tempArr);
+
                 }
-                props.childCardStateArrController.setChildCardStateArr(tempArr);
+                else if(isClickedLenormandTotal === true)
+                {
+                    if( _count >= lenormandTotalIdx[0]
+                        && _count <= lenormandTotalIdx[35]
+                        //&& thisCardLenorTotal === true
+                    )
+                    {
+                        let tempArr = props.childCardStateArrController.childCardStateArr;
+                        tempArr[_count] = {
+                            isThisCardClicked : isThisCardClicked,
+                            setIsThisCardClicked : setIsThisCardClicked,
+                            isFliped : isFliped,
+                            setIsFliped : setIsFliped,
+                            isInSpreadZone : true, // 스프레드 존 안에 있음
+                            isThisCardHide : isThisCardHide, // Hide 테스트
+                            setIsThisCardHide : setIsThisCardHide // Hide 테스트
+                        }
+                        props.childCardStateArrController.setChildCardStateArr(tempArr);
+                    }
+                    else{
+                        let tempArr = props.childCardStateArrController.childCardStateArr;
+                        tempArr[_count] = {
+                            isThisCardClicked : isThisCardClicked,
+                            setIsThisCardClicked : setIsThisCardClicked,
+                            isFliped : isFliped,
+                            setIsFliped : setIsFliped,
+                            isInSpreadZone : isInSpreadZone, // 스프레드 존 안에 없음
+                            isThisCardHide : isThisCardHide, // Hide 테스트
+                            setIsThisCardHide : setIsThisCardHide // Hide 테스트
+                        }
+                        props.childCardStateArrController.setChildCardStateArr(tempArr);
+                    }
+                }
+                
             }
             
         }
@@ -337,6 +661,8 @@ function DragCard(props) {
                         isFliped : isFliped,
                         setIsFliped : setIsFliped,
                         isInSpreadZone : true,
+                        isThisCardHide : isThisCardHide, // Hide 테스트
+                        setIsThisCardHide : setIsThisCardHide // Hide 테스트
                     }
                     props.childCardStateArrController.setChildCardStateArr(tempArr);
                 }
@@ -350,10 +676,44 @@ function DragCard(props) {
             setWhatMode(false);
         }
     }
+    const newZoomHandler = () =>{
+        if(props.isClickedFind === true){
+            // lenormandNameArr
+            let _str;
+            let flag = imgTypeArr[_count];
+            //console.log(imgTypeArr[_count]) // 정상
+            switch(flag){
+                case "T":
+                    _str = props.cardNameArr[imgnum];
+                break;
+                case "L":
+                    _str = props.lenormandNameArr[imgnum];
+                break;
+                case "I":
+                    _str = props.ichingNameArr[imgnum];
+                break;
+                default:
+
+                break;
+            }
+            setFindImageType(flag);
+            props.setFindCardName(_str);
+            setCardImage(imgnum);
+            setWhatMode(false);
+
+        }
+    } 
   return (
-    <Draggable nodeRef={cardRef} onDrag={(e, data) => {trackPos(data)}}>
+    <Draggable nodeRef={cardRef} 
+        onDrag={(e, data) => {
+            if(isThisCardHide === false){
+                trackPos(data)
+            }
+        }}>
         <DragCardContainer2
             usersetnumber={userSetNumber}
+            isclickedlenormandtotal={isClickedLenormandTotal === false ? "false" : "true"}
+            lenormandtotalidx={lenormandTotalIdx}
             threecardposarr={threeCardPosArr}
             modenumber={modeNumber}
             drag
@@ -365,16 +725,25 @@ function DragCard(props) {
             mainspreadposinfo={mainSpreadPosInfo}
             imgsrc={isFliped === false 
                 ? `${process.env.PUBLIC_URL}/images/BackOfCard/DefaultImages/RequestBackOfCard.png`
-                : `${process.env.PUBLIC_URL}/images/ArcanaOfCard/DefaultImages/TotalImages/Default${dragCardNumArr[_count]}.png`
+                : `${process.env.PUBLIC_URL}${imgRoute}`
             }
             style={isInSpreadZone === false
-                ? {zIndex: _zIdx,}
-                : {zIndex: thisNewZIdx,}
+                ? {
+                    zIndex: _zIdx,
+                }
+                : {
+                    zIndex: thisNewZIdx,
+                    transition: 'background-image 0.5s ease-in-out',
+                }
             }
             dragSnapToOrigin={isInSpreadZone === false ? true : false}
             dragConstraints={isInSpreadZone === false ? props.refArr[0] : props.refArr[1]}
             dragMomentum={false}
-            onDrag={e => onDragHandler(e)}
+            onDrag={(e) =>{
+                if(isThisCardHide === false){
+                    onDragHandler(e)
+                }
+            }}
             variants={cardVariants}
             animate={
                 isRotate === false 
@@ -382,12 +751,20 @@ function DragCard(props) {
                 : "rotateTrue"
             }
             whileDrag="hover"
-            onDoubleClick={e => onRotateHandler(e)}
-            onClick={()=>{
-                if(isInSpreadZone === true && isFliped === true){
-                    zoomHandler();
+            onDoubleClick={(e) =>{
+                if(isThisCardHide === false){
+                    onRotateHandler(e)
                 }
             }}
+            onClick={()=>{
+                if(isInSpreadZone === true 
+                    && isFliped === true
+                    && isThisCardHide === false){
+                    //zoomHandler();
+                    newZoomHandler();
+                }
+            }}
+            isthiscardhide={isThisCardHide === true ? 'true' : 'false'}
 
         >
             {/* {imgnum}

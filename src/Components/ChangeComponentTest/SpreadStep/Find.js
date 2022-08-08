@@ -97,6 +97,9 @@ function Find(props) {
     let findCardName = props.findCardName;
     let selectFindCardName = props.selectFindCardName;
     let selectFindImageNum = props.selectFindImageNum;
+    let findImageType = props.findImageType;
+    let selectImageType = props.selectImageType;
+
     const [position, setPosition] = useState({ x : 0, y : 0});
     const trackPos = (data) => {
         setPosition({ x : data.x , y : data.y });
@@ -107,9 +110,77 @@ function Find(props) {
 
     const findRef = useRef();
 
+    const [imgRoute, setImgRoute] = useState(`/images/ArcanaOfCard/DefaultImages/TotalImages/Default`);
+    const [selectImgRoute, setSelectImgRoute] = useState(`/images/ArcanaOfCard/DefaultImages/TotalImages/Default`);
+
     useEffect(()=>{
-        //console.log('change');
+        // let type = findImageType;
+        // switch(type){
+        //     case "T":
+        //     setImgRoute(
+        //         `/images/ArcanaOfCard/DefaultImages/TotalImages/Default` // thiscount 원래 _count였음
+        //     );
+        //     break;
+        //     case "L":
+        //     setImgRoute(
+        //         `/images/Lenormand/DefaultImages/Default_Lenormand`
+        //     );
+        //     break;
+        //     case "I":
+        //     setImgRoute(
+        //         `/images/IChing/iching`
+        //     );
+        //     default:
+
+        //     break;
+        // }
     }, [findCardImage])
+    useEffect(()=>{
+        let type = findImageType;
+        
+        switch(type){
+            case "T":
+            setImgRoute(
+                `/images/ArcanaOfCard/DefaultImages/TotalImages/Default` // thiscount 원래 _count였음
+            );
+            break;
+            case "L":
+            setImgRoute(
+                `/images/Lenormand/DefaultImages/Default_Lenormand`
+            );
+            break;
+            case "I":
+            setImgRoute(
+                `/images/IChing/iching`
+            );
+            default:
+
+            break;
+        }
+    }, [findImageType])
+    useEffect(()=>{
+        let type = selectImageType;
+        
+        switch(type){
+            case "T":
+            setSelectImgRoute(
+                `/images/ArcanaOfCard/DefaultImages/TotalImages/Default` // thiscount 원래 _count였음
+            );
+            break;
+            case "L":
+            setSelectImgRoute(
+                `/images/Lenormand/DefaultImages/Default_Lenormand`
+            );
+            break;
+            case "I":
+            setSelectImgRoute(
+                `/images/IChing/iching`
+            );
+            default:
+
+            break;
+        }
+    }, [selectImageType])
     const convertMode = () => {
         setWhatMode(!whatMode);
     }
@@ -119,7 +190,9 @@ function Find(props) {
     const onFindActive = () => {
         setIsActiveOptionCurtain(true);
         setTimeout(()=>{
-            setOptionType(4);
+            //setOptionType(4); 기존 코드 22.08.05
+            setOptionType(10); // 테스트 코드 // Find 컴포넌트 분리
+
         }, 2000);
     }
   return (
@@ -136,10 +209,10 @@ function Find(props) {
                 imgsrc={
                     findCardImage !== 100 && whatMode === false
                     ? 
-                    `${process.env.PUBLIC_URL}/images/ArcanaOfCard/DefaultImages/TotalImages/Default${findCardImage}.png`
+                    `${process.env.PUBLIC_URL}${imgRoute}${findCardImage}.png`
                     : findCardImage !== 100 || whatMode === true
                         ? 
-                        `${process.env.PUBLIC_URL}/images/ArcanaOfCard/DefaultImages/TotalImages/Default${selectFindImageNum}.png`
+                        `${process.env.PUBLIC_URL}${selectImgRoute}${selectFindImageNum}.png`
                         : ""
                 }
             ></ImgBox>

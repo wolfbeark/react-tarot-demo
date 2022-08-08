@@ -11,7 +11,13 @@ import{
 import MakeExtraDeck from './MakeExtraDeck';
 import SpreadCurtain from './SpreadCurtain';
 import Find from './Find';
-import PreviewInSpread from './PreviewInSpread';
+import SelectExtraMode from './SelectExtraMode';
+
+import ExtraLenorMand from './ExtraLenormand';
+import ExtraIChing from './ExtraIChing';
+
+import HideAndSeek from './HideAndSeek';
+import FindSelectCard from './FindSelectCard';
 
 const SpreadContainer = styled(motion.div)`
     width: 100%;
@@ -164,7 +170,7 @@ const OptionSpreadBtnBox = styled(motion.div)`
 `
 const OptionBtn = styled(motion.div)`
     width: 100%;
-    height: 20%;
+    height: 18%;
     background-color: #123456;
     border-radius: 10px;
     padding: 2%;
@@ -216,7 +222,7 @@ const optionFadeVariants = {
     fadeIn:{
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
         transition:{
-            duration: 2,
+            duration: 1,
         }
     },
     fadeOut:{
@@ -508,6 +514,8 @@ function SpreadStep(props) {
         setIsFliped : null,
         isInSpreadZone : false,
         currentCardState : "rotateFalse",
+        isThisCardHide : false, // Hide 테스트
+        setIsThisCardHide : null // Hide 테스트
     });
     let [childCardStateArr, setChildCardStateArr] = useState(_tempChildClickArr);
     let childCardStateArrController ={
@@ -541,6 +549,8 @@ function SpreadStep(props) {
     const [isClickedFind, setClickedFind] = useState(false);
     const [findStateArr, setFindStateArr] = useState(null);
     const [findCardImage, setCardImage] = useState(100);
+    const [findImageType, setFindImageType] = useState("T");
+    const [selectImageType, setSelectImageType] = useState("T");
     const [whatMode, setWhatMode] = useState(false); // false: zoom, true: find
 
     const [selectFindImageNum, setSelectFindImageNum] = useState(100);
@@ -633,6 +643,117 @@ function SpreadStep(props) {
         "QUEEN OF PENTACLES",
         "KING OF PENTACLES",
     ]
+    const lenormandNameArr = [
+        "1 RIDER",
+        "2 CLOVER",
+        "3 SHIP",
+        "4 HOUSE",
+        "5 TREE",
+        "6 CLOUD",
+        "7 SNAKE",
+        "8 COFFIN",
+        "9 BOUQUET",
+        "10 SCYTHE",
+        "11 WHIP",
+        "12 BIRDS",
+        "13 CHILD",
+        "14 FOX",
+        "15 BEAR",
+        "16 STARS",
+        "17 STORK",
+        "18 DOG",
+        "19 TOWER",
+        "20 GARDEN",
+        "21 MOUNTAIN",
+        "22 PATHS",
+        "23 MICE",
+        "24 HEART",
+        "25 RING",
+        "26 BOOK",
+        "27 LETTER",
+        "28 MAN",
+        "29 LADY",
+        "30 LILY",
+        "31 SUN",
+        "32 MOON",
+        "33 KEY",
+        "34 FISH",
+        "35 ANCHOR",
+        "36 CROSS"
+    ]
+    const ichingNameArr = [
+        "중천건", //0
+        "중지곤", //1
+        "수뢰둔", //2
+        "산수몽", //3
+        "수천수", //4
+        "천수송", //5
+        "지수사", //6
+        "수지비", //7
+
+        "풍천소축", //8
+        "천택리", //9
+        "지천태", //10
+        "천지비", //11
+        "천화동인", //12
+        "화천대유", //13
+        "지산겸", //14
+        "뇌지예", //15
+
+        "택뢰수", //16
+        "산풍고", //17
+        "지택림", //18
+        "풍지관", //19
+        "화뢰서합", //20
+        "산화비", //21
+        "산지박", //22
+        "지뢰복", //23
+
+        "천뢰무망", //24
+        "산천대축", //25
+        "산뢰이", //26
+        "택풍대과", //27
+        "중수감", //28
+        "중화리", //29
+        "택산함", //30
+        "뇌풍항", //31
+
+        "천산돈", //32
+        "뇌천대장", //33
+        "화지진", //34
+        "지화명이", //35
+        "풍화가인", //36
+        "화택규", //37
+        "수산건", //38
+        "뇌수해", //39
+
+        "산택손", //40
+        "풍뢰익", //41
+        "택천쾌", //42
+        "천풍구", //43
+        "택지췌", //44
+        "지풍승", //45
+        "택수곤", //46
+        "수풍정", //47
+
+        "택화혁", //48
+        "화풍정", //49
+        "중뢰진", //50
+        "중산간", //51
+        "풍산점", //52
+        "뇌택귀매", //53
+        "뇌화풍", //54
+        "화산려", //55
+
+        "중풍손", //56
+        "중택태", //57
+        "풍수환", //58
+        "수택절", //59
+        "풍택중부", //60
+        "뇌산소과", //61
+        "수화기제", //62
+        "화수미제", //63
+    ]
     const [findCardName, setFindCardName] = useState();
     const [findCardType, setFindCardType] = useState(10);
     const [selectedTypeArr, setSelectedTypeArr] = useState([]);
@@ -643,6 +764,34 @@ function SpreadStep(props) {
 
     const [isClickedCapture, setClickedCapture] = useState(false);
 
+    const [imgTypeArr, setImgTypeArr] = useState(new Array(userSetNumber));
+    const imgTypeControler = {
+        imgTypeArr,
+        setImgTypeArr
+    }
+    const [isClickedHide, setClickedHide] = useState(false);
+    const [hideInfoArr, setHideInfoArr] = useState([]);
+    const hideInfoArrController = {
+        hideInfoArr,
+        setHideInfoArr
+    }
+    const [hideBtnOnOffArr, setHideBtnOnOffArr] = useState([false]);
+    const hideBtnOnOffArrController = {
+        hideBtnOnOffArr,
+        setHideBtnOnOffArr
+    }
+    const [isClickedLenormandTotal, setIsClickedLenormandTotal] = useState(false); // 35?
+    const isClickedLenormandTotalController ={
+        isClickedLenormandTotal,
+        setIsClickedLenormandTotal
+    }
+    let lenormandTotalTempArr = new Array(36);
+    lenormandTotalTempArr.fill(0);
+    const [lenormandTotalIdx, setLenormandTotalIdx] = useState(lenormandTotalTempArr);
+    const lenormandTotalIdxController = {
+        lenormandTotalIdx,
+        setLenormandTotalIdx
+    }
     useEffect(()=>{ // 오프닝 커튼
         setTimeout(()=>{
             setActiveCurtain(false);
@@ -652,7 +801,26 @@ function SpreadStep(props) {
         if(modeNumber !== 0){
             setIsInCount(0);
         }
-    }, [])
+    }, [modeNumber])
+    useEffect(()=>{
+        let temp = new Array(userSetNumber);
+        temp.fill("T")
+        setImgTypeArr(temp);
+    }, [userSetNumber])
+
+    useEffect(()=>{ // Hide Test
+        let _arr = [];
+        let _temp = {
+            deckNumber: 0,
+            deckName : 'FIRST SPREAD - TAROT',
+            cardType : 'TAROT',
+            cardCount : userSetNumber,
+            cardFirstIdx : 0,
+            cardLastIdx : userSetNumber - 1,
+        }
+        _arr.push(_temp);
+        setHideInfoArr(_arr);
+    }, [userSetNumber])
     
     useEffect(()=>{
         const temp = optionBox.current.getBoundingClientRect();
@@ -683,7 +851,7 @@ function SpreadStep(props) {
         }
         let tempArr = _dragCardNumArr.reverse();
         setDragCardNumArr(tempArr); 
-    }, [])
+    }, [props.selectedImgNumArr, userSetNumber]) // 에러 테스트 22.08.04
 
     useEffect(()=>{
         const _tempSelectedZone = selectedDeckZoneRef.current.getBoundingClientRect();
@@ -778,6 +946,37 @@ function SpreadStep(props) {
         //window.location.reload();
     }
 
+    
+    // const submitBtnOnOffInfo = () => {
+    //     props.hideBtnOnOffArrController.setHideBtnOnOffArr(btnControlArr);
+    //     // childCardStateArr 변경
+    //     let _childCardStateArr = 
+    //     props.childCardStateArrController.childCardStateArr;
+
+    //     let firstIdx;
+    //     let lastIdx;
+    //     for(let i = 0; i < btnControlArr.length; i++){
+            
+    //         if(btnControlArr[i] === true){ // Hide
+    //             firstIdx = hideInfoArr[i].cardFirstIdx;
+    //             lastIdx = hideInfoArr[i].cardLastIdx;
+    //             for(let j = firstIdx; j < lastIdx + 1; j++){
+    //                 props.childCardStateArrController.childCardStateArr[j].setIsThisCardHide(true);
+    //                 _childCardStateArr[j].isThisCardHide = true;
+    //             }
+
+    //         }
+    //         else if(btnControlArr[i] === false){ // Seek
+    //             firstIdx = hideInfoArr[i].cardFirstIdx;
+    //             lastIdx = hideInfoArr[i].cardLastIdx;
+    //             for(let j = firstIdx; j < lastIdx + 1; j++){
+    //                 props.childCardStateArrController.childCardStateArr[j].setIsThisCardHide(false);
+    //                 _childCardStateArr[j].isThisCardHide = false;
+    //             }
+    //         }
+    //     }
+    //     props.childCardStateArrController.setChildCardStateArr(_childCardStateArr);
+    // }
   return (
     <>
     <SpreadContainer
@@ -815,6 +1014,12 @@ function SpreadStep(props) {
                     isClickedFind={isClickedFind}
                     previewNumbers={previewNumbers}
                     isActiveCurtain={isActiveCurtain}
+                    imgTypeControler={imgTypeControler}
+                    lenormandNameArr={lenormandNameArr}
+                    ichingNameArr={ichingNameArr}
+                    setFindImageType={setFindImageType}
+                    isClickedLenormandTotalController={isClickedLenormandTotalController}
+                    lenormandTotalIdx={lenormandTotalIdx}
                 >
 
                 </MainSpreadZone>
@@ -852,8 +1057,10 @@ function SpreadStep(props) {
                                     if(isInCount === 0){
                                         setIsActiveOptionCurtain(true);
                                         setTimeout(()=>{
-                                            setOptionType(2);
-                                        }, 2000);
+                                           // setOptionType(2); 기존 코드
+                                           // 테스트용 코드
+                                           setOptionType(5);
+                                        }, 1000);
                                     }
                                     
                                 }}
@@ -916,11 +1123,30 @@ function SpreadStep(props) {
                                         setIsActiveOptionCurtain(true);
                                         setTimeout(()=>{
                                         setOptionType(1);
-                                    }, 2000);
+                                    }, 1000);
                                 }
                                 }}
                             >
                                 RESTART
+                            </button>
+                        </OptionBtn>
+                        <OptionBtn
+                            variants={optionBtnVariants}
+                            whileHover="hover"
+                            whileTap="click"
+                            style={{
+                                cursor: 'pointer'
+                            }}
+                        >
+                            <button
+                                onClick={()=>{
+                                    setClickedHide(!isClickedHide)
+                                }}
+                                style={{
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                HIDE
                             </button>
                         </OptionBtn>
                         <OptionBtn
@@ -1005,7 +1231,7 @@ function SpreadStep(props) {
                                         setClickedFind(false);
                                         setTimeout(()=>{
                                             setOptionType(3);
-                                        }, 2000);
+                                        }, 1000);
                                     }
                                     
                                 }}
@@ -1051,6 +1277,21 @@ function SpreadStep(props) {
                 setOptionType={setOptionType}
                 selectFindImageNum={selectFindImageNum} //
                 selectFindCardName={selectFindCardName} //
+                ichingNameArr={ichingNameArr}
+                findImageType={findImageType}
+                selectImageType={selectImageType}
+            />
+            : null
+        }
+        {
+            isClickedHide === true
+            ?
+            <HideAndSeek 
+                refArr={refArr}
+                setClickedHide={setClickedHide}
+                hideInfoArrController={hideInfoArrController}
+                hideBtnOnOffArrController={hideBtnOnOffArrController}
+                childCardStateArrController={childCardStateArrController}
             />
             : null
         }
@@ -1108,6 +1349,9 @@ function SpreadStep(props) {
                     dragCardNumArr={dragCardNumArr}
                     isInCounter={isInCounter}
                     totalCounter={totalCounter}
+                    imgTypeControler={imgTypeControler}
+                    hideInfoArrController={hideInfoArrController}
+                    hideBtnOnOffArrController={hideBtnOnOffArrController}
                 >
                 </MakeExtraDeck>
                 : null
@@ -1150,6 +1394,19 @@ function SpreadStep(props) {
                 </div>
             </OptionContainer>
             : null
+            }
+            {
+                optionType === 10
+                ?
+                <FindSelectCard 
+                    setOptionType={setOptionType}
+                    setIsActiveOptionCurtain={setIsActiveOptionCurtain}
+                    setSelectFindImageNum={setSelectFindImageNum}
+                    setSelectImageType={setSelectImageType}
+                    setWhatMode={setWhatMode}
+                    setSelectFindCardName={setSelectFindCardName}
+                />
+                : null    
             }
             {
                 optionType === 4 // Find
@@ -1342,6 +1599,55 @@ function SpreadStep(props) {
                                 </SelectOptionBtnBox>
                             </SelectOptionMenuBox>
                 </SelectCardBox>
+                : null
+            }
+            {
+                optionType === 5 // Select Extra mode
+                ?
+                <SelectExtraMode
+                    setOptionType={setOptionType}
+                    setIsActiveOptionCurtain={setIsActiveOptionCurtain}
+                    isClickedLenormandTotal={isClickedLenormandTotal}
+                >
+
+                </SelectExtraMode>
+                : null
+                
+            }
+            {
+                optionType === 6 // Lenormand
+                ?
+                <ExtraLenorMand
+                    setOptionType={setOptionType}
+                    imgTypeControler={imgTypeControler}
+                    dragCardNumArr={dragCardNumArr}
+                    setDragCardNumArr={setDragCardNumArr}
+                    setIsActiveOptionCurtain={setIsActiveOptionCurtain}
+                    isInCounter={isInCounter}
+                    totalCounter={totalCounter}
+                    hideInfoArrController={hideInfoArrController}
+                    hideBtnOnOffArrController={hideBtnOnOffArrController}
+                    childCardStateArr={childCardStateArr}
+                    isClickedLenormandTotalController={isClickedLenormandTotalController}
+                    lenormandTotalIdxController={lenormandTotalIdxController}
+                />                    
+                : null
+            }
+            {
+                optionType === 7 // IChing
+                ?
+                <ExtraIChing 
+                    setOptionType={setOptionType}
+                    setIsActiveOptionCurtain={setIsActiveOptionCurtain}
+                    dragCardNumArr={dragCardNumArr}
+                    setDragCardNumArr={setDragCardNumArr}
+                    isInCounter={isInCounter}
+                    totalCounter={totalCounter}
+                    imgTypeControler={imgTypeControler}
+                    hideInfoArrController={hideInfoArrController}
+                    hideBtnOnOffArrController={hideBtnOnOffArrController}
+
+                />
                 : null
             }
             </>

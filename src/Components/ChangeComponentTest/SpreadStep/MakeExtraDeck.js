@@ -3,12 +3,20 @@ import styled from 'styled-components'
 import {motion} from 'framer-motion'
 
 import SelectDeck from './SelectDeck';
+import{
+    HorizontalContainer
+} from '../../CustomStyles'
+import{
+    colors,
+    fonts,
+} from '../../theme'
 
 const MakeExtraContainer = styled(motion.div)`
     width: 70%;
     height: 80%;
     background-color: #123456;
     border-radius: 10px;
+    position: relative;
 
     padding: 1%;
 `
@@ -143,7 +151,7 @@ const ExtraNoticePanel = styled(motion.div)`
     border-radius: 10px;
     
     
-    font-size: 2em;
+    font-size: 1.5em;
     font-family: "Jua";
     font-weight: 600;
     display: flex;
@@ -171,7 +179,7 @@ const ExtraSetNumberBox = styled(motion.div)`
         //background-color: skyblue;
 
         font-family: "Jua";
-        font-size: 0.6em;
+        font-size: 0.8em;
         border: none;
         outline: unset;
         text-align: center;
@@ -322,9 +330,33 @@ const OptionLoading = styled(motion.div)`
     border-radius: 10px;
 
 `
-const OptionSpan = styled(motion.span)`
+const BackBtn = styled(HorizontalContainer)`
+
+    width: 15%;
+    height: 10%;
+    background-color: ${colors.color.navy};
+    border-radius: inherit;
+    padding: 0.5%;
+    position: absolute;
+    right: 0;
+    bottom: -12%;
+    & > button{
+        width: 100%;
+        height: 100%;
+        background-color: ${colors.color.skyblue};
+        outline: unset;
+        border: none;
+        border-radius: inherit;
+        font-family: ${fonts.family.base};
+        font-size: 1em;
+        font-weight: 600;
+        cursor: pointer;
+    }
+`
+
+const OptionSpan = styled(motion.div)`
     font-family: "Jua";
-    font-size: 2em;
+    font-size: 1.2em;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -381,8 +413,15 @@ function MakeExtraDeck(props){
     const messageArr = [
         "입력 값이 올바르지 않습니다",
         "잠시만 기다려 주십시오",
-
     ]
+    let {
+        imgTypeArr,
+        setImgTypeArr
+    } = props.imgTypeControler;
+    let {
+        hideBtnOnOffArr,
+        setHideBtnOnOffArr
+    } = props.hideBtnOnOffArrController;
 
     const majorControl ={
         isClickedMajor,
@@ -468,6 +507,10 @@ function MakeExtraDeck(props){
             endNum : 77,
         },
     ]
+    let {
+        hideInfoArr,
+        setHideInfoArr
+    } = props.hideInfoArrController;
 
     const onTotalClickedHandler = () =>{
         if(isThereTotal === false){
@@ -512,8 +555,12 @@ function MakeExtraDeck(props){
     const onBackHandler = () =>{
         // 현재 컴포넌트
         // 부모
-        setOptionType(0);
-        setIsActiveOptionCurtain(false);
+        // setOptionType(0);
+        // setIsActiveOptionCurtain(false);
+        
+        // 레노먼드가 추가되었기 때문에 수정필요 22.07.28
+        // 위는 기존 코드
+        setOptionType(5);
     }
 
     const onMakeClickHandler = () =>{
@@ -521,7 +568,7 @@ function MakeExtraDeck(props){
             // listSelectArr 선택된 것이 하나도 없을 경우 필요
             // deckClickCount 사용?
             if(deckClickCount === 0){
-                setMakeMessage("선택할 수 있는 카드의 수량이 0 입니다!");
+                setMakeMessage("덱이 선택되지 않았습니다");
                 setTimeout(()=>{
                     setIsClickedMake(false);
                 }, 2000);
@@ -584,8 +631,8 @@ function MakeExtraDeck(props){
         let _ranIdxNumArr = []; // 랜덤으로 추출된 번호(참조할 인덱스 번호) 배열 
         let _selectedImgNumArr = []; // 최종 이미지 넘버 배열
 
-        let modifiedArr = [];
-
+        let modifiedArr = []; 
+        let _typeArr = imgTypeArr;
 
         let firstFlag = false;
         let secondFlag = false;
@@ -596,6 +643,10 @@ function MakeExtraDeck(props){
         let reverse;
         let modifiedTotalNum;
         let modifiedCount;
+
+        let _hideTempArr;
+        let _hideTempInfo;
+        let _hideBtnOnOffArr;
 
         for(let i = 0; i < minusAllArr.length; i++){
             minusAllArr[i] = i;
@@ -668,7 +719,24 @@ function MakeExtraDeck(props){
 
                 modifiedTotalNum = totalCount + tempNum;
                 modifiedCount = tempNum;
+                for(let i = 0; i < tempNum; i++){
+                    _typeArr.push("T");
+                }
+                // Hide Test
+                _hideTempArr = hideInfoArr;
+                _hideTempInfo = {
+                    deckNumber : ((_hideTempArr.length)),
+                    deckName : `EXTRA DECK - TAROT ${_hideTempArr.length}`,
+                    cardType : 'TAROT',
+                    cardCount : tempNum,
+                    cardFirstIdx : (totalCount),
+                    cardLastIdx : (modifiedTotalNum - 1),
+                }
+                _hideTempArr.push(_hideTempInfo);
 
+                _hideBtnOnOffArr = hideBtnOnOffArr;
+                _hideBtnOnOffArr.push(false);
+                
                 setTimeout(()=>{
                     setDragCardNumArr(allOverArr);
                     setActiveMessageBox(false);
@@ -677,7 +745,10 @@ function MakeExtraDeck(props){
                     setOptionType(0);
                     setTotalCount(modifiedTotalNum);
                     setIsInCount(modifiedCount);
+                    setImgTypeArr(_typeArr);
                     setMakeExtraNumber("");
+                    setHideInfoArr(_hideTempArr);
+                    setHideBtnOnOffArr(_hideBtnOnOffArr);
                 }, 3000);
                 //console.log("랜덤 인덱스 :" + _ranIdxNumArr);
                 //console.log("인덱스 안의 이미지 넘버 :" + _selectedImgNumArr);
@@ -717,7 +788,22 @@ function MakeExtraDeck(props){
                 
                 modifiedTotalNum = totalCount + tempNum;
                 modifiedCount = tempNum;
-                
+                for(let i = 0; i < tempNum; i++){
+                    _typeArr.push("T");
+                }
+                _hideTempArr = hideInfoArr;
+                _hideTempInfo = {
+                    deckNumber : ((_hideTempArr.length)),
+                    deckName : `EXTRA DECK - TAROT ${_hideTempArr.length}`,
+                    cardType : 'TAROT',
+                    cardCount : tempNum,
+                    cardFirstIdx : (totalCount),
+                    cardLastIdx : (modifiedTotalNum - 1),
+                }
+                _hideTempArr.push(_hideTempInfo);
+                _hideBtnOnOffArr = hideBtnOnOffArr;
+                _hideBtnOnOffArr.push(false);
+
                 setTimeout(()=>{
                     setDragCardNumArr(allOverArr);
                     setActiveMessageBox(false);
@@ -727,6 +813,9 @@ function MakeExtraDeck(props){
                     setTotalCount(modifiedTotalNum);
                     setIsInCount(modifiedCount);
                     setMakeExtraNumber("");
+                    setImgTypeArr(_typeArr);
+                    setHideInfoArr(_hideTempArr);
+                    setHideBtnOnOffArr(_hideBtnOnOffArr);
                 }, 3000);
             }
             else if(listSelectArr.length > 1){
@@ -800,6 +889,23 @@ function MakeExtraDeck(props){
                     setActiveMessageBox(true);
                     modifiedTotalNum = totalCount + tempNum;
                     modifiedCount = tempNum;
+                    for(let i = 0; i < tempNum; i++){
+                        _typeArr.push("T");
+                    }
+                    _hideTempArr = hideInfoArr;
+                    _hideTempInfo = {
+                        deckNumber : ((_hideTempArr.length)),
+                        deckName : `EXTRA DECK - TAROT ` + _hideTempArr.length,
+                        cardType : 'TAROT',
+                        cardCount : tempNum,
+                        cardFirstIdx : (totalCount),
+                        cardLastIdx : (modifiedTotalNum - 1),
+                    }
+                    _hideTempArr.push(_hideTempInfo);
+
+                    _hideBtnOnOffArr = hideBtnOnOffArr;
+                    _hideBtnOnOffArr.push(false);
+
                     setTimeout(()=>{
                         setDragCardNumArr(allOverArr);
                         setActiveMessageBox(false);
@@ -807,13 +913,20 @@ function MakeExtraDeck(props){
                         setIsActiveOptionCurtain(false);
                         setTotalCount(modifiedTotalNum);
                         setIsInCount(modifiedCount);
+                        setImgTypeArr(_typeArr);
                         setOptionType(0);
                         setMakeExtraNumber("");
+                        setHideInfoArr(_hideTempArr);
+                        setHideBtnOnOffArr(_hideBtnOnOffArr);
                     }, 3000);
                 }
             }
 
         }
+    }
+    const onBackBtnClick = () =>{
+        setOptionType(0);
+        setIsActiveOptionCurtain(false);    
     }
 
     return(
@@ -1065,6 +1178,65 @@ function MakeExtraDeck(props){
                 : null
             }
         </MakeExtraInContainer>
+        <BackBtn
+            style={
+                activeMessageBox === false
+                ?{
+                    cursor: 'pointer',
+                    opacity: 1.0,
+                    transition: 'opacity 0.2s ease-in-out',
+                }
+                :{
+                    cursor: 'auto',
+                    opacity: 0.8,
+                    transition: 'opacity 0.2s ease-in-out',
+                }
+            }
+            whileHover={
+                activeMessageBox === false
+                ?
+                {
+                    scale: 1.1,
+                }
+                : {
+                    scale: 1.0
+                }
+            }
+            whileTap={
+                activeMessageBox === false
+                ?
+                {
+                    scale: 1.0,
+                }
+                : {
+                    scale: 1.0
+                }
+            }
+        >
+            <button
+                style={
+                    activeMessageBox === false
+                    ?{
+                        cursor: 'pointer',
+                        opacity: 1.0,
+                        transition: 'opacity 0.2s ease-in-out',
+                    }
+                    :{
+                        cursor: 'auto',
+                        opacity: 0.8,
+                        transition: 'opacity 0.2s ease-in-out',
+                    }
+                }
+                onClick={(e)=>{
+                    e.preventDefault();
+                    if(activeMessageBox !== true){
+                        onBackBtnClick();
+                    }
+                }}
+            >
+                CLOSE
+            </button>
+        </BackBtn>
     </MakeExtraContainer>    
     </>
     );
