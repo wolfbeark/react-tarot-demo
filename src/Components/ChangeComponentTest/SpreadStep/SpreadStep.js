@@ -1127,7 +1127,7 @@ function SpreadStep(props) {
                                 }
                                 }}
                             >
-                                RESTART
+                                Restart
                             </button>
                         </OptionBtn>
                         <OptionBtn
@@ -1146,7 +1146,7 @@ function SpreadStep(props) {
                                     cursor: 'pointer'
                                 }}
                             >
-                                HIDE
+                                Hide
                             </button>
                         </OptionBtn>
                         <OptionBtn
@@ -1165,7 +1165,8 @@ function SpreadStep(props) {
                                     cursor: 'pointer'
                                 }}
                             >
-                                Find & Zoom
+                                {/* Find & Zoom */}
+                                Find
                             </button>
                         </OptionBtn>
                         <OptionBtn
