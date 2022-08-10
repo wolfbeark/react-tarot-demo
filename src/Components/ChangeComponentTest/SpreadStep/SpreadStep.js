@@ -1494,7 +1494,7 @@ function SpreadStep(props) {
                                         }
                                         return(
                                             <SemiTypeBtn
-                                                key={i}
+                                                key={'semiTypeBtn_' + i}
                                                 imgnum={tempNum}
                                                 variants={selectCardTypeVar}
                                                 whileHover="hover"

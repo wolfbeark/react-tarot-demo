@@ -132,9 +132,9 @@ function SelectExtraMode(props) {
     }
     const defaultRoute = [
         `/images/ArcanaOfCard/DefaultImages/MAJOR/MJ.0_LE.MAT.png`,
-        `/images/Lenormand/DefaultImages/Default_Lenormand28.png`,
+        `/images/Lenormand/DefaultImages/Default_LenormandBack.png`,
         `/images/IChing/DefaultIChing0.png`,
-        `/images/Poker/DefaultPoker.png`
+        `/images/Poker/DefaultImages/Default_Poker1.png`
     ]
     const nameArr = [
         "Tarot",
@@ -162,7 +162,7 @@ function SelectExtraMode(props) {
                     return(
                         <ModeList
                             imgsrc={`${process.env.PUBLIC_URL}${defaultRoute[i]}`}
-                            key={i}
+                            key={'modeList' + i}
                             variants={modeListVar}
                             
                             whileHover={

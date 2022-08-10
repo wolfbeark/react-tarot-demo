@@ -130,7 +130,7 @@ function PreviewInSpread(props) {
 
                     return(
                         <PreviewImg 
-                            key={i}
+                            key={'previewImg' + i}
                             imgsrc={`${process.env.PUBLIC_URL}/images/ArcanaOfCard/DefaultImages/TotalImages/Default${a}.png`}
                         />
                     );

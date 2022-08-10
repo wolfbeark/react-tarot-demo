@@ -176,6 +176,11 @@ function Find(props) {
             setSelectImgRoute(
                 `/images/IChing/iching`
             );
+            case "P":
+            setSelectImgRoute(
+                `/images/Poker/DefaultImages/Default_Poker`
+            );
+            break;
             default:
 
             break;

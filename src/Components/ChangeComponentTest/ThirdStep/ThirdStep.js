@@ -5,14 +5,10 @@ import {motion} from 'framer-motion'
 import {
   HorizontalContainer,
   VerticalContainer,
-  VerticalForm,
-  DefaultBtnVar
 } from '../../CustomStyles'
 
 import {
-  border,
   colors,
-  fonts,
 } from '../../theme'
 
 import DrawCardBox from './DrawCardBox'
@@ -243,7 +239,7 @@ const QuestionModal = styled(motion.div)`
     text-align: center;
   }
   & span{
-    font-size: 1.7em;
+    font-size: 1.5em;
   }
   & > div{
       
@@ -275,24 +271,7 @@ const yesOrNoVariants = {
         scale: 1,
     }
 }
-const Curtain = styled(motion.div)`
-    width: 100%;
-    height: 100%;
-    background-color: beige;
-    z-index: 50;
-    position: absolute;
-`
-const curtainVariant = {
-    initial:{
-        opacity: 1
-    },
-    start:{
-        opacity: 0,
-        transition:{
-            duration: 2
-        }
-    }
-}
+
 const drawControlBtnVariants ={
   hover:{
       scale: 1.1,
@@ -450,7 +429,7 @@ function QueSelectCard(props){
   let {
     isThisCardClicked,
     setThisCardClicked,
-    selectedIdxNum,
+    //selectedIdxNum,
     setSelectedIdxNum,
     cardNum,
     imgNum,
@@ -546,7 +525,7 @@ function ThirdStep(props) {
   let userSetNumber = props.userSetNumber;
   let setUserSetNumber = props.setUserSetNumber;
   let [drawRanNumArr, setDrawRanNumArr] = useState([]);
-  let { clickAndSelectCount, setClickAndSelectCount } = props.clickCounterController;
+  let { clickAndSelectCount } = props.clickCounterController;
   let [isCardClicked, setCardClicked] = useState(false); // 단순클릭여부, 모달창 플래그
   let [tempChildAttr, setTempChildAttr] = useState({});
   let _tempArr = new Array(userSetNumber);

@@ -230,12 +230,12 @@ function FindTypeCard(props) {
         "51 - 60",
         "61 - 64",
     ];
-    const pokerMenuNameArr = [
+    const pokerMenuNameArr = [ // 흑 스 하 클 다 색
         "JOKER",
         "SPADE",
         "HEART",
+        "CLOVER",
         "DIAMOND",
-        "CLOVER"
     ];
 
     const semiTarotNameArr = [
@@ -430,9 +430,9 @@ function FindTypeCard(props) {
         "화수미제", //63
     ];
     const semiPokerNameArr = [
-        "RED JOKER",
         "BLACK JOKER",
 
+        "ACE OF SPADE",
         "TWO OF SPADES",
         "THREE OF SPADES",
         "FOUR OF SPADES",
@@ -445,8 +445,8 @@ function FindTypeCard(props) {
         "JACK OF SPADES",
         "QUEEN OF SPADES",
         "KING OF SPADES",
-        "ACE OF SPADE",
 
+        "ACE OF HEART",
         "TWO OF HEARTS",
         "THREE OF HEARTS",
         "FOUR OF HEARTS",
@@ -459,8 +459,22 @@ function FindTypeCard(props) {
         "JACK OF HEARTS",
         "QUEEN OF HEARTS",
         "KING OF HEARTS",
-        "ACE OF HEART",
 
+        "ACE OF CLOVER",
+        "TWO OF CLOVERS",
+        "THREE OF CLOVERS",
+        "FOUR OF CLOVERS",
+        "FIVE OF CLOVERS",
+        "SIX OF CLOVERS",
+        "SEVEN OF CLOVERS",
+        "EIGHT OF CLOVERS",
+        "NINE OF CLOVERS",
+        "TEN OF CLOVERS",
+        "JACK OF CLOVERS",
+        "QUEEN OF CLOVERS",
+        "KING OF CLOVERS",
+
+        "ACE OF DIAMOND", // 총 13장
         "TWO OF DIAMONDS",
         "THREE OF DIAMONDS",
         "FOUR OF DIAMONDS",
@@ -473,21 +487,8 @@ function FindTypeCard(props) {
         "JACK OF DIAMONDS",
         "QUEEN OF DIAMONDS",
         "KING OF DIAMONDS",
-        "ACE OF DIAMOND", // 총 13장
 
-        "TWO OF CLOVER",
-        "THREE OF CLOVER",
-        "FOUR OF CLOVER",
-        "FIVE OF CLOVER",
-        "SIX OF CLOVER",
-        "SEVEN OF CLOVER",
-        "EIGHT OF CLOVER",
-        "NINE OF CLOVER",
-        "TEN OF CLOVER",
-        "JACK OF CLOVER",
-        "QUEEN OF CLOVER",
-        "KING OF CLOVER",
-        "ACE OF CLOVER",
+        "RED JOKER",
 
     ];
 
@@ -512,10 +513,11 @@ function FindTypeCard(props) {
             break;
             case 2:
                 setTypeMenuArr(ichingMenuNameArr);
-                setImgRoute(`/images/IChing/iching`)
+                setImgRoute(`/images/IChing/iching`);
             break;
             case 3:
                 setTypeMenuArr(pokerMenuNameArr);
+                setImgRoute(`/images/Poker/DefaultImages/Default_Poker`);
             break;
             default:
 
@@ -573,6 +575,23 @@ function FindTypeCard(props) {
                     _result = _tempNum + i;
                 }
                 return _result;
+            case 3: //selectMenuNum === 3, Poker
+                if(semiTypeNum === 0){
+                    if(i === 0){
+                        _result = 0;
+                    }
+                    else{
+                        _result = 53;
+                    }
+                }
+                else{
+                    // i => 0 ~ 12 , 총 13장
+                    // semiTypeNum // 1이면?
+                    _tempNum = 1 + ((semiTypeNum - 1) * 13);
+                    _result = _tempNum + i;
+                    
+                }
+                return _result;            
             default:
 
             break;
@@ -654,20 +673,14 @@ function FindTypeCard(props) {
                 setSemiTypeNum(num);
             break;
             case 3:
-                if(num === 0){
-                    _tempNum = 0;
-                    _lastNum = 2;
-                    _tempArr = settingSemiTypeArr(3, _tempNum, _lastNum);
+                if(num === 0){ // Joker. 0, 53
+                    _tempArr.push(semiTotalNameArr[3][0]);
+                    _tempArr.push(semiTotalNameArr[3][53]);
                     setSemiTypeArr(_tempArr);
                 }
                 else if(num > 0){
 
-                    _tempNum = 2 + ((num - 1) * 13);
-                    // num 1
-                    // 2
-                    // num 2
-                    // 2 + 13 => 15
-
+                    _tempNum = 1 + ((num - 1) * 13);
                     _lastNum = 13;
                     _tempArr = settingSemiTypeArr(3, _tempNum, _lastNum);
                     setSemiTypeArr(_tempArr);
@@ -688,9 +701,9 @@ function FindTypeCard(props) {
                 typeMenuArr.map((a, i) =>{
                     let _num = i;
                     return(
-                        <>
+                        
                         <SelectCardTypeBtn
-                            key={`type${i}`}
+                            key={'semiTypeBtn_' + i}
                             whileHover={{
                                 scale: 1.1,
                                 boxShadow: "0 0 10px 2px gray",
@@ -706,7 +719,7 @@ function FindTypeCard(props) {
                         >
                             {a}
                         </SelectCardTypeBtn>
-                        </>
+                        
                     );
                 })
             }
@@ -722,7 +735,9 @@ function FindTypeCard(props) {
                         let imgnum = settingImgIdx(i);
                         
                         return(
+                            
                             <SemiTypeBtn
+                                key={`semiType${i}`}
                                 whileHover={{
                                     scale: 1.1,
                                     boxShadow: "0 0 10px 2px gray",
@@ -730,21 +745,20 @@ function FindTypeCard(props) {
                                 whileTap={{
                                     scale: 1.0,
                                 }}
-                                key={i}
                                 onHoverStart={()=>{
-                                    if(selectMenuNum !== 3){
+                                    //if(selectMenuNum !== 3){
                                         setChildSemiHover(true);
                                         setChildIsSemiHoverNum(imgnum);
-                                    }
+                                    //}
                                 }}
                                 onHoverEnd={()=>{
-                                    if(selectMenuNum !== 3){
+                                    //if(selectMenuNum !== 3){
                                         setChildSemiHover(false)
                                         setChildIsSemiHoverNum(100);
-                                    }
+                                    //}
                                 }}
                                 onClick={()=>{
-                                    if(selectMenuNum !== 3){
+                                    //if(selectMenuNum !== 3){
                                         setChildSemiNumClick(imgnum);
                                         // setTempCardName
                                         switch(selectMenuNum){
@@ -764,11 +778,12 @@ function FindTypeCard(props) {
 
                                             break;
                                         }
-                                    }
+                                    //}
                                 }}
                             >
                                 {a}
                             </SemiTypeBtn>
+                            
                         );
                     })
                 }
@@ -817,6 +832,9 @@ function FindTypeCard(props) {
                                 break;
                                 case 2:
                                     setSelectImageType("I");
+                                break;
+                                case 3:
+                                    setSelectImageType("P");
                                 break;
                                 default:
 

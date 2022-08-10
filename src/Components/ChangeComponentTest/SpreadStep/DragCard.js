@@ -169,6 +169,7 @@ function DragCard(props) {
     const { isInCount , setIsInCount } = props.isInCounter;
     const [thisNewZIdx, setThisNewZIdx] = useState(0);
     let _count = props.count;
+    
     let [isThisCardClicked, setIsThisCardClicked] = useState(false);
     let isThisCardClickedController ={
         isThisCardClicked,

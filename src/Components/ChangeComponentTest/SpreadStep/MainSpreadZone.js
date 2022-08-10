@@ -67,7 +67,7 @@ function MainSpreadZone(props) {
         return(
           
             <DragCard  
-              key={i}
+              key={'dragCard' + i}
               count={i} // 카드 순서 0 1 2
               zIdx={10 + i} // 여기 수정 필요. 앞에 위치할 수록 zIdx가 높아야 한다.
         //     //현재는 뒤에 위치할 수록 zIdx가 높은 상황. zIdx={10+i}

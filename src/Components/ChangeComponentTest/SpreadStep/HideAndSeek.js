@@ -211,7 +211,7 @@ function HideAndSeek(props) {
                         return(
 
                             <HideActiveBtn 
-                                key={i}
+                                key={'hideBtn' + i}
                                 deckNumber={a.deckNumber}
                                 deckName={a.deckName}
                                 cardCount={a.cardCount}

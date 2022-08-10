@@ -938,7 +938,7 @@ function MakeExtraDeck(props){
                     
                     return(
                         <SelectDeck 
-                            key={i} 
+                            key={'selectDeck' + i} 
                             deckType={i} 
                             deckName={a} 
                             imgNum={DeckImgNumArr[i]}
@@ -964,7 +964,7 @@ function MakeExtraDeck(props){
                             :
                                 listSelectArr.map((a, i) => {
                                 return(
-                                    <li key={i}>{a.name}</li>
+                                    <li key={'listSelect' + i}>{a.name}</li>
                                 );
                             })}
                             </>
