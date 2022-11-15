@@ -126,7 +126,7 @@ function MainComponent() {
   const onPasswordChangeHandler = (e) => {
     setPassword(e.target.value);
   };
-  console.log(process.env);
+  //console.log(process.env);
 
   const checkPassWordHandler = () => {
     if (password === REACT_APP_ACCESS_KEY) {

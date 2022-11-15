@@ -219,7 +219,14 @@ const optionFadeVariants = {
     backgroundColor: "rgba",
   },
 };
-
+const CaptureName = styled(motion.input)`
+  width: 90%;
+  height: 20%;
+  background-color: navy;
+  font-family: "Jua";
+  text-align: center;
+  font-size: 2em;
+`;
 const OptionContainer = styled(motion.div)`
   width: 45%;
   height: 40%;
@@ -247,11 +254,6 @@ const OptionContainer = styled(motion.div)`
     align-items: center;
     width: 80%;
     height: 30%;
-  }
-  & > input {
-    width: 90%;
-    height: 20%;
-    background-color: navy;
   }
 `;
 const YesOrNoBox = styled(motion.div)`
@@ -1121,7 +1123,7 @@ function SpreadComponents() {
               {optionType === 3 ? ( // Capture
                 <OptionContainer>
                   <span>현재 스프레드를 저장하시겠습니까?</span>
-                  <input
+                  <CaptureName
                     value={customFileName}
                     onChange={(e) => {
                       setCustomFileName(e.target.value);
