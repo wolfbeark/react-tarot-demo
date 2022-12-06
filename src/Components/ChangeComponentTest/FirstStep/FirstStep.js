@@ -246,7 +246,7 @@ function FirstStep(props) {
     {
       ModeNum: 3,
       ModeName: "Celtic Cross",
-      CardCount: 11,
+      CardCount: 10,
     },
   ];
   const [activeModeModal, setActiveModeModal] = useState(false);
