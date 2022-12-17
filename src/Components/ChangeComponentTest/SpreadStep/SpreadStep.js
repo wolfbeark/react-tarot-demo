@@ -1214,29 +1214,43 @@ function SpreadStep(props) {
                 </OptionBtn>
                 <OptionBtn
                   variants={optionBtnVariants}
-                  whileHover={
-                    isInCount === 0 && isClickedCapture === false ? "hover" : ""
-                  }
-                  whileTap={
-                    isInCount === 0 && isClickedCapture === false ? "click" : ""
-                  }
-                  style={
-                    isInCount === 0 && isClickedCapture === false
-                      ? {
-                          opacity: 1,
-                          transition: `opacity 1s ease-in-out`,
-                          cursor: "pointer",
-                        }
-                      : {
-                          opacity: 0.5,
-                          transition: `opacity 1s ease-in-out`,
-                          cursor: "auto",
-                        }
-                  }
+                  // whileHover={
+                  //   isInCount === 0 && isClickedCapture === false ? "hover" : ""
+                  // }
+                  // whileTap={
+                  //   isInCount === 0 && isClickedCapture === false ? "click" : ""
+                  // }
+                  whileHover={isInCount === 0 ? "hover" : ""}
+                  whileTap={isInCount === 0 ? "click" : ""}
+                  // style={
+                  //   isInCount === 0 && isClickedCapture === false
+                  //     ? {
+                  //         opacity: 1,
+                  //         transition: `opacity 1s ease-in-out`,
+                  //         cursor: "pointer",
+                  //       }
+                  //     : {
+                  //         opacity: 0.5,
+                  //         transition: `opacity 1s ease-in-out`,
+                  //         cursor: "auto",
+                  //       }
+                  // }
+                  style={{
+                    opacity: 1,
+                    transition: `opacity 1s ease-in-out`,
+                    cursor: "pointer",
+                  }}
                 >
                   <button
                     onClick={() => {
-                      if (isInCount === 0 && isClickedCapture === false) {
+                      // if (isInCount === 0 && isClickedCapture === false) {
+                      //   setIsActiveOptionCurtain(true);
+                      //   setClickedFind(false);
+                      //   setTimeout(() => {
+                      //     setOptionType(3);
+                      //   }, 1000);
+                      // }
+                      if (isInCount === 0) {
                         setIsActiveOptionCurtain(true);
                         setClickedFind(false);
                         setTimeout(() => {
@@ -1244,19 +1258,24 @@ function SpreadStep(props) {
                         }, 1000);
                       }
                     }}
-                    style={
-                      isInCount === 0 && isClickedCapture === false
-                        ? {
-                            opacity: 1,
-                            transition: `opacity 1s ease-in-out`,
-                            cursor: "pointer",
-                          }
-                        : {
-                            opacity: 0.5,
-                            transition: `opacity 1s ease-in-out`,
-                            cursor: "auto",
-                          }
-                    }
+                    // style={
+                    //   isInCount === 0 && isClickedCapture === false
+                    //     ? {
+                    //         opacity: 1,
+                    //         transition: `opacity 1s ease-in-out`,
+                    //         cursor: "pointer",
+                    //       }
+                    //     : {
+                    //         opacity: 0.5,
+                    //         transition: `opacity 1s ease-in-out`,
+                    //         cursor: "auto",
+                    //       }
+                    // }
+                    style={{
+                      opacity: 1,
+                      transition: `opacity 1s ease-in-out`,
+                      cursor: "pointer",
+                    }}
                   >
                     Capture
                   </button>

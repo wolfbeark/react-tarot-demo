@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useRef, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
@@ -719,13 +720,14 @@ function DragCard(props) {
   return (
     <Draggable
       nodeRef={cardRef}
-      onDrag={(e, data) => {
-        if (isThisCardHide === false) {
-          trackPos(data);
-        }
-      }}
+      // onDrag={(e, data) => {
+      //   if (isThisCardHide === false) {
+      //     trackPos(data);
+      //   }
+      // }}
     >
       <DragCardContainer2
+        drag
         usersetnumber={userSetNumber}
         isclickedlenormandtotal={
           isClickedLenormandTotal === false ? "false" : "true"
@@ -733,7 +735,6 @@ function DragCard(props) {
         lenormandtotalidx={lenormandTotalIdx}
         threecardposarr={threeCardPosArr}
         modenumber={modeNumber}
-        drag
         modetempx={modetempx}
         modetempy={modetempy}
         count={thiscount}
